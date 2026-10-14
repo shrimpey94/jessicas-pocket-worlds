@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Jessica's Pocket Worlds</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Pocket Worlds">
+<meta name="theme-color" content="#ffd6e8">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="manifest" href="manifest.json">
+<style>
+  :root {
+    --pink: #ff8fc2;
+    --pink-soft: #ffd6e8;
+    --lilac: #c9a7ff;
+    --mint: #9ff0d4;
+    --aqua: #8fdcff;
+    --cream: #fff7fb;
+    --ink: #5a3a5e;
+    --ink-soft: #9b7aa0;
+    --gold: #ffcf5a;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    margin: 0; height: 100%;
+    font-family: ui-rounded, "SF Pro Rounded", system-ui, -apple-system, sans-serif;
+    color: var(--ink);
+    background: linear-gradient(180deg, #ffe3f1 0%, #f3e6ff 55%, #e3f6ff 100%);
+    overscroll-behavior: none;
+    -webkit-user-select: none; user-select: none;
+  }
+  body {
+    padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+    display: flex; flex-direction: column;
+  }
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 0 6px;
+  }
+  .coins {
+    background: #fff; border-radius: 999px; padding: 6px 14px 6px 8px;
+    font-weight: 700; display: flex; align-items: center; gap: 6px;
+    box-shadow: 0 3px 0 rgba(90,58,94,.12);
+  }
+  .coin { width: 22px; height: 22px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fff3b8, var(--gold) 60%, #e0a92a);
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,.12); }
+  .gift {
+    border: 0; background: #fff; border-radius: 14px; width: 44px; height: 44px;
+    font-size: 22px; box-shadow: 0 3px 0 rgba(90,58,94,.12);
+  }
+  h1 {
+    text-align: center; margin: 10px 0 2px; font-size: 30px; line-height: 1.05;
+    letter-spacing: .5px;
+    background: linear-gradient(90deg, var(--pink), var(--lilac));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .sub { text-align: center; margin: 0 0 16px; color: var(--ink-soft); font-size: 14px; }
+
+  /* Compact shelf */
+  .shelf-wrap { position: relative; }
+  .shelf {
+    display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory;
+    padding: 8px 4px 22px; scrollbar-width: none;
+  }
+  .shelf::-webkit-scrollbar { display: none; }
+  .shelf-board {
+    height: 14px; border-radius: 8px; margin-top: -18px;
+    background: linear-gradient(180deg, #f6c9dc, #e9a9c6);
+    box-shadow: 0 6px 12px rgba(90,58,94,.15);
+  }
+  .compact {
+    flex: 0 0 170px; scroll-snap-align: center;
+    border: 0; padding: 0; background: none; text-align: center; color: var(--ink);
+  }
+  .shell {
+    width: 170px; height: 170px; border-radius: 50% 50% 46% 46%;
+    position: relative; margin: 0 auto;
+    box-shadow: inset 0 -10px 0 rgba(0,0,0,.08), inset 0 8px 14px rgba(255,255,255,.7), 0 8px 16px rgba(90,58,94,.18);
+    display: grid; place-items: center;
+    transition: transform .2s;
+  }
+  .compact:active .shell { transform: scale(.96); }
+  .shell::before { /* hinge */
+    content: ""; position: absolute; top: -6px; width: 46px; height: 14px; border-radius: 8px;
+    background: rgba(255,255,255,.75);
+  }
+  .gem {
+    width: 54px; height: 54px; border-radius: 16px; transform: rotate(45deg);
+    background: linear-gradient(135deg, #fff, rgba(255,255,255,.2));
+    box-shadow: 0 0 0 6px rgba(255,255,255,.45);
+  }
+  .compact .name { font-weight: 800; margin-top: 10px; font-size: 16px; }
+  .compact .info { font-size: 12px; color: var(--ink-soft); }
+  .locked .shell { filter: grayscale(.7) brightness(1.05); opacity: .7; }
+  .lock {
+    position: absolute; font-size: 34px;
+  }
+
+  /* Mode buttons */
+  .modes { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 18px; }
+  .mode {
+    border: 0; border-radius: 22px; padding: 16px 6px 12px; font: inherit; font-weight: 800;
+    color: var(--ink); font-size: 15px;
+    box-shadow: 0 5px 0 rgba(90,58,94,.15);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .mode:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(90,58,94,.15); }
+  .mode .ico { font-size: 30px; }
+  .m-dress { background: var(--pink-soft); }
+  .m-deco  { background: #e7dbff; }
+  .m-play  { background: #d4f7ea; }
+
+  .play-big {
+    margin-top: 16px; width: 100%; border: 0; border-radius: 26px; padding: 18px;
+    font: inherit; font-weight: 900; font-size: 22px; color: #fff;
+    background: linear-gradient(90deg, var(--pink), var(--lilac));
+    box-shadow: 0 6px 0 #b77bd6;
+  }
+  .play-big:active { transform: translateY(4px); box-shadow: 0 2px 0 #b77bd6; }
+  .play-big small { display: block; font-size: 13px; font-weight: 700; opacity: .9; }
+
+  .toast {
+    position: fixed; left: 50%; bottom: calc(30px + env(safe-area-inset-bottom));
+    transform: translate(-50%, 40px); opacity: 0;
+    background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 16px;
+    font-weight: 700; transition: .25s; pointer-events: none; max-width: 86vw; text-align: center;
+  }
+  .toast.show { transform: translate(-50%, 0); opacity: 1; }
+  .sparkle { position: fixed; pointer-events: none; font-size: 18px; animation: pop .8s ease-out forwards; }
+  @keyframes pop { from { opacity: 1; transform: translate(-50%,-50%) scale(.6); }
+                   to { opacity: 0; transform: translate(-50%,-120%) scale(1.3); } }
+</style>
+</head>
+<body>
+  <header>
+    <div class="coins"><span class="coin"></span><span id="coinCount">0</span></div>
+    <button class="gift" id="giftBtn" aria-label="Daily gift">🎁</button>
+  </header>
+
+  <h1>Jessica's<br>Pocket Worlds</h1>
+  <p class="sub">Level <span id="levelNum">1</span> · tap a compact to open it</p>
+
+  <div class="shelf-wrap">
+    <div class="shelf" id="shelf"></div>
+    <div class="shelf-board"></div>
+  </div>
+
+  <button class="play-big" id="playBtn">Play Level <span id="playLevel">1</span><small>Earn coins for outfits &amp; decor</small></button>
+
+  <div class="modes">
+    <button class="mode m-dress" data-mode="Dress-up"><span class="ico">👗</span>Dress Up</button>
+    <button class="mode m-deco" data-mode="Decorate"><span class="ico">🛋️</span>Decorate</button>
+    <button class="mode m-play" data-mode="Shop"><span class="ico">🛍️</span>Shop</button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+// ---- Save data (localStorage, safe if blocked) ----
+const SAVE_KEY = "jpw_save_v1";
+const defaultSave = { coins: 0, level: 1, lastGift: null };
+function load() {
+  try { return { ...defaultSave, ...JSON.parse(localStorage.getItem(SAVE_KEY) || "{}") }; }
+  catch (e) { return { ...defaultSave }; }
+}
+function save() {
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); } catch (e) {}
+}
+const state = load();
+
+// ---- Compacts: one unlocks every 100 levels ----
+const COMPACTS = [
+  { name: "Cozy Bedroom",     colors: ["#ffb3d4", "#ff8fc2"] },
+  { name: "Beach Cottage",    colors: ["#9fe3ff", "#6cc9f0"] },
+  { name: "Café & Bakery",    colors: ["#ffd9a8", "#f5b46c"] },
+  { name: "Garden Treehouse", colors: ["#b6f2c9", "#7fd8a2"] },
+  { name: "Concert Stage",    colors: ["#d7b8ff", "#a97cf0"] },
+];
+const LEVELS_PER_COMPACT = 100;
+
+function renderShelf() {
+  const shelf = document.getElementById("shelf");
+  shelf.innerHTML = "";
+  COMPACTS.forEach((c, i) => {
+    const unlockAt = i * LEVELS_PER_COMPACT + 1;
+    const unlocked = state.level >= unlockAt;
+    const btn = document.createElement("button");
+    btn.className = "compact" + (unlocked ? "" : " locked");
+    btn.innerHTML = `
+      <div class="shell" style="background: radial-gradient(circle at 35% 30%, ${c.colors[0]}, ${c.colors[1]})">
+        ${unlocked ? '<div class="gem"></div>' : '<span class="lock">🔒</span>'}
+      </div>
+      <div class="name">${c.name}</div>
+      <div class="info">${unlocked ? "Open" : "Unlocks at level " + unlockAt}</div>`;
+    btn.onclick = (e) => {
+      sparkle(e.clientX, e.clientY);
+      toast(unlocked ? c.name + " opens in the next build step ✨" : "Reach level " + unlockAt + " to unlock");
+    };
+    shelf.appendChild(btn);
+  });
+}
+
+function renderHud() {
+  document.getElementById("coinCount").textContent = state.coins.toLocaleString();
+  document.getElementById("levelNum").textContent = state.level.toLocaleString();
+  document.getElementById("playLevel").textContent = state.level.toLocaleString();
+}
+
+// ---- Daily gift ----
+document.getElementById("giftBtn").onclick = (e) => {
+  const today = new Date().toDateString();
+  if (state.lastGift === today) { toast("Come back tomorrow for another gift 💕"); return; }
+  const amount = 50 + Math.floor(Math.random() * 51);
+  state.coins += amount; state.lastGift = today; save(); renderHud();
+  sparkle(e.clientX, e.clientY);
+  toast("Daily gift: +" + amount + " coins!");
+};
+
+// ---- Placeholders for later build steps ----
+document.getElementById("playBtn").onclick = (e) => { sparkle(e.clientX, e.clientY); toast("Puzzle levels arrive in build step 5 🧩"); };
+document.querySelectorAll(".mode").forEach(b => b.onclick = (e) => {
+  sparkle(e.clientX, e.clientY);
+  toast(b.dataset.mode + " is coming soon ✨");
+});
+
+// ---- Little effects ----
+let toastTimer;
+function toast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 2000);
+}
+function sparkle(x, y) {
+  ["✨", "💖", "⭐"].forEach((s, i) => {
+    const el = document.createElement("div");
+    el.className = "sparkle"; el.textContent = s;
+    el.style.left = (x + (i - 1) * 22) + "px"; el.style.top = y + "px";
+    document.body.appendChild(el); setTimeout(() => el.remove(), 800);
+  });
+}
+
+renderShelf(); renderHud();
+</script>
+</body>
+</html>
