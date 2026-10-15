@@ -18,24 +18,26 @@
     --lilac: #c9a7ff;
     --mint: #9ff0d4;
     --aqua: #8fdcff;
-    --cream: #fff7fb;
     --ink: #5a3a5e;
     --ink-soft: #9b7aa0;
     --gold: #ffcf5a;
+    --bg: linear-gradient(180deg, #ffe3f1 0%, #f3e6ff 55%, #e3f6ff 100%);
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body {
     margin: 0; height: 100%;
     font-family: ui-rounded, "SF Pro Rounded", system-ui, -apple-system, sans-serif;
     color: var(--ink);
-    background: linear-gradient(180deg, #ffe3f1 0%, #f3e6ff 55%, #e3f6ff 100%);
+    background: var(--bg);
     overscroll-behavior: none;
-    -webkit-user-select: none; user-select: none;
+    -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
   }
   body {
     padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
     display: flex; flex-direction: column;
   }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  .hidden { display: none !important; }
   header {
     display: flex; align-items: center; justify-content: space-between;
     padding: 14px 0 6px;
@@ -53,15 +55,25 @@
     font-size: 22px; box-shadow: 0 3px 0 rgba(90,58,94,.12);
   }
   h1 {
-    text-align: center; margin: 10px 0 2px; font-size: 30px; line-height: 1.05;
+    text-align: center; margin: 6px 0 2px; font-size: 30px; line-height: 1.05;
     letter-spacing: .5px;
     background: linear-gradient(90deg, var(--pink), var(--lilac));
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .sub { text-align: center; margin: 0 0 16px; color: var(--ink-soft); font-size: 14px; }
+  .sub { text-align: center; margin: 0 0 10px; color: var(--ink-soft); font-size: 14px; }
+
+  /* Home doll card */
+  .doll-card {
+    display: flex; align-items: center; gap: 12px; border: 0; width: 100%;
+    background: rgba(255,255,255,.7); border-radius: 22px; padding: 8px 14px 8px 8px;
+    box-shadow: 0 4px 0 rgba(90,58,94,.1); text-align: left; margin-bottom: 10px;
+  }
+  .doll-card svg { width: 64px; height: 90px; flex: none; }
+  .doll-card b { display: block; font-size: 17px; }
+  .doll-card span { font-size: 13px; color: var(--ink-soft); }
+  .doll-card .go { margin-left: auto; font-size: 24px; color: var(--pink); }
 
   /* Compact shelf */
-  .shelf-wrap { position: relative; }
   .shelf {
     display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory;
     padding: 8px 4px 22px; scrollbar-width: none;
@@ -73,78 +85,357 @@
     box-shadow: 0 6px 12px rgba(90,58,94,.15);
   }
   .compact {
-    flex: 0 0 170px; scroll-snap-align: center;
+    flex: 0 0 150px; scroll-snap-align: center;
     border: 0; padding: 0; background: none; text-align: center; color: var(--ink);
   }
   .shell {
-    width: 170px; height: 170px; border-radius: 50% 50% 46% 46%;
+    width: 150px; height: 150px; border-radius: 50% 50% 46% 46%;
     position: relative; margin: 0 auto;
     box-shadow: inset 0 -10px 0 rgba(0,0,0,.08), inset 0 8px 14px rgba(255,255,255,.7), 0 8px 16px rgba(90,58,94,.18);
     display: grid; place-items: center;
     transition: transform .2s;
   }
   .compact:active .shell { transform: scale(.96); }
-  .shell::before { /* hinge */
+  .shell::before {
     content: ""; position: absolute; top: -6px; width: 46px; height: 14px; border-radius: 8px;
     background: rgba(255,255,255,.75);
   }
   .gem {
-    width: 54px; height: 54px; border-radius: 16px; transform: rotate(45deg);
+    width: 48px; height: 48px; border-radius: 14px; transform: rotate(45deg);
     background: linear-gradient(135deg, #fff, rgba(255,255,255,.2));
     box-shadow: 0 0 0 6px rgba(255,255,255,.45);
   }
-  .compact .name { font-weight: 800; margin-top: 10px; font-size: 16px; }
+  .compact .name { font-weight: 800; margin-top: 10px; font-size: 15px; }
   .compact .info { font-size: 12px; color: var(--ink-soft); }
   .locked .shell { filter: grayscale(.7) brightness(1.05); opacity: .7; }
-  .lock {
-    position: absolute; font-size: 34px;
-  }
+  .lock { position: absolute; font-size: 32px; }
 
   /* Mode buttons */
-  .modes { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 18px; }
+  .modes { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 14px; }
   .mode {
-    border: 0; border-radius: 22px; padding: 16px 6px 12px; font: inherit; font-weight: 800;
-    color: var(--ink); font-size: 15px;
+    border: 0; border-radius: 22px; padding: 14px 6px 10px; font-weight: 800; font-size: 15px;
     box-shadow: 0 5px 0 rgba(90,58,94,.15);
     display: flex; flex-direction: column; align-items: center; gap: 6px;
   }
   .mode:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(90,58,94,.15); }
-  .mode .ico { font-size: 30px; }
+  .mode .ico { font-size: 28px; }
   .m-dress { background: var(--pink-soft); }
   .m-deco  { background: #e7dbff; }
   .m-play  { background: #d4f7ea; }
-
   .play-big {
-    margin-top: 16px; width: 100%; border: 0; border-radius: 26px; padding: 18px;
-    font: inherit; font-weight: 900; font-size: 22px; color: #fff;
+    margin-top: 12px; width: 100%; border: 0; border-radius: 26px; padding: 16px;
+    font-weight: 900; font-size: 22px; color: #fff;
     background: linear-gradient(90deg, var(--pink), var(--lilac));
     box-shadow: 0 6px 0 #b77bd6;
   }
   .play-big:active { transform: translateY(4px); box-shadow: 0 2px 0 #b77bd6; }
   .play-big small { display: block; font-size: 13px; font-weight: 700; opacity: .9; }
 
+  /* Full-screen sub screens */
+  .screen {
+    position: fixed; inset: 0; z-index: 10; background: var(--bg);
+    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+    display: flex; flex-direction: column;
+    transform: translateY(105%); transition: transform .35s cubic-bezier(.2,.8,.2,1);
+  }
+  .screen.open { transform: none; }
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    padding: 10px 16px 4px;
+  }
+  .topbar h2 { margin: 0; font-size: 21px; text-align: center; }
+  .icon-btn {
+    border: 0; background: #fff; border-radius: 14px; min-width: 44px; height: 44px;
+    font-size: 20px; font-weight: 900; box-shadow: 0 3px 0 rgba(90,58,94,.12); padding: 0 10px;
+  }
+
+  /* Dress up */
+  .stage {
+    flex: 1 1 auto; min-height: 150px; position: relative;
+    display: flex; align-items: flex-end; justify-content: center;
+  }
+  .stage::after {
+    content: ""; position: absolute; bottom: 4px; left: 50%; width: 170px; height: 24px;
+    transform: translateX(-50%); border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(201,167,255,.55), rgba(201,167,255,0) 70%);
+  }
+  .stage svg { height: 100%; max-height: 420px; width: auto; position: relative; z-index: 1; }
+  .bounce { animation: bounce .35s ease; }
+  @keyframes bounce { 0%{transform:scale(1)} 40%{transform:scale(1.04,.97)} 100%{transform:scale(1)} }
+
+  .panel {
+    flex: none; background: rgba(255,255,255,.88); border-radius: 26px 26px 0 0;
+    box-shadow: 0 -6px 18px rgba(90,58,94,.1);
+    padding: 10px 0 12px;
+  }
+  .panel-scroll { max-height: 38vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .tabs {
+    display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 10px; scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar, .opts::-webkit-scrollbar, .swatches::-webkit-scrollbar { display: none; }
+  .tab {
+    flex: none; border: 0; border-radius: 999px; padding: 8px 14px; font-weight: 800; font-size: 14px;
+    background: #f6eef8;
+  }
+  .tab.on { background: var(--pink); color: #fff; }
+  .opts {
+    display: flex; gap: 10px; overflow-x: auto; padding: 2px 16px 10px; scrollbar-width: none;
+  }
+  .opt {
+    flex: none; width: 82px; border: 3px solid transparent; border-radius: 18px; padding: 4px 4px 6px;
+    background: #fff; box-shadow: 0 3px 0 rgba(90,58,94,.1); font-size: 12px; font-weight: 800;
+    display: flex; flex-direction: column; align-items: center; gap: 2px; line-height: 1.15;
+  }
+  .opt svg, .opt .thumb { width: 70px; height: 70px; background: #fbf4fc; border-radius: 12px; display: block; }
+  .opt.on { border-color: var(--pink); }
+  .row-label { font-size: 12px; font-weight: 800; color: var(--ink-soft); padding: 0 18px 4px; }
+  .swatches {
+    display: flex; gap: 10px; overflow-x: auto; padding: 2px 16px 10px; scrollbar-width: none;
+  }
+  .sw {
+    flex: none; width: 38px; height: 38px; border-radius: 50%; border: 3px solid #fff; padding: 0;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(90,58,94,.15), 0 3px 0 rgba(90,58,94,.12);
+  }
+  .sw svg { width: 100%; height: 100%; display: block; }
+  .sw.on { box-shadow: 0 0 0 3px var(--pink), 0 3px 0 rgba(90,58,94,.12); }
+
+  /* Decorate */
+  .room-wrap { flex: none; display: flex; justify-content: center; padding: 6px 12px 10px; perspective: 900px; }
+  .compact-frame {
+    position: relative; padding: 10px; border-radius: 34px;
+    box-shadow: inset 0 -6px 0 rgba(0,0,0,.08), inset 0 6px 10px rgba(255,255,255,.6), 0 10px 22px rgba(90,58,94,.2);
+  }
+  .room {
+    position: relative; width: min(88vw, 430px); aspect-ratio: 10 / 9; overflow: hidden;
+    border-radius: 24px; touch-action: none; background: #fff;
+  }
+  .wall { position: absolute; left: 0; right: 0; top: 0; height: 62%; }
+  .floor { position: absolute; left: 0; right: 0; bottom: 0; height: 38%;
+    box-shadow: inset 0 10px 14px rgba(0,0,0,.08); }
+  .baseboard { position: absolute; left: 0; right: 0; top: 62%; height: 3%; transform: translateY(-100%);
+    background: #fff; box-shadow: 0 2px 0 rgba(0,0,0,.06); }
+  .item { position: absolute; transform-origin: 50% 100%; }
+  .item.k-flat { transform-origin: 50% 50%; }
+  .item svg { display: block; width: 100%; height: auto; overflow: visible; pointer-events: none; }
+  .item.sel svg { filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 3px var(--pink)); }
+  .lid {
+    position: absolute; inset: 0; border-radius: 34px; z-index: 5000;
+    display: grid; place-items: center; transform-origin: 50% 0;
+    box-shadow: inset 0 -10px 0 rgba(0,0,0,.08), inset 0 8px 14px rgba(255,255,255,.7);
+  }
+  .lid .gem { width: 70px; height: 70px; }
+  .lid.opening { animation: lidOpen .8s cubic-bezier(.5,0,.3,1) forwards; }
+  @keyframes lidOpen {
+    0% { transform: rotateX(0); opacity: 1; }
+    70% { opacity: 1; }
+    100% { transform: rotateX(-100deg); opacity: 0; visibility: hidden; }
+  }
+  .deco-panel { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+  .deco-scroll { flex: 1 1 auto; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .item-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 2px 16px 10px; }
+  .item-grid .opt { width: auto; }
+  .item-grid .opt svg { width: 100%; height: 62px; padding: 6px; }
+  .selbar { padding: 0 0 4px; border-bottom: 2px dashed #f1dbe9; margin-bottom: 8px; }
+  .selbtns { display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 8px; scrollbar-width: none; }
+  .selbtns::-webkit-scrollbar { display: none; }
+  .selbtns button {
+    flex: none; border: 0; border-radius: 14px; padding: 8px 12px; font-weight: 800; font-size: 13px;
+    background: #f6eef8;
+  }
+  .selbtns .del { background: #ffe1e6; color: #c2185b; }
+  .thumb-wall { border: 2px solid #fff; }
+
   .toast {
-    position: fixed; left: 50%; bottom: calc(30px + env(safe-area-inset-bottom));
+    position: fixed; left: 50%; bottom: calc(30px + env(safe-area-inset-bottom)); z-index: 9000;
     transform: translate(-50%, 40px); opacity: 0;
     background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 16px;
     font-weight: 700; transition: .25s; pointer-events: none; max-width: 86vw; text-align: center;
   }
   .toast.show { transform: translate(-50%, 0); opacity: 1; }
-  .sparkle { position: fixed; pointer-events: none; font-size: 18px; animation: pop .8s ease-out forwards; }
+  .sparkle { position: fixed; z-index: 9100; pointer-events: none; font-size: 18px; animation: pop .8s ease-out forwards; }
   @keyframes pop { from { opacity: 1; transform: translate(-50%,-50%) scale(.6); }
                    to { opacity: 0; transform: translate(-50%,-120%) scale(1.3); } }
+
+  /* ===== Play screen ===== */
+  .play-top { display: flex; align-items: center; gap: 10px; padding: 10px 16px 6px; }
+  .play-top .lvl { flex: 1; text-align: center; }
+  .play-top .lvl b { display: block; font-size: 20px; }
+  .play-top .lvl span { font-size: 12px; font-weight: 800; color: var(--ink-soft); }
+  .badge-hard { display: inline-block; background: #ffe1e6; color: #c2185b; border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 900; }
+  .moves-bubble {
+    min-width: 62px; height: 62px; border-radius: 50%; background: #fff; display: grid; place-items: center;
+    box-shadow: 0 4px 0 rgba(90,58,94,.15); text-align: center; line-height: 1;
+  }
+  .moves-bubble b { font-size: 24px; display: block; }
+  .moves-bubble span { font-size: 10px; font-weight: 800; color: var(--ink-soft); }
+  .moves-bubble.low b { color: #e94f6f; animation: pulse .8s infinite; }
+  @keyframes pulse { 50% { transform: scale(1.15); } }
+  .goals { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; padding: 2px 12px 8px; }
+  .goal-chip {
+    display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,.85); border-radius: 16px;
+    padding: 4px 12px 4px 6px; font-weight: 900; font-size: 18px; box-shadow: 0 3px 0 rgba(90,58,94,.1);
+  }
+  .goal-chip svg, .goal-chip .gi { width: 30px; height: 30px; display: block; }
+  .goal-chip.done { background: #d4f7ea; }
+  .goal-chip.done b::after { content: " ✓"; color: #2e9e6e; }
+  .board-wrap { flex: 1 1 auto; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 0 10px; }
+  .board {
+    position: relative; width: min(94vw, 62vh, 480px); aspect-ratio: 1; touch-action: none;
+  }
+  .board.shake { animation: shake .4s; }
+  @keyframes shake { 20%{transform:translate(-5px,2px)} 40%{transform:translate(5px,-2px)} 60%{transform:translate(-3px,1px)} 80%{transform:translate(3px,0)} }
+  .layer { position: absolute; inset: 0; pointer-events: none; }
+  .cell { position: absolute; width: 12.5%; height: 12.5%; }
+  .cell::before { content: ""; position: absolute; inset: 2%; border-radius: 22%; background: rgba(255,255,255,.55); }
+  .cell.glass1::after, .cell.glass2::after {
+    content: ""; position: absolute; inset: 4%; border-radius: 20%;
+    background: linear-gradient(135deg, rgba(160,220,255,.85), rgba(210,240,255,.55) 50%, rgba(160,220,255,.85));
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,.9);
+  }
+  .cell.glass2::after { background: linear-gradient(135deg, rgba(90,170,240,.9), rgba(150,210,255,.7) 50%, rgba(90,170,240,.9)); }
+  .crate { position: absolute; width: 12.5%; height: 12.5%; transition: opacity .25s, transform .25s; }
+  .crate svg { width: 100%; height: 100%; display: block; padding: 5%; }
+  .crate.gone { opacity: 0; transform: scale(1.3); }
+  .tile {
+    position: absolute; left: 0; top: 0; width: 12.5%; height: 12.5%;
+    transition: transform .2s cubic-bezier(.3,0,.35,1.15);
+  }
+  .tile.noanim { transition: none; }
+  .tile svg { width: 100%; height: 100%; display: block; padding: 6%; overflow: visible; }
+  .tile.sel svg { animation: selPulse .7s infinite; }
+  @keyframes selPulse { 50% { transform: scale(1.12); } }
+  .tile.hint svg { animation: hintWiggle 1s infinite; }
+  @keyframes hintWiggle { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-12deg) scale(1.08)} 75%{transform:rotate(12deg) scale(1.08)} }
+  .tile.pop svg { animation: tilePop .24s ease-in forwards; }
+  @keyframes tilePop { 0%{transform:scale(1)} 40%{transform:scale(1.25)} 100%{transform:scale(0);opacity:0} }
+  .tile.appear svg { animation: tileAppear .28s ease-out; }
+  @keyframes tileAppear { 0%{transform:scale(.2)} 70%{transform:scale(1.2)} 100%{transform:scale(1)} }
+  .tile.sp3 svg { animation: bombGlow 1.2s infinite; }
+  @keyframes bombGlow { 50% { filter: drop-shadow(0 0 5px #fff); } }
+  .tile.sp4 svg { animation: rainSpin 3s linear infinite; }
+  @keyframes rainSpin { to { transform: rotate(360deg); } }
+  .beam { position: absolute; border-radius: 999px; animation: beam .38s ease-out forwards;
+    background: linear-gradient(90deg, rgba(255,255,255,0), #fff 30%, #fff 70%, rgba(255,255,255,0));
+    box-shadow: 0 0 14px 4px rgba(255,143,194,.8); }
+  .beam.v { background: linear-gradient(180deg, rgba(255,255,255,0), #fff 30%, #fff 70%, rgba(255,255,255,0)); }
+  @keyframes beam { 0%{opacity:1; transform:scale(.2,1)} 60%{opacity:1} 100%{opacity:0; transform:scale(1.05,1)} }
+  .beam.v { animation-name: beamV; }
+  @keyframes beamV { 0%{opacity:1; transform:scale(1,.2)} 60%{opacity:1} 100%{opacity:0; transform:scale(1,1.05)} }
+  .burst { position: absolute; border-radius: 50%; animation: burst .45s ease-out forwards;
+    background: radial-gradient(circle, #fff 0%, rgba(255,230,120,.9) 35%, rgba(255,143,194,.5) 60%, rgba(255,143,194,0) 72%); }
+  @keyframes burst { 0%{transform:scale(.2);opacity:1} 100%{transform:scale(1.25);opacity:0} }
+  .rainfx { position: absolute; inset: -4%; border-radius: 24px; animation: rainfx .7s ease-out forwards;
+    background: conic-gradient(from 0deg, #ff6b6b55, #ffe66b55, #7be08a55, #6bb8ff55, #b58cff55, #ff6b6b55); }
+  @keyframes rainfx { 0%{opacity:0; transform:rotate(0) scale(.8)} 30%{opacity:1} 100%{opacity:0; transform:rotate(90deg) scale(1.1)} }
+  .float-text { position: absolute; font-weight: 900; color: #fff; font-size: 22px; pointer-events: none;
+    text-shadow: 0 2px 0 #c2185b, 0 0 8px rgba(194,24,91,.6); animation: floatUp 1s ease-out forwards; transform: translate(-50%,-50%); white-space: nowrap; }
+  @keyframes floatUp { 0%{opacity:0; transform:translate(-50%,-30%) scale(.6)} 20%{opacity:1; transform:translate(-50%,-50%) scale(1.1)} 100%{opacity:0; transform:translate(-50%,-140%) scale(1)} }
+  .boosters { display: flex; justify-content: center; gap: 12px; padding: 8px 16px 14px; }
+  .boost {
+    position: relative; border: 0; background: #fff; border-radius: 18px; padding: 8px 14px; min-width: 76px;
+    font-weight: 800; font-size: 12px; box-shadow: 0 4px 0 rgba(90,58,94,.12); display: flex; flex-direction: column; align-items: center;
+  }
+  .boost .ico { font-size: 24px; }
+  .boost .count { position: absolute; top: -6px; right: -6px; background: var(--pink); color: #fff; border-radius: 999px; min-width: 22px; height: 22px; font-size: 12px; display: grid; place-items: center; padding: 0 5px; }
+  .boost.on { background: #ffe1ef; box-shadow: 0 0 0 3px var(--pink); }
+  .score-line { text-align: center; font-size: 12px; font-weight: 800; color: var(--ink-soft); margin-top: -4px; }
+
+  /* ===== Modals ===== */
+  .modal-back { position: fixed; inset: 0; z-index: 8000; background: rgba(90,58,94,.35); display: grid; place-items: center; padding: 20px;
+    animation: fadeIn .2s; }
+  @keyframes fadeIn { from { opacity: 0; } }
+  .modal {
+    width: min(92vw, 380px); background: #fff; border-radius: 28px; padding: 22px 20px 18px; text-align: center;
+    box-shadow: 0 12px 30px rgba(90,58,94,.3); animation: modalIn .3s cubic-bezier(.2,.9,.3,1.3);
+    max-height: 90vh; overflow-y: auto;
+  }
+  @keyframes modalIn { from { transform: scale(.7); opacity: 0; } }
+  .modal h3 { margin: 0 0 6px; font-size: 26px;
+    background: linear-gradient(90deg, var(--pink), var(--lilac)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .modal p { margin: 6px 0 12px; color: var(--ink-soft); font-weight: 700; }
+  .modal .goals { padding: 4px 0 10px; }
+  .modal .btns { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+  .mbtn { border: 0; border-radius: 20px; padding: 14px; font-weight: 900; font-size: 18px; background: #f6eef8; }
+  .mbtn.main { color: #fff; background: linear-gradient(90deg, var(--pink), var(--lilac)); box-shadow: 0 5px 0 #b77bd6; }
+  .mbtn.main:disabled { opacity: .5; }
+  .mbtn small { display: block; font-size: 12px; font-weight: 700; opacity: .85; }
+  .stars { display: flex; justify-content: center; gap: 6px; margin: 6px 0; }
+  .stars span { font-size: 46px; filter: grayscale(1) opacity(.3); transform: scale(.6); transition: .3s cubic-bezier(.2,.9,.3,1.5); }
+  .stars span.on { filter: none; transform: scale(1); }
+  .stars span:nth-child(2) { margin-top: -14px; }
+  .pre-boosts { display: flex; justify-content: center; gap: 10px; margin-top: 4px; }
+  .pre-boosts .boost { min-width: 84px; }
+  .spinner { width: 36px; height: 36px; border-radius: 50%; border: 5px solid #f6eef8; border-top-color: var(--pink); margin: 10px auto; animation: spin .8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .coin-reward { font-size: 24px; font-weight: 900; color: #c9932a; }
+  .tip-art { font-size: 54px; margin: 4px 0; }
+  .lock-tag {
+    position: absolute; top: 4px; right: 4px; background: rgba(90,58,94,.85); color: #fff; border-radius: 999px;
+    font-size: 11px; font-weight: 900; padding: 2px 7px 2px 5px; display: flex; align-items: center; gap: 3px;
+  }
+  .lock-tag i { width: 12px; height: 12px; border-radius: 50%; display: inline-block;
+    background: radial-gradient(circle at 35% 30%, #fff3b8, var(--gold) 60%, #e0a92a); }
+  .opt { position: relative; }
+  .opt.locked svg, .opt.locked .thumb { opacity: .55; filter: saturate(.6); }
+
+  /* ===== Shop & settings ===== */
+  .shop-list { display: flex; flex-direction: column; gap: 12px; padding: 6px 16px 20px; overflow-y: auto; }
+  .shop-item { display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 20px; padding: 12px 14px; box-shadow: 0 4px 0 rgba(90,58,94,.1); }
+  .shop-item .ico { font-size: 34px; width: 44px; text-align: center; }
+  .shop-item .txt { flex: 1; }
+  .shop-item .txt b { display: block; font-size: 16px; }
+  .shop-item .txt span { font-size: 12px; color: var(--ink-soft); font-weight: 700; }
+  .shop-item .own { font-size: 12px; font-weight: 800; color: var(--ink-soft); }
+  .buy { border: 0; border-radius: 14px; padding: 10px 12px; font-weight: 900; background: linear-gradient(90deg, var(--pink), var(--lilac)); color: #fff; display: flex; align-items: center; gap: 5px; }
+  .buy i { width: 16px; height: 16px; border-radius: 50%; display: inline-block; background: radial-gradient(circle at 35% 30%, #fff3b8, var(--gold) 60%, #e0a92a); }
+  .shop-note { text-align: center; color: var(--ink-soft); font-weight: 700; font-size: 13px; padding: 0 24px; }
+  textarea.code { width: 100%; height: 90px; border-radius: 14px; border: 2px solid #f1dbe9; padding: 10px; font: 12px ui-monospace, monospace; color: var(--ink); resize: none; -webkit-user-select: text; user-select: text; }
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; font-weight: 800; padding: 8px 4px; }
+  .switch { width: 54px; height: 32px; border-radius: 999px; border: 0; background: #e6dbe8; position: relative; }
+  .switch::after { content: ""; position: absolute; top: 4px; left: 4px; width: 24px; height: 24px; border-radius: 50%; background: #fff; transition: .2s; box-shadow: 0 2px 4px rgba(0,0,0,.15); }
+  .switch.on { background: var(--pink); }
+  .switch.on::after { left: 26px; }
+  .gear { border: 0; background: #fff; border-radius: 14px; width: 44px; height: 44px; font-size: 20px; box-shadow: 0 3px 0 rgba(90,58,94,.12); }
+  .head-right { display: flex; gap: 8px; }
+  /* short phones (iPhone SE / mini) */
+  @media (max-height: 740px) {
+    h1 { font-size: 25px; }
+    header { padding-top: 8px; }
+    .doll-card { padding: 4px 12px 4px 6px; margin-bottom: 4px; }
+    .doll-card svg { height: 66px; width: 48px; }
+    .compact { flex-basis: 118px; }
+    .shell { width: 118px; height: 118px; }
+    .gem { width: 38px; height: 38px; }
+    .shelf { padding-bottom: 18px; }
+    .play-big { padding: 12px; font-size: 20px; margin-top: 8px; }
+    .modes { margin-top: 10px; }
+    .mode { padding: 10px 6px 8px; }
+    .mode .ico { font-size: 24px; }
+    .moves-bubble { min-width: 54px; height: 54px; }
+  }
+
 </style>
 </head>
 <body>
   <header>
     <div class="coins"><span class="coin"></span><span id="coinCount">0</span></div>
-    <button class="gift" id="giftBtn" aria-label="Daily gift">🎁</button>
+    <div class="head-right">
+      <button class="gear" id="gearBtn" aria-label="Settings">⚙️</button>
+      <button class="gift" id="giftBtn" aria-label="Daily gift">🎁</button>
+    </div>
   </header>
 
   <h1>Jessica's<br>Pocket Worlds</h1>
-  <p class="sub">Level <span id="levelNum">1</span> · tap a compact to open it</p>
+  <p class="sub">Level <span id="levelNum">1</span></p>
 
-  <div class="shelf-wrap">
+  <button class="doll-card" id="dollCard">
+    <svg id="homeDoll" viewBox="40 10 120 330"></svg>
+    <div><b>My Doll</b><span>Tap to change her look</span></div>
+    <span class="go">›</span>
+  </button>
+
+  <div>
     <div class="shelf" id="shelf"></div>
     <div class="shelf-board"></div>
   </div>
@@ -152,27 +443,1160 @@
   <button class="play-big" id="playBtn">Play Level <span id="playLevel">1</span><small>Earn coins for outfits &amp; decor</small></button>
 
   <div class="modes">
-    <button class="mode m-dress" data-mode="Dress-up"><span class="ico">👗</span>Dress Up</button>
-    <button class="mode m-deco" data-mode="Decorate"><span class="ico">🛋️</span>Decorate</button>
-    <button class="mode m-play" data-mode="Shop"><span class="ico">🛍️</span>Shop</button>
+    <button class="mode m-dress" id="dressBtn"><span class="ico">👗</span>Dress Up</button>
+    <button class="mode m-deco" id="decoBtn"><span class="ico">🛋️</span>Decorate</button>
+    <button class="mode m-play"><span class="ico">🛍️</span>Shop</button>
   </div>
+
+  <!-- Dress Up screen -->
+  <section class="screen" id="dressScreen" aria-label="Dress Up">
+    <div class="topbar">
+      <button class="icon-btn" id="dressBack" aria-label="Back">‹</button>
+      <h2>Dress Up</h2>
+      <button class="icon-btn" id="randomBtn" aria-label="Surprise me">🎲</button>
+    </div>
+    <div class="stage"><svg id="dollSvg" viewBox="10 -10 180 350"></svg></div>
+    <div class="panel">
+      <div class="tabs" id="tabs"></div>
+      <div class="panel-scroll" id="panelBody"></div>
+    </div>
+  </section>
+
+  <!-- Decorate screen -->
+  <section class="screen" id="decoScreen" aria-label="Decorate">
+    <div class="topbar">
+      <button class="icon-btn" id="decoBack" aria-label="Back">‹</button>
+      <h2 id="roomTitle">Cozy Bedroom</h2>
+      <button class="icon-btn" id="decoDone" aria-label="Done">✓</button>
+    </div>
+    <div class="room-wrap">
+      <div class="compact-frame" id="compactFrame">
+        <div class="room" id="room">
+          <div class="wall" id="roomWall"></div>
+          <div class="floor" id="roomFloor"></div>
+          <div class="baseboard"></div>
+          <div id="roomItems"></div>
+        </div>
+        <div class="lid" id="lid"><div class="gem"></div></div>
+      </div>
+    </div>
+    <div class="panel deco-panel">
+      <div class="selbar hidden" id="selBar">
+        <div class="selbtns">
+          <button data-act="smaller">－ Smaller</button>
+          <button data-act="bigger">＋ Bigger</button>
+          <button data-act="flip">⇋ Flip</button>
+          <button data-act="front">⬆ Front</button>
+          <button data-act="back">⬇ Back</button>
+          <button data-act="del" class="del">🗑 Remove</button>
+        </div>
+        <div class="swatches" id="selColors"></div>
+      </div>
+      <div class="tabs" id="decoTabs"></div>
+      <div class="deco-scroll" id="decoBody"></div>
+    </div>
+  </section>
+
+
+  <!-- Play screen -->
+  <section class="screen" id="playScreen" aria-label="Puzzle">
+    <div class="play-top">
+      <button class="icon-btn" id="playBack" aria-label="Leave level">‹</button>
+      <div class="lvl"><b id="playTitle">Level 1</b><span id="playSub"></span></div>
+      <div class="moves-bubble" id="movesBubble"><div><b id="movesLeft">0</b><span>MOVES</span></div></div>
+    </div>
+    <div class="goals" id="goalBar"></div>
+    <div class="score-line" id="scoreLine">Score 0</div>
+    <div class="board-wrap">
+      <div class="board" id="board">
+        <div class="layer" id="cellLayer"></div>
+        <div class="layer" id="tileLayer"></div>
+        <div class="layer" id="crateLayer"></div>
+        <div class="layer" id="fxLayer"></div>
+      </div>
+    </div>
+    <div class="boosters">
+      <button class="boost" id="hammerBtn"><span class="ico">🔨</span>Hammer<span class="count" id="hammerCount">0</span></button>
+      <button class="boost" id="shuffleBtn"><span class="ico">🔀</span>Shuffle<span class="count" id="shuffleCount">0</span></button>
+    </div>
+  </section>
+
+  <!-- Shop screen -->
+  <section class="screen" id="shopScreen" aria-label="Shop">
+    <div class="topbar">
+      <button class="icon-btn" id="shopBack" aria-label="Back">‹</button>
+      <h2>Shop</h2>
+      <div class="coins"><span class="coin"></span><span id="shopCoins">0</span></div>
+    </div>
+    <p class="shop-note">Earn coins by playing levels. New outfits &amp; decor unlock right inside Dress Up and Decorate 💕</p>
+    <div class="shop-list" id="shopList"></div>
+  </section>
+
+  <!-- shared SVG defs for puzzle tiles -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs id="tileDefs"></defs></svg>
 
   <div class="toast" id="toast"></div>
 
 <script>
-// ---- Save data (localStorage, safe if blocked) ----
+// =========================================================
+// Helpers
+// =========================================================
+function shade(hex, amt) {
+  const n = parseInt(hex.slice(1), 16);
+  const f = (v) => Math.max(0, Math.min(255, Math.round(v + amt * 255)));
+  const r = f(n >> 16), g = f((n >> 8) & 255), b = f(n & 255);
+  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+function lum(hex) {
+  const n = parseInt(hex.slice(1), 16);
+  return (0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255;
+}
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+let UID = 0;
+
+// =========================================================
+// Palettes (only ever append to these, so saved choices keep working)
+// =========================================================
+const SKINS = ["#fde7d6", "#f6cfae", "#e8b48f", "#c98c63", "#9c6644", "#6b4429",
+               "#fff0e4", "#f2c6a0", "#d9a07a", "#b07850", "#82522f", "#4f3020"];
+const EYE_COLORS = ["#5b3a29", "#3b7dd8", "#3a9b5c", "#8a5cc2", "#8a8f99", "#2b2b33",
+                    "#8e7618", "#c68a12", "#1f8a8a", "#b05cd6", "#7fc4ff", "#d14d72"];
+const LIP_COLORS = ["#e8707e", "#ff8fc2", "#c2185b", "#d98c7a", "#b04a5a",
+                    "#c98f7f", "#ff6f61", "#8e244d", "#d10f2f", "#ffad8a", "#6d2a5a", "#ff9fbf"];
+const SHADOWS = [null, "#ff8fc2", "#c9a7ff", "#8fdcff", "#ffcf5a", "#a1887f", "#81c784",
+                 "#5a5a6e", "#ff9e7a", "#e94f6f"];
+const HAIR_COLORS = ["#2b1d16", "#5a3825", "#8b5a2b", "#c68642", "#e8c07d", "#f5e6b8",
+                     "#c0392b", "#b57edc", "#ff8fc2", "#5bc0de",
+                     "#111111", "#7b4a2e", "#a0522d", "#d4a76a", "#fff4d6", "#bdbdbd",
+                     "#2f6fd6", "#3fbf7f", "#ff7a1a", "#e94f6f"];
+const CLOTH_COLORS = ["#ff8fc2", "#c9a7ff", "#8fdcff", "#9ff0d4", "#ffcf5a", "#ff9e7a",
+                      "#ffffff", "#3d3a5c", "#e94f6f", "#6fa8ff",
+                      "#f8bbd0", "#b39ddb", "#4db6ac", "#81c784", "#2e7d32", "#1e3a8a",
+                      "#b71c1c", "#8d6e63", "#c8a27a", "#f5ecd7", "#9e9e9e", "#222222",
+                      "#e6b422", "#c9ccd3", "#ff6f00", "#7b1fa2", "#00bcd4", "#fff59d"];
+const PATTERNS = ["Solid", "Stripes", "Polka Dots", "Hearts", "Stars", "Plaid",
+                  "Checks", "Flowers", "Leopard", "Glitter", "Rainbow"];
+
+// =========================================================
+// Style lists (append only)
+// =========================================================
+const HAIR_STYLES = ["Long", "Bob", "Ponytail", "Space Buns", "Curly", "Pigtails", "Side Braid",
+                     "Wavy", "Pixie", "Half-Up", "High Bun", "Side Swept", "Afro Puffs"];
+const EYE_STYLES = ["Classic", "Lashes", "Sleepy", "Sparkle", "Wink"];
+const TOPS = ["Tee", "Tank", "Hoodie", "Crop Top", "Blouse", "Sweater", "Off-Shoulder",
+              "Tube Top", "Ruffle Top", "Turtleneck", "Jean Jacket", "Cardigan"];
+const BOTTOMS = ["Skirt", "Tutu", "Shorts", "Jeans", "Leggings", "Mini Skirt", "Maxi Skirt",
+                 "Pleated", "Flare Jeans", "Capris", "Joggers"];
+const DRESSES = ["No Dress", "Sundress", "Party", "Maxi", "Ball Gown", "Tee Dress", "Slip Dress", "Mermaid"];
+const SHOES = ["Sneakers", "Boots", "Heels", "Sandals", "Flats", "High-Tops", "Rain Boots",
+               "Wedges", "Slippers", "Platforms", "Mary Janes"];
+const HEAD_ACC = ["None", "Bow", "Crown", "Headband", "Flower Crown", "Beanie", "Sun Hat",
+                  "Tiara", "Bunny Ears", "Cap", "Cat Ears", "Clips"];
+const FACE_ACC = ["None", "Sunglasses", "Round Glasses", "Heart Glasses", "Freckles", "Beauty Mark", "Star Stickers"];
+const NECK_ACC = ["None", "Necklace", "Pearls", "Scarf", "Choker", "Flower Lei"];
+const EAR_ACC = ["None", "Studs", "Hoops", "Drops"];
+const HAND_ACC = ["None", "Handbag", "Bouquet", "Phone", "Iced Coffee", "Balloon", "Tote Bag", "Ice Cream"];
+
+const DEFAULT_DOLL = {
+  skin: 1, eyes: 0, eyeStyle: 0, lips: 0, shadow: 0,
+  hairStyle: 0, hairColor: 2,
+  top: 0, topColor: 0, topPattern: 0,
+  bottom: 0, bottomColor: 2, bottomPattern: 0,
+  dress: 0, dressColor: 1, dressPattern: 0,
+  shoes: 0, shoesColor: 6,
+  head: 1, headColor: 0, faceAcc: 0, neck: 0, ears: 0, hand: 0, handColor: 0
+};
+
+// =========================================================
+// Save data
+// =========================================================
 const SAVE_KEY = "jpw_save_v1";
-const defaultSave = { coins: 0, level: 1, lastGift: null };
+function migrateDoll(d) {
+  d = { ...DEFAULT_DOLL, ...(d || {}) };
+  if (d.extra !== undefined) { // older saves had one "extra" slot
+    const map = { 1: ["head", 1], 2: ["faceAcc", 1], 3: ["head", 2], 4: ["neck", 1], 5: ["hand", 1] };
+    d.head = 0;
+    if (map[d.extra]) d[map[d.extra][0]] = map[d.extra][1];
+    delete d.extra;
+  }
+  return d;
+}
 function load() {
-  try { return { ...defaultSave, ...JSON.parse(localStorage.getItem(SAVE_KEY) || "{}") }; }
-  catch (e) { return { ...defaultSave }; }
+  try {
+    const s = JSON.parse(localStorage.getItem(SAVE_KEY) || "{}");
+    return { coins: 0, level: 1, lastGift: null, rooms: {}, ...s, doll: migrateDoll(s.doll) };
+  } catch (e) { return { coins: 0, level: 1, lastGift: null, rooms: {}, doll: migrateDoll() }; }
 }
 function save() {
   try { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); } catch (e) {}
 }
 const state = load();
+if (!state.rooms) state.rooms = {};
 
-// ---- Compacts: one unlocks every 100 levels ----
+// =========================================================
+// Patterns (SVG fills)
+// =========================================================
+function patternDef(id, idx, c) {
+  const light = lum(c) > 0.72;
+  const a = light ? shade(c, -0.28) : "#ffffff";
+  const op = light ? 1 : 0.75;
+  const P = (w, h, inner) =>
+    `<pattern id="${id}" patternUnits="userSpaceOnUse" width="${w}" height="${h}"><rect width="${w}" height="${h}" fill="${c}"/>${inner}</pattern>`;
+  switch (idx) {
+    case 1: return P(10, 10, `<rect width="10" height="4" fill="${a}" opacity="${op}"/>`);
+    case 2: return P(10, 10, `<circle cx="2.5" cy="2.5" r="1.7" fill="${a}" opacity="${op}"/><circle cx="7.5" cy="7.5" r="1.7" fill="${a}" opacity="${op}"/>`);
+    case 3: return P(12, 12, `<path d="M6 9 L3 6 A1.7 1.7 0 0 1 6 3.8 A1.7 1.7 0 0 1 9 6 Z" fill="${light ? "#ff5fa2" : a}" opacity="${op}"/>`);
+    case 4: return P(12, 12, `<path d="M6 2.5 L7 5 L9.6 5.2 L7.6 6.9 L8.2 9.5 L6 8.1 L3.8 9.5 L4.4 6.9 L2.4 5.2 L5 5 Z" fill="${light ? "#e6b422" : "#fff59d"}"/>`);
+    case 5: return P(12, 12, `<rect y="4" width="12" height="3" fill="${a}" opacity=".45"/><rect x="4" width="3" height="12" fill="${a}" opacity=".45"/><rect y="10" width="12" height="1" fill="${shade(c, -0.3)}" opacity=".5"/>`);
+    case 6: return P(10, 10, `<rect width="5" height="5" fill="${a}" opacity=".55"/><rect x="5" y="5" width="5" height="5" fill="${a}" opacity=".55"/>`);
+    case 7: return P(14, 14, `<g fill="${light ? "#ff8fc2" : "#fff"}"><circle cx="7" cy="4.6" r="1.6"/><circle cx="9.4" cy="7" r="1.6"/><circle cx="7" cy="9.4" r="1.6"/><circle cx="4.6" cy="7" r="1.6"/></g><circle cx="7" cy="7" r="1.2" fill="#ffcf5a"/>`);
+    case 8: return P(16, 16, `<g fill="${shade(c, -0.12)}" stroke="${shade(c, -0.45)}" stroke-width="1"><ellipse cx="4" cy="4" rx="2.4" ry="1.8"/><ellipse cx="12" cy="9" rx="2" ry="2.4"/><ellipse cx="5" cy="13" rx="2.2" ry="1.6"/></g>`);
+    case 9: return P(12, 12, `<circle cx="2" cy="3" r=".7" fill="#fff"/><circle cx="8" cy="2" r=".5" fill="#fff"/><circle cx="5" cy="7" r=".8" fill="#fff" opacity=".8"/><circle cx="10" cy="9" r=".6" fill="#ffcf5a"/><circle cx="3" cy="10.5" r=".5" fill="#fff"/>`);
+    case 10: return `<pattern id="${id}" patternUnits="userSpaceOnUse" width="10" height="18">` +
+      ["#ff6b6b", "#ffb36b", "#ffe66b", "#7be08a", "#6bb8ff", "#b58cff"].map((col, i) =>
+        `<rect y="${i * 3}" width="10" height="3" fill="${col}"/>`).join("") + `</pattern>`;
+  }
+  return "";
+}
+function paint(c, idx, id) {
+  if (!idx) return { def: "", f: c };
+  return { def: patternDef(id, idx, c), f: `url(#${id})` };
+}
+
+// =========================================================
+// Doll drawing (viewBox roughly 0 0 200 340)
+// =========================================================
+function hairBack(style, c) {
+  const cap = `<path d="M64 72 Q62 28 100 27 Q138 28 136 72 Z" fill="${c}"/>`;
+  const long = `<path d="M62 70 Q60 24 100 23 Q140 24 138 70 L144 182 Q122 196 100 188 Q78 196 56 182 Z" fill="${c}"/>`;
+  const tie = shade(c, 0.25);
+  switch (style) {
+    case 0: return long;
+    case 1: return `<path d="M61 72 Q59 25 100 24 Q141 25 139 72 L142 116 Q100 128 58 116 Z" fill="${c}"/>`;
+    case 2: return cap +
+      `<path d="M126 40 Q168 52 156 132 Q148 168 136 154 Q150 104 120 58 Z" fill="${c}"/>` +
+      `<circle cx="126" cy="44" r="6" fill="${tie}"/>`;
+    case 3: return cap +
+      `<circle cx="70" cy="30" r="17" fill="${c}"/><circle cx="130" cy="30" r="17" fill="${c}"/>` +
+      `<path d="M60 26 Q70 18 80 26" stroke="${shade(c, .15)}" stroke-width="2" fill="none"/>` +
+      `<path d="M120 26 Q130 18 140 26" stroke="${shade(c, .15)}" stroke-width="2" fill="none"/>`;
+    case 4: {
+      let s = "";
+      for (let i = 0; i < 16; i++) {
+        const a = Math.PI * (0.9 + i * 1.2 / 15);
+        s += `<circle cx="${(100 + Math.cos(a) * 44).toFixed(1)}" cy="${(74 + Math.sin(a) * 46).toFixed(1)}" r="17" fill="${c}"/>`;
+      }
+      for (let i = 0; i < 6; i++) s += `<circle cx="${62 + (i % 2) * 76}" cy="${100 + Math.floor(i / 2) * 22}" r="16" fill="${c}"/>`;
+      return s;
+    }
+    case 5: return cap +
+      `<path d="M66 70 Q40 90 46 150 Q50 168 60 160 Q56 120 70 92 Z" fill="${c}"/>` +
+      `<path d="M134 70 Q160 90 154 150 Q150 168 140 160 Q144 120 130 92 Z" fill="${c}"/>` +
+      `<circle cx="66" cy="78" r="5" fill="${tie}"/><circle cx="134" cy="78" r="5" fill="${tie}"/>`;
+    case 6: return cap + `<path d="M64 72 L62 110 Q100 120 138 110 L136 72 Z" fill="${c}"/>`;
+    case 7: return `<path d="M62 70 Q60 24 100 23 Q140 24 138 70 Q150 100 140 120 Q154 150 140 170 Q150 186 132 194 Q100 186 68 194 Q50 186 60 170 Q46 150 60 120 Q50 100 62 70 Z" fill="${c}"/>`;
+    case 8: return `<path d="M63 76 Q60 26 100 25 Q140 26 137 76 Q137 92 132 96 L68 96 Q63 92 63 76 Z" fill="${c}"/>`;
+    case 9: return long + `<circle cx="100" cy="26" r="13" fill="${c}"/><circle cx="100" cy="26" r="6" fill="${shade(c, .12)}"/>`;
+    case 10: return cap + `<circle cx="100" cy="16" r="19" fill="${c}"/>` +
+      `<path d="M84 14 Q100 2 116 14" stroke="${shade(c, .15)}" stroke-width="2" fill="none"/>` +
+      `<rect x="88" y="30" width="24" height="5" rx="2.5" fill="${tie}"/>`;
+    case 11: return `<path d="M62 70 Q60 24 100 23 Q140 24 138 70 L146 186 Q120 198 100 190 Q86 160 70 120 Z" fill="${c}"/>`;
+    case 12: {
+      let s = cap;
+      [[62, 34], [138, 34]].forEach(([cx, cy]) => {
+        for (let i = 0; i < 8; i++) {
+          const a = i * Math.PI / 4;
+          s += `<circle cx="${(cx + Math.cos(a) * 12).toFixed(1)}" cy="${(cy + Math.sin(a) * 12).toFixed(1)}" r="10" fill="${c}"/>`;
+        }
+        s += `<circle cx="${cx}" cy="${cy}" r="14" fill="${c}"/>`;
+      });
+      return s;
+    }
+  }
+  return "";
+}
+function hairFront(style, c) {
+  const sideSwept = `<path d="M66 74 Q63 30 100 30 Q137 30 134 74 Q128 48 106 44 Q96 62 66 74 Z" fill="${c}"/>`;
+  const fringe = `<path d="M66 70 Q65 30 100 30 Q135 30 134 70 Q118 58 100 60 Q82 58 66 70 Z" fill="${c}"/>`;
+  const slick = `<path d="M66 68 Q66 30 100 30 Q134 30 134 68 Q120 44 100 44 Q80 44 66 68 Z" fill="${c}"/>`;
+  const part = `<path d="M66 72 Q66 30 100 32 Q134 30 134 72 Q126 44 101 40 Q76 44 66 72 Z" fill="${c}"/>`;
+  switch (style) {
+    case 0: case 7: case 9: return sideSwept;
+    case 1: return fringe;
+    case 2: case 10: return slick;
+    case 3: case 5: case 12: return part;
+    case 4: {
+      let s = "";
+      [[72, 50], [86, 40], [100, 37], [114, 40], [128, 50]].forEach(([x, y]) => s += `<circle cx="${x}" cy="${y}" r="13" fill="${c}"/>`);
+      return s;
+    }
+    case 6: {
+      let s = slick;
+      for (let i = 0; i < 7; i++) {
+        const y = 100 + i * 14, x = 128 + (i % 2 ? 3 : -3);
+        s += `<ellipse cx="${x}" cy="${y}" rx="9" ry="8.5" fill="${i % 2 ? shade(c, .06) : c}"/>`;
+      }
+      return s + `<circle cx="128" cy="196" r="4" fill="${shade(c, .25)}"/><path d="M124 200 Q128 214 132 200" fill="${c}"/>`;
+    }
+    case 8: return `<path d="M64 72 Q62 30 100 30 Q138 30 136 66 Q120 40 92 52 Q76 58 64 72 Z" fill="${c}"/>`;
+    case 11: return `<path d="M66 82 Q60 30 100 30 Q137 30 134 70 Q120 44 96 50 Q80 60 74 96 Q68 92 66 82 Z" fill="${c}"/>`;
+  }
+  return "";
+}
+function bodySkin(s) {
+  const sd = shade(s, -.08);
+  return `
+    <rect x="81" y="200" width="16" height="118" rx="8" fill="${sd}"/>
+    <rect x="103" y="200" width="16" height="118" rx="8" fill="${sd}"/>
+    <path d="M74 128 Q62 134 60 170 L58 204" stroke="${s}" stroke-width="13" stroke-linecap="round" fill="none"/>
+    <path d="M126 128 Q138 134 140 170 L142 204" stroke="${s}" stroke-width="13" stroke-linecap="round" fill="none"/>
+    <circle cx="58" cy="208" r="7.5" fill="${s}"/><circle cx="142" cy="208" r="7.5" fill="${s}"/>
+    <rect x="93" y="102" width="14" height="22" rx="5" fill="${sd}"/>
+    <path d="M74 122 Q100 114 126 122 L122 160 Q120 185 124 205 L76 205 Q80 185 78 160 Z" fill="${s}"/>`;
+}
+const SLEEVES = (f, w) => `
+  <path d="M74 128 Q62 134 60 170 L58 200" stroke="${f}" stroke-width="${w}" stroke-linecap="round" fill="none"/>
+  <path d="M126 128 Q138 134 140 170 L142 200" stroke="${f}" stroke-width="${w}" stroke-linecap="round" fill="none"/>`;
+const TEE = `M74 120 Q100 112 126 120 L144 148 L134 157 L124 146 L122 160 Q120 185 124 206 L76 206 Q80 185 78 160 L76 146 L66 157 L56 148 Z`;
+const TANK = `M81 121 L88 121 Q100 134 112 121 L119 121 L122 160 Q120 185 124 206 L76 206 Q80 185 78 160 Z`;
+
+function bottomSvg(style, f, c) {
+  const d = shade(c, -.12);
+  const band = `<rect x="76" y="192" width="48" height="7" rx="3" fill="${d}"/>`;
+  switch (style) {
+    case 0: return `<path d="M76 194 L124 194 L140 254 Q100 262 60 254 Z" fill="${f}"/>
+      <path d="M90 200 L84 256 M110 200 L116 256" stroke="${d}" stroke-width="2" opacity=".5"/>${band}`;
+    case 1: return `<path d="M76 196 L124 196 L150 238 Q140 248 130 238 Q120 248 110 238 Q100 248 90 238 Q80 248 70 238 Q60 248 50 238 Z" fill="${shade(c, .12)}"/>
+      <path d="M78 196 L122 196 L140 228 Q131 236 122 228 Q113 236 104 228 Q96 236 88 228 Q79 236 70 228 Q65 234 60 228 Z" fill="${f}"/>${band}`;
+    case 2: return `<path d="M76 194 L124 194 L127 242 L103 242 L100 216 L97 242 L73 242 Z" fill="${f}"/>${band}`;
+    case 3: return `<path d="M76 194 L124 194 L123 314 L102 314 L100 222 L98 314 L77 314 Z" fill="${f}"/>
+      <path d="M88 222 L88 312 M112 222 L112 312" stroke="${d}" stroke-width="1.5" stroke-dasharray="3 3"/>${band}
+      <circle cx="100" cy="196" r="2" fill="#ffcf5a"/>`;
+    case 4: return `<path d="M77 194 L123 194 L120 318 L102 318 L100 224 L98 318 L80 318 Z" fill="${f}"/>
+      <rect x="77" y="192" width="46" height="6" rx="3" fill="${d}"/>`;
+    case 5: return `<path d="M76 194 L124 194 L132 228 Q100 234 68 228 Z" fill="${f}"/>${band}`;
+    case 6: return `<path d="M76 194 L124 194 L144 306 Q100 316 56 306 Z" fill="${f}"/>
+      <path d="M92 200 L80 308 M108 200 L120 308" stroke="${d}" stroke-width="2" opacity=".45"/>${band}`;
+    case 7: return `<path d="M76 194 L124 194 L140 248 L132 256 L124 248 L116 256 L108 248 L100 256 L92 248 L84 256 L76 248 L68 256 L60 248 Z" fill="${f}"/>
+      <path d="M84 200 L76 250 M92 200 L88 252 M100 200 L100 252 M108 200 L112 252 M116 200 L124 250" stroke="${d}" stroke-width="1.6" opacity=".55"/>${band}`;
+    case 8: return `<path d="M76 194 L124 194 L122 280 L130 316 L102 316 L101 280 L100 222 L99 280 L98 316 L70 316 L78 280 Z" fill="${f}"/>
+      <path d="M88 222 L88 290 M112 222 L112 290" stroke="${d}" stroke-width="1.5" stroke-dasharray="3 3"/>${band}`;
+    case 9: return `<path d="M76 194 L124 194 L123 276 L102 276 L100 222 L98 276 L77 276 Z" fill="${f}"/>
+      <rect x="77" y="270" width="21" height="6" rx="2" fill="${d}"/><rect x="102" y="270" width="21" height="6" rx="2" fill="${d}"/>${band}`;
+    case 10: return `<path d="M76 194 L124 194 L122 306 L102 306 L100 222 L98 306 L78 306 Z" fill="${f}"/>
+      <rect x="78" y="302" width="20" height="10" rx="4" fill="${d}"/><rect x="102" y="302" width="20" height="10" rx="4" fill="${d}"/>
+      <path d="M78 214 L74 300" stroke="#fff" stroke-width="2" opacity=".7"/><path d="M122 214 L126 300" stroke="#fff" stroke-width="2" opacity=".7"/>${band}`;
+  }
+  return "";
+}
+function topSvg(style, f, c, s) {
+  const d = shade(c, -.12);
+  const neck = `<path d="M90 118 Q100 128 110 118" stroke="${s}" stroke-width="6" fill="none" stroke-linecap="round"/>`;
+  switch (style) {
+    case 0: return `<path d="${TEE}" fill="${f}"/>${neck}`;
+    case 1: return `<path d="${TANK}" fill="${f}"/>`;
+    case 2: return SLEEVES(f, 17) + `
+      <path d="M72 120 Q100 110 128 120 L124 160 Q122 190 126 212 L74 212 Q78 190 76 160 Z" fill="${f}"/>
+      <path d="M84 176 L116 176 L112 198 L88 198 Z" fill="${d}" opacity=".5"/>
+      <path d="M94 122 L93 146 M106 122 L107 146" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+      <rect x="54" y="196" width="10" height="7" rx="3" fill="${d}"/><rect x="136" y="196" width="10" height="7" rx="3" fill="${d}"/>`;
+    case 3: return `<path d="M74 120 Q100 112 126 120 L144 148 L134 157 L124 146 L122 168 L78 168 L76 146 L66 157 L56 148 Z" fill="${f}"/>${neck}`;
+    case 4: return `<path d="${TEE}" fill="${f}"/>
+      <circle cx="68" cy="136" r="12" fill="${f}"/><circle cx="132" cy="136" r="12" fill="${f}"/>
+      <path d="M88 116 L100 132 L94 136 Z M112 116 L100 132 L106 136 Z" fill="#fff"/>
+      <circle cx="100" cy="146" r="2.2" fill="${d}"/><circle cx="100" cy="162" r="2.2" fill="${d}"/><circle cx="100" cy="178" r="2.2" fill="${d}"/>`;
+    case 5: return SLEEVES(f, 16) + `
+      <path d="M72 120 Q100 110 128 120 L124 160 Q122 190 126 212 L74 212 Q78 190 76 160 Z" fill="${f}"/>
+      <rect x="74" y="204" width="52" height="9" rx="3" fill="${d}"/>
+      <path d="M88 118 Q100 128 112 118" stroke="${d}" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <rect x="54" y="195" width="10" height="7" rx="3" fill="${d}"/><rect x="136" y="195" width="10" height="7" rx="3" fill="${d}"/>`;
+    case 6: return `<path d="M70 132 Q100 142 130 132 L124 160 Q120 185 124 206 L76 206 Q80 185 76 160 Z" fill="${f}"/>
+      <ellipse cx="65" cy="142" rx="12" ry="9" fill="${f}"/><ellipse cx="135" cy="142" rx="12" ry="9" fill="${f}"/>
+      <path d="M70 132 Q100 142 130 132" stroke="${d}" stroke-width="3" fill="none"/>`;
+    case 7: return `<path d="M77 140 L123 140 L122 160 Q120 185 124 206 L76 206 Q80 185 78 160 Z" fill="${f}"/>
+      <rect x="77" y="138" width="46" height="6" rx="3" fill="${d}"/>`;
+    case 8: return `<path d="${TANK}" fill="${f}"/>
+      <path d="M78 146 Q84 154 90 146 Q96 154 102 146 Q108 154 114 146 Q120 154 123 146 L123 152 Q100 162 77 152 Z" fill="${shade(c, .12)}"/>
+      <path d="M78 164 Q84 172 90 164 Q96 172 102 164 Q108 172 114 164 Q120 172 123 164 L123 170 Q100 180 77 170 Z" fill="${shade(c, .12)}"/>`;
+    case 9: return SLEEVES(f, 16) + `
+      <path d="M72 120 Q100 110 128 120 L124 160 Q122 190 126 210 L74 210 Q78 190 76 160 Z" fill="${f}"/>
+      <rect x="90" y="100" width="20" height="24" rx="7" fill="${f}"/>
+      <path d="M90 108 L110 108 M90 114 L110 114 M90 120 L110 120" stroke="${d}" stroke-width="1.5"/>`;
+    case 10: return `<path d="${TEE}" fill="#ffffff"/>${neck}` + SLEEVES(f, 17) + `
+      <path d="M72 120 Q86 116 94 124 L92 208 L74 208 Q78 186 76 160 Z" fill="${f}"/>
+      <path d="M128 120 Q114 116 106 124 L108 208 L126 208 Q122 186 124 160 Z" fill="${f}"/>
+      <path d="M80 120 L92 140 L88 124 Z M120 120 L108 140 L112 124 Z" fill="${d}"/>
+      <rect x="78" y="150" width="11" height="9" rx="2" fill="${d}"/><rect x="111" y="150" width="11" height="9" rx="2" fill="${d}"/>
+      <circle cx="90" cy="168" r="1.8" fill="#e6b422"/><circle cx="90" cy="186" r="1.8" fill="#e6b422"/>`;
+    case 11: return `<path d="${TANK}" fill="#ffffff"/>` + SLEEVES(f, 16) + `
+      <path d="M72 120 Q84 116 92 122 L94 212 L74 212 Q78 190 76 160 Z" fill="${f}"/>
+      <path d="M128 120 Q116 116 108 122 L106 212 L126 212 Q122 190 124 160 Z" fill="${f}"/>
+      <circle cx="91" cy="150" r="2" fill="${d}"/><circle cx="91" cy="170" r="2" fill="${d}"/><circle cx="91" cy="190" r="2" fill="${d}"/>
+      <rect x="74" y="204" width="20" height="8" rx="3" fill="${d}"/><rect x="106" y="204" width="20" height="8" rx="3" fill="${d}"/>`;
+  }
+  return "";
+}
+function dressSvg(style, f, c, s) {
+  const d = shade(c, -.12);
+  const bodice = `M80 121 L88 121 Q100 132 112 121 L120 121 L122 160 Q121 180 124 196 L76 196 Q79 180 78 160 Z`;
+  const sash = `<rect x="76" y="190" width="48" height="8" rx="4" fill="${d}"/>`;
+  switch (style) {
+    case 1: return `<path d="M76 192 L124 192 L142 258 Q100 266 58 258 Z" fill="${f}"/><path d="${bodice}" fill="${f}"/>${sash}
+      <path d="M122 194 L132 212 L124 210 Z M122 194 L128 216 L120 212 Z" fill="${d}"/>`;
+    case 2: return `<path d="M76 196 L124 196 L152 240 Q141 250 130 240 Q120 250 110 240 Q100 250 90 240 Q80 250 70 240 Q59 250 48 240 Z" fill="${shade(c, .14)}"/>
+      <path d="M78 196 L122 196 L142 230 Q132 238 122 230 Q113 238 104 230 Q96 238 88 230 Q79 238 70 230 Q64 236 58 230 Z" fill="${f}"/>
+      <path d="M78 140 Q89 132 100 142 Q111 132 122 140 L122 160 Q121 180 124 198 L76 198 Q79 180 78 160 Z" fill="${f}"/>
+      <circle cx="100" cy="196" r="5" fill="${d}"/>`;
+    case 3: return `<path d="M76 192 L124 192 L146 312 Q100 322 54 312 Z" fill="${f}"/><path d="${bodice}" fill="${f}"/>${sash}`;
+    case 4: return `<path d="M76 192 L124 192 Q172 262 162 324 Q100 338 38 324 Q28 262 76 192 Z" fill="${f}"/>
+      <path d="M100 200 Q96 260 100 330 M86 200 Q70 260 66 326 M114 200 Q130 260 134 326" stroke="${d}" stroke-width="2" fill="none" opacity=".45"/>
+      <path d="M70 134 Q100 144 130 134 L122 160 Q121 180 124 198 L76 198 Q79 180 78 160 Z" fill="${f}"/>
+      <ellipse cx="66" cy="140" rx="9" ry="7" fill="${f}"/><ellipse cx="134" cy="140" rx="9" ry="7" fill="${f}"/>
+      <g fill="#fff" opacity=".8"><circle cx="72" cy="270" r="1.5"/><circle cx="120" cy="290" r="1.5"/><circle cx="96" cy="250" r="1.2"/><circle cx="140" cy="306" r="1.4"/></g>`;
+    case 5: return `<path d="M74 120 Q100 112 126 120 L144 148 L134 157 L124 146 L124 170 L130 248 L70 248 L76 170 L76 146 L66 157 L56 148 Z" fill="${f}"/>
+      <path d="M90 118 Q100 128 110 118" stroke="${s}" stroke-width="6" fill="none" stroke-linecap="round"/>`;
+    case 6: return `<path d="M80 128 Q100 138 120 128 L122 160 Q121 190 128 252 L72 252 Q79 190 78 160 Z" fill="${f}"/>
+      <path d="M82 129 L86 112 M118 129 L114 112" stroke="${d}" stroke-width="2"/>`;
+    case 7: return `<path d="M76 192 L124 192 L120 272 L144 318 Q100 328 56 318 L80 272 Z" fill="${f}"/><path d="${bodice}" fill="${f}"/>
+      <path d="M80 272 Q100 280 120 272" stroke="${d}" stroke-width="2" fill="none"/>`;
+  }
+  return "";
+}
+function shoesSvg(style, c) {
+  const d = shade(c, -.15);
+  let out = "";
+  [89, 111].forEach((x) => {
+    switch (style) {
+      case 0: out += `<path d="M${x - 11} 324 Q${x - 11} 308 ${x} 308 Q${x + 12} 310 ${x + 13} 324 Z" fill="${c}"/>
+        <rect x="${x - 12}" y="321" width="26" height="6" rx="3" fill="#fff"/>
+        <path d="M${x - 4} 312 L${x + 5} 312 M${x - 5} 316 L${x + 6} 316" stroke="${d}" stroke-width="1.5"/>`; break;
+      case 1: out += `<rect x="${x - 10}" y="272" width="20" height="50" rx="6" fill="${c}"/>
+        <ellipse cx="${x + 2}" cy="321" rx="12" ry="6" fill="${c}"/>
+        <rect x="${x - 10}" y="272" width="20" height="6" rx="3" fill="${d}"/>`; break;
+      case 2: out += `<path d="M${x - 9} 318 Q${x} 312 ${x + 12} 322 L${x + 12} 326 L${x - 9} 326 Z" fill="${c}"/>
+        <rect x="${x - 9}" y="324" width="4" height="10" fill="${d}"/>`; break;
+      case 3: out += `<rect x="${x - 11}" y="324" width="24" height="4" rx="2" fill="${d}"/>
+        <path d="M${x - 8} 318 L${x + 9} 318 M${x - 4} 312 L${x + 4} 322" stroke="${c}" stroke-width="3" stroke-linecap="round"/>`; break;
+      case 4: out += `<ellipse cx="${x + 1}" cy="321" rx="12" ry="5.5" fill="${c}"/>
+        <circle cx="${x + 1}" cy="317" r="2.5" fill="${d}"/>`; break;
+      case 5: out += `<rect x="${x - 10}" y="294" width="22" height="28" rx="7" fill="${c}"/>
+        <rect x="${x - 12}" y="319" width="26" height="7" rx="3" fill="#fff"/>
+        <path d="M${x - 5} 300 L${x + 6} 300 M${x - 5} 306 L${x + 6} 306 M${x - 5} 312 L${x + 6} 312" stroke="#fff" stroke-width="1.6"/>
+        <circle cx="${x + 7}" cy="312" r="3" fill="#fff"/>`; break;
+      case 6: out += `<rect x="${x - 11}" y="262" width="22" height="58" rx="7" fill="${c}"/>
+        <ellipse cx="${x + 2}" cy="321" rx="13" ry="6.5" fill="${c}"/>
+        <rect x="${x - 7}" y="268" width="4" height="40" rx="2" fill="#fff" opacity=".45"/>
+        <rect x="${x - 12}" y="324" width="27" height="4" rx="2" fill="${d}"/>`; break;
+      case 7: out += `<path d="M${x - 9} 316 Q${x} 310 ${x + 12} 318 L${x + 12} 322 L${x - 9} 322 Z" fill="${c}"/>
+        <path d="M${x - 9} 322 L${x + 12} 322 L${x + 12} 330 L${x - 9} 327 Z" fill="${d}"/>`; break;
+      case 8: out += `<ellipse cx="${x + 1}" cy="320" rx="14" ry="8" fill="${c}"/>
+        <circle cx="${x - 7}" cy="315" r="4" fill="#fff"/><circle cx="${x + 1}" cy="313" r="4.5" fill="#fff"/><circle cx="${x + 9}" cy="315" r="4" fill="#fff"/>`; break;
+      case 9: out += `<path d="M${x - 11} 318 Q${x - 11} 302 ${x} 302 Q${x + 12} 304 ${x + 13} 318 Z" fill="${c}"/>
+        <rect x="${x - 12}" y="316" width="26" height="12" rx="4" fill="#fff"/>
+        <rect x="${x - 12}" y="322" width="26" height="2" fill="${d}" opacity=".5"/>`; break;
+      case 10: out += `<ellipse cx="${x + 1}" cy="321" rx="12" ry="5.5" fill="${c}"/>
+        <path d="M${x - 6} 316 L${x + 8} 316" stroke="${d}" stroke-width="2.5"/>
+        <circle cx="${x + 7}" cy="316" r="2" fill="#e6b422"/>`; break;
+    }
+  });
+  return out;
+}
+function faceSvg(d) {
+  const eye = EYE_COLORS[d.eyes], lip = LIP_COLORS[d.lips], skin = SKINS[d.skin];
+  let s = "";
+  if (d.shadow && SHADOWS[d.shadow]) {
+    [87, 113].forEach((x) => s += `<ellipse cx="${x}" cy="72" rx="9" ry="5" fill="${SHADOWS[d.shadow]}" opacity=".6"/>`);
+  }
+  [87, 113].forEach((x, i) => {
+    if (d.eyeStyle === 4 && i === 1) {
+      s += `<path d="M${x - 7} 78 Q${x} 72 ${x + 7} 78" stroke="#3a2530" stroke-width="2.4" fill="none" stroke-linecap="round"/>`;
+      return;
+    }
+    const big = d.eyeStyle === 3;
+    s += `<ellipse cx="${x}" cy="77" rx="${big ? 7.5 : 6.5}" ry="${big ? 8.5 : 7.5}" fill="#fff"/>
+      <circle cx="${x}" cy="78" r="${big ? 6 : 5}" fill="${eye}"/>
+      <circle cx="${x}" cy="78" r="${big ? 2.6 : 2.2}" fill="#1d1420"/>`;
+    if (big) s += `<path d="M${x + 2} 72.5 L${x + 2.8} 74.8 L${x + 5} 75.3 L${x + 2.8} 75.9 L${x + 2} 78 L${x + 1.2} 75.9 L${x - 1} 75.3 L${x + 1.2} 74.8 Z" fill="#fff"/>`;
+    else s += `<circle cx="${x + 1.8}" cy="75.5" r="1.6" fill="#fff"/>`;
+    if (d.eyeStyle === 2) s += `<path d="M${x - 8} 77 Q${x} 66 ${x + 8} 77 L${x + 8} 68 L${x - 8} 68 Z" fill="${skin}"/>
+      <path d="M${x - 7.5} 77 Q${x} 72 ${x + 7.5} 77" stroke="#3a2530" stroke-width="2" fill="none"/>`;
+    else s += `<path d="M${x - 7} 71 Q${x} 66 ${x + 7} 71" stroke="#3a2530" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+    if (d.eyeStyle === 1 || d.eyeStyle === 3) {
+      const o = i === 0 ? -1 : 1;
+      s += `<path d="M${x + o * 6} 71 L${x + o * 10} 67 M${x + o * 7} 73 L${x + o * 11} 70.5" stroke="#3a2530" stroke-width="1.6" stroke-linecap="round"/>`;
+    }
+  });
+  s += `<path d="M80 66 Q87 62 94 65 M106 65 Q113 62 120 66" stroke="${shade(HAIR_COLORS[d.hairColor], -.05)}" stroke-width="1.8" fill="none" stroke-linecap="round" opacity=".8"/>
+    <ellipse cx="78" cy="90" rx="6" ry="3.5" fill="#ff8fc2" opacity=".35"/>
+    <ellipse cx="122" cy="90" rx="6" ry="3.5" fill="#ff8fc2" opacity=".35"/>
+    <path d="M98 86 Q100 88 102 86" stroke="${shade(skin, -.2)}" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M92 94 Q100 103 108 94 Q100 97 92 94 Z" fill="${lip}"/>`;
+  return s;
+}
+function headAccSvg(i, a) {
+  const ad = shade(a, -.15);
+  switch (i) {
+    case 1: return `<g transform="translate(124 34) rotate(15)"><path d="M0 0 L-16 -10 L-16 10 Z M0 0 L16 -10 L16 10 Z" fill="${a}"/><circle r="5" fill="${ad}"/></g>`;
+    case 2: return `<path d="M78 34 L84 14 L92 28 L100 10 L108 28 L116 14 L122 34 Z" fill="#ffcf5a" stroke="#e0a92a" stroke-width="2"/>
+      <circle cx="100" cy="24" r="3" fill="#ff5fa2"/><circle cx="86" cy="28" r="2" fill="#8fdcff"/><circle cx="114" cy="28" r="2" fill="#8fdcff"/>`;
+    case 3: return `<path d="M66 58 Q100 18 134 58" stroke="${a}" stroke-width="7" fill="none" stroke-linecap="round"/>`;
+    case 4: {
+      let s = `<path d="M66 54 Q100 24 134 54" stroke="#5caa5c" stroke-width="3" fill="none"/>`;
+      const cols = ["#ff8fc2", "#ffcf5a", "#c9a7ff", "#ffffff", "#ff9e7a"];
+      [[68, 52], [78, 40], [90, 34], [100, 32], [110, 34], [122, 40], [132, 52]].forEach(([x, y], k) =>
+        s += `<circle cx="${x}" cy="${y}" r="5.5" fill="${cols[k % 5]}"/><circle cx="${x}" cy="${y}" r="1.8" fill="#ffcf5a"/>`);
+      return s;
+    }
+    case 5: return `<path d="M63 60 Q62 16 100 14 Q138 16 137 60 Z" fill="${a}"/>
+      <rect x="61" y="52" width="78" height="12" rx="6" fill="${ad}"/>
+      <path d="M76 52 L76 30 M88 52 L88 22 M100 52 L100 20 M112 52 L112 22 M124 52 L124 30" stroke="${ad}" stroke-width="1.5" opacity=".6"/>
+      <circle cx="100" cy="12" r="8" fill="#fff"/>`;
+    case 6: return `<ellipse cx="100" cy="46" rx="62" ry="12" fill="${a}"/>
+      <path d="M72 46 Q74 12 100 12 Q126 12 128 46 Z" fill="${a}"/>
+      <rect x="72" y="36" width="56" height="8" fill="${ad}"/>
+      <circle cx="122" cy="38" r="5" fill="#ff8fc2"/>`;
+    case 7: return `<path d="M80 38 Q90 30 94 24 L100 16 L106 24 Q110 30 120 38 Z" fill="#e6e9f0" stroke="#b7bcc8" stroke-width="1.5"/>
+      <circle cx="100" cy="24" r="3.2" fill="#8fdcff"/><circle cx="89" cy="32" r="1.8" fill="#ff8fc2"/><circle cx="111" cy="32" r="1.8" fill="#ff8fc2"/>`;
+    case 8: return `<ellipse cx="84" cy="10" rx="9" ry="24" fill="#fff"/><ellipse cx="84" cy="12" rx="4" ry="16" fill="#ffb3d1"/>
+      <ellipse cx="116" cy="10" rx="9" ry="24" fill="#fff"/><ellipse cx="116" cy="12" rx="4" ry="16" fill="#ffb3d1"/>
+      <path d="M68 52 Q100 26 132 52" stroke="${a}" stroke-width="5" fill="none" stroke-linecap="round"/>`;
+    case 9: return `<path d="M65 52 Q64 18 100 18 Q136 18 135 52 Z" fill="${a}"/>
+      <path d="M118 48 Q148 44 162 54 Q140 58 118 54 Z" fill="${ad}"/>
+      <circle cx="100" cy="19" r="3" fill="${ad}"/>`;
+    case 10: return `<path d="M66 52 Q100 26 134 52" stroke="${a}" stroke-width="5" fill="none"/>
+      <path d="M68 46 L72 20 L88 36 Z M132 46 L128 20 L112 36 Z" fill="${a}"/>
+      <path d="M72 40 L74 27 L83 36 Z M128 40 L126 27 L117 36 Z" fill="#ffb3d1"/>`;
+    case 11: return `<rect x="68" y="44" width="16" height="5" rx="2.5" fill="${a}" transform="rotate(-25 76 46)"/>
+      <rect x="70" y="54" width="16" height="5" rx="2.5" fill="#ffcf5a" transform="rotate(-25 78 56)"/>
+      <path d="M118 40 L120 45 L125 45.5 L121 48.5 L122.5 53.5 L118 50.5 L113.5 53.5 L115 48.5 L111 45.5 L116 45 Z" fill="${a}"/>`;
+  }
+  return "";
+}
+function faceAccSvg(i) {
+  switch (i) {
+    case 1: return `<rect x="77" y="70" width="20" height="14" rx="6" fill="#2b2433"/><rect x="103" y="70" width="20" height="14" rx="6" fill="#2b2433"/>
+      <path d="M97 76 L103 76" stroke="#2b2433" stroke-width="2.5"/>
+      <path d="M81 73 L86 73 M107 73 L112 73" stroke="#fff" stroke-width="2" opacity=".6" stroke-linecap="round"/>`;
+    case 2: return `<circle cx="87" cy="77" r="10" fill="#fff" fill-opacity=".15" stroke="#7a4a2a" stroke-width="2"/>
+      <circle cx="113" cy="77" r="10" fill="#fff" fill-opacity=".15" stroke="#7a4a2a" stroke-width="2"/>
+      <path d="M97 76 Q100 73 103 76" stroke="#7a4a2a" stroke-width="2" fill="none"/>`;
+    case 3: {
+      const h = (x) => `<path d="M${x} 87 L${x - 10} 77 A5 5 0 0 1 ${x} 70 A5 5 0 0 1 ${x + 10} 77 Z" fill="#ff5fa2" fill-opacity=".85" stroke="#c2185b" stroke-width="1.5"/>`;
+      return h(87) + h(113) + `<path d="M97 76 L103 76" stroke="#c2185b" stroke-width="2"/>`;
+    }
+    case 4: return `<g fill="#b9734f" opacity=".7">` +
+      [[76, 86], [80, 89], [83, 85], [117, 85], [120, 89], [124, 86], [79, 83], [121, 83]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1"/>`).join("") + `</g>`;
+    case 5: return `<circle cx="115" cy="95" r="1.4" fill="#3a2530"/>`;
+    case 6: return `<path d="M126 70 L127.3 73 L130.5 73.3 L128 75.4 L128.8 78.5 L126 76.8 L123.2 78.5 L124 75.4 L121.5 73.3 L124.7 73 Z" fill="#ffcf5a"/>
+      <path d="M122 82 L122.8 84 L125 84.2 L123.3 85.5 L123.8 87.6 L122 86.4 L120.2 87.6 L120.7 85.5 L119 84.2 L121.2 84 Z" fill="#ff8fc2"/>`;
+  }
+  return "";
+}
+function neckAccSvg(i, a) {
+  switch (i) {
+    case 1: return `<path d="M88 118 Q100 132 112 118" stroke="#ffcf5a" stroke-width="2" fill="none"/>
+      <path d="M100 129 L95 135 L100 141 L105 135 Z" fill="#ff5fa2" stroke="#fff" stroke-width="1"/>`;
+    case 2: {
+      let s = "";
+      for (let k = 0; k <= 10; k++) {
+        const t = k / 10, x = 86 + 28 * t, y = 118 + Math.sin(t * Math.PI) * 12;
+        s += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.6" fill="#fffaf2" stroke="#e8dccb" stroke-width=".7"/>`;
+      }
+      return s;
+    }
+    case 3: return `<path d="M82 112 Q100 128 118 112 L120 124 Q100 136 80 124 Z" fill="${a}"/>
+      <path d="M108 124 L114 160 L104 158 L102 126 Z" fill="${shade(a, -.1)}"/>
+      <path d="M106 156 L104 162 M110 157 L109 163 M113 158 L113 164" stroke="${shade(a, -.1)}" stroke-width="2"/>`;
+    case 4: return `<path d="M91 114 Q100 119 109 114" stroke="#2b2433" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <circle cx="100" cy="120" r="2.6" fill="#ff5fa2"/>`;
+    case 5: {
+      const cols = ["#ff8fc2", "#ffcf5a", "#c9a7ff", "#ff9e7a", "#8fdcff"];
+      let s = "";
+      for (let k = 0; k <= 8; k++) {
+        const t = k / 8, x = 80 + 40 * t, y = 120 + Math.sin(t * Math.PI) * 18;
+        s += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5" fill="${cols[k % 5]}"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.5" fill="#fff"/>`;
+      }
+      return s;
+    }
+  }
+  return "";
+}
+function earAccSvg(i) {
+  switch (i) {
+    case 1: return `<circle cx="66" cy="86" r="2.6" fill="#ffcf5a"/><circle cx="134" cy="86" r="2.6" fill="#ffcf5a"/>`;
+    case 2: return `<circle cx="65" cy="92" r="6" fill="none" stroke="#ffcf5a" stroke-width="2"/><circle cx="135" cy="92" r="6" fill="none" stroke="#ffcf5a" stroke-width="2"/>`;
+    case 3: return `<path d="M66 86 L66 92 M134 86 L134 92" stroke="#ffcf5a" stroke-width="1.5"/>
+      <path d="M66 92 Q62 98 66 101 Q70 98 66 92 Z M134 92 Q130 98 134 101 Q138 98 134 92 Z" fill="#ff5fa2"/>`;
+  }
+  return "";
+}
+function handAccSvg(i, a) {
+  const ad = shade(a, -.18);
+  switch (i) {
+    case 1: return `<path d="M136 206 Q144 190 152 206" stroke="${ad}" stroke-width="3" fill="none"/>
+      <rect x="132" y="204" width="24" height="22" rx="6" fill="${a}"/>
+      <rect x="132" y="210" width="24" height="4" fill="${ad}" opacity=".4"/>
+      <circle cx="144" cy="216" r="2.5" fill="#ffcf5a"/>`;
+    case 2: return `<path d="M58 210 L52 182 M58 210 L58 180 M58 210 L64 183" stroke="#5caa5c" stroke-width="2"/>
+      <circle cx="51" cy="180" r="6" fill="#ff8fc2"/><circle cx="58" cy="176" r="6" fill="#ffcf5a"/><circle cx="65" cy="181" r="6" fill="#c9a7ff"/>
+      <circle cx="58" cy="176" r="2" fill="#fff"/><path d="M50 196 L58 214 L66 196 Z" fill="${a}"/>`;
+    case 3: return `<rect x="138" y="190" width="14" height="24" rx="3" fill="${a}"/><rect x="140" y="193" width="10" height="17" rx="1.5" fill="#2b2433"/>
+      <circle cx="58" cy="208" r="0" fill="none"/>`;
+    case 4: return `<path d="M135 186 L151 186 L148 216 L138 216 Z" fill="#fff" fill-opacity=".6" stroke="#c9ccd3"/>
+      <path d="M136 196 L150 196 L148 216 L138 216 Z" fill="#a1704f"/><rect x="134" y="184" width="18" height="4" rx="2" fill="${a}"/>
+      <path d="M145 184 L149 172" stroke="${a}" stroke-width="2"/>`;
+    case 5: return `<path d="M142 208 Q150 150 162 90" stroke="#9b7aa0" stroke-width="1" fill="none"/>
+      <ellipse cx="164" cy="70" rx="16" ry="20" fill="${a}"/><path d="M160 89 L168 89 L164 94 Z" fill="${a}"/>
+      <ellipse cx="158" cy="63" rx="4" ry="6" fill="#fff" opacity=".5"/>`;
+    case 6: return `<path d="M50 206 Q58 186 66 206" stroke="${ad}" stroke-width="3" fill="none"/>
+      <rect x="42" y="204" width="32" height="32" rx="4" fill="${a}"/><path d="M50 216 L58 224 L66 216" stroke="#fff" stroke-width="2.5" fill="none"/>`;
+    case 7: return `<path d="M138 200 L146 200 L142 222 Z" fill="#d9a35b"/><path d="M139 203 L145 209 M140 209 L144 205" stroke="#b07a3a" stroke-width="1"/>
+      <circle cx="142" cy="196" r="7" fill="${a}"/><circle cx="139" cy="193" r="2" fill="#fff" opacity=".6"/>`;
+  }
+  return "";
+}
+function renderDoll(d) {
+  const U = "u" + (++UID);
+  const skin = SKINS[d.skin], hair = HAIR_COLORS[d.hairColor];
+  const topC = CLOTH_COLORS[d.topColor], botC = CLOTH_COLORS[d.bottomColor], dressC = CLOTH_COLORS[d.dressColor];
+  const tp = paint(topC, d.topPattern, U + "t"), bp = paint(botC, d.bottomPattern, U + "b"), dp = paint(dressC, d.dressPattern, U + "d");
+  const outfit = d.dress > 0
+    ? dressSvg(d.dress, dp.f, dressC, skin)
+    : bottomSvg(d.bottom, bp.f, botC) + topSvg(d.top, tp.f, topC, skin);
+  const hood = !d.dress && d.top === 2 ? `<ellipse cx="100" cy="116" rx="26" ry="12" fill="${shade(topC, -.12)}"/>` : "";
+  return `<defs>${tp.def}${bp.def}${dp.def}</defs>` +
+    hairBack(d.hairStyle, hair) + hood + bodySkin(skin) + outfit +
+    shoesSvg(d.shoes, CLOTH_COLORS[d.shoesColor]) +
+    neckAccSvg(d.neck, CLOTH_COLORS[d.headColor]) +
+    `<circle cx="66" cy="80" r="6" fill="${skin}"/><circle cx="134" cy="80" r="6" fill="${skin}"/>
+     <ellipse cx="100" cy="72" rx="34" ry="38" fill="${skin}"/>` +
+    faceSvg(d) + earAccSvg(d.ears) + hairFront(d.hairStyle, hair) +
+    faceAccSvg(d.faceAcc) + headAccSvg(d.head, CLOTH_COLORS[d.headColor]) +
+    handAccSvg(d.hand, CLOTH_COLORS[d.handColor]);
+}
+
+// =========================================================
+// Dress Up screen
+// =========================================================
+const V = { head: "40 -4 120 136", face: "64 52 72 56", top: "45 100 110 120", bottom: "40 185 120 148",
+            dress: "30 95 140 245", shoes: "62 258 76 80", neck: "66 92 68 56", hand: "26 50 150 190" };
+const CATEGORIES = [
+  { label: "Hair", rows: [
+    { type: "styles", key: "hairStyle", names: HAIR_STYLES, view: V.head },
+    { type: "colors", label: "Hair color", key: "hairColor", colors: HAIR_COLORS }] },
+  { label: "Tops", rows: [
+    { type: "styles", key: "top", names: TOPS, view: V.top, clearsDress: true },
+    { type: "colors", label: "Color", key: "topColor", colors: CLOTH_COLORS },
+    { type: "patterns", label: "Pattern", key: "topPattern", colorKey: "topColor" }] },
+  { label: "Bottoms", rows: [
+    { type: "styles", key: "bottom", names: BOTTOMS, view: V.bottom, clearsDress: true },
+    { type: "colors", label: "Color", key: "bottomColor", colors: CLOTH_COLORS },
+    { type: "patterns", label: "Pattern", key: "bottomPattern", colorKey: "bottomColor" }] },
+  { label: "Dresses", rows: [
+    { type: "styles", key: "dress", names: DRESSES, view: V.dress },
+    { type: "colors", label: "Color", key: "dressColor", colors: CLOTH_COLORS },
+    { type: "patterns", label: "Pattern", key: "dressPattern", colorKey: "dressColor" }] },
+  { label: "Shoes", rows: [
+    { type: "styles", key: "shoes", names: SHOES, view: V.shoes },
+    { type: "colors", label: "Color", key: "shoesColor", colors: CLOTH_COLORS }] },
+  { label: "Face", rows: [
+    { type: "styles", key: "eyeStyle", names: EYE_STYLES, view: V.face },
+    { type: "colors", label: "Eye color", key: "eyes", colors: EYE_COLORS }] },
+  { label: "Makeup", rows: [
+    { type: "colors", label: "Lips", key: "lips", colors: LIP_COLORS },
+    { type: "colors", label: "Eyeshadow", key: "shadow", colors: SHADOWS }] },
+  { label: "Skin", rows: [{ type: "colors", label: "Skin tone", key: "skin", colors: SKINS }] },
+  { label: "Hats & Bows", rows: [
+    { type: "styles", key: "head", names: HEAD_ACC, view: V.head },
+    { type: "colors", label: "Color", key: "headColor", colors: CLOTH_COLORS }] },
+  { label: "Glasses", rows: [{ type: "styles", key: "faceAcc", names: FACE_ACC, view: V.face }] },
+  { label: "Jewelry", rows: [
+    { type: "styles", label: "Necklaces & scarves", key: "neck", names: NECK_ACC, view: V.neck },
+    { type: "styles", label: "Earrings", key: "ears", names: EAR_ACC, view: V.face }] },
+  { label: "Bags & More", rows: [
+    { type: "styles", key: "hand", names: HAND_ACC, view: V.hand },
+    { type: "colors", label: "Color", key: "handColor", colors: CLOTH_COLORS }] },
+];
+let currentCat = 0;
+
+function drawDolls(animate) {
+  const svg = document.getElementById("dollSvg");
+  svg.innerHTML = renderDoll(state.doll);
+  document.getElementById("homeDoll").innerHTML = renderDoll(state.doll);
+  if (animate) { svg.classList.remove("bounce"); void svg.getBoundingClientRect(); svg.classList.add("bounce"); }
+}
+function renderTabs() {
+  const tabs = document.getElementById("tabs");
+  tabs.innerHTML = "";
+  CATEGORIES.forEach((c, i) => {
+    const b = document.createElement("button");
+    b.className = "tab" + (i === currentCat ? " on" : "");
+    b.textContent = c.label;
+    b.onclick = () => { currentCat = i; renderTabs(); renderPanel(); document.getElementById("panelBody").scrollTop = 0; };
+    tabs.appendChild(b);
+  });
+}
+function renderPanel() {
+  const cat = CATEGORIES[currentCat];
+  const body = document.getElementById("panelBody");
+  body.innerHTML = "";
+  cat.rows.forEach((row) => {
+    if (row.label) {
+      const lab = document.createElement("div");
+      lab.className = "row-label"; lab.textContent = row.label;
+      body.appendChild(lab);
+    }
+    const wrap = document.createElement("div");
+    if (row.type === "styles") {
+      wrap.className = "opts";
+      row.names.forEach((name, i) => {
+        const b = document.createElement("button");
+        const on = state.doll[row.key] === i && !(row.clearsDress && state.doll.dress > 0);
+        const owned = ownsStyle(row.key, i);
+        b.className = "opt" + (on ? " on" : "") + (owned ? "" : " locked");
+        const preview = { ...state.doll, [row.key]: i };
+        if (row.clearsDress) preview.dress = 0;
+        b.innerHTML = `<svg viewBox="${row.view}" preserveAspectRatio="xMidYMid meet">${renderDoll(preview)}</svg>${name}` +
+          (owned ? "" : lockTag(stylePrice(row.key, i)));
+        b.onclick = () => owned ? setDoll(row.key, i, row.clearsDress)
+          : buyThing(row.key + ":" + i, name, stylePrice(row.key, i), () => setDoll(row.key, i, row.clearsDress));
+        wrap.appendChild(b);
+      });
+    } else if (row.type === "colors") {
+      wrap.className = "swatches";
+      row.colors.forEach((col, i) => {
+        const b = document.createElement("button");
+        b.className = "sw" + (state.doll[row.key] === i ? " on" : "");
+        if (col) b.style.background = col;
+        else b.innerHTML = `<svg viewBox="0 0 20 20"><rect width="20" height="20" fill="#fff"/><path d="M4 16 L16 4" stroke="#e94f6f" stroke-width="2"/></svg>`;
+        b.setAttribute("aria-label", (row.label || "") + " " + (i + 1));
+        b.onclick = () => setDoll(row.key, i);
+        wrap.appendChild(b);
+      });
+    } else if (row.type === "patterns") {
+      wrap.className = "swatches";
+      const c = CLOTH_COLORS[state.doll[row.colorKey]];
+      PATTERNS.forEach((name, i) => {
+        const b = document.createElement("button");
+        b.className = "sw" + (state.doll[row.key] === i ? " on" : "");
+        const id = "sw" + (++UID);
+        const p = paint(c, i, id);
+        b.innerHTML = `<svg viewBox="0 0 24 24"><defs>${p.def}</defs><rect width="24" height="24" fill="${p.f}"/></svg>`;
+        b.setAttribute("aria-label", name);
+        b.onclick = () => setDoll(row.key, i);
+        wrap.appendChild(b);
+      });
+    }
+    body.appendChild(wrap);
+  });
+}
+function setDoll(key, val, clearsDress) {
+  const changed = state.doll[key] !== val || (clearsDress && state.doll.dress > 0);
+  if (!changed) return;
+  state.doll[key] = val;
+  if (clearsDress) state.doll.dress = 0;
+  save(); drawDolls(true);
+  const body = document.getElementById("panelBody");
+  const top = body.scrollTop;
+  const scrolls = [...body.querySelectorAll(".opts, .swatches")].map(e => e.scrollLeft);
+  renderPanel();
+  body.scrollTop = top;
+  body.querySelectorAll(".opts, .swatches").forEach((e, i) => e.scrollLeft = scrolls[i] || 0);
+}
+function randomize() {
+  const r = (n) => Math.floor(Math.random() * n);
+  const maybe = (n, p) => Math.random() < p ? 1 + r(n - 1) : 0;
+  const own = (key, list, p) => {
+    const ok = list.map((_, i) => i).filter(i => ownsStyle(key, i) && (p === undefined || i > 0));
+    if (p !== undefined && (Math.random() >= p || !ok.length)) return 0;
+    return ok.length ? ok[r(ok.length)] : 0;
+  };
+  state.doll = {
+    ...state.doll,
+    eyes: r(EYE_COLORS.length), eyeStyle: own("eyeStyle", EYE_STYLES), lips: r(LIP_COLORS.length), shadow: maybe(SHADOWS.length, .5),
+    hairStyle: own("hairStyle", HAIR_STYLES), hairColor: r(HAIR_COLORS.length),
+    top: own("top", TOPS), topColor: r(CLOTH_COLORS.length), topPattern: maybe(PATTERNS.length, .35),
+    bottom: own("bottom", BOTTOMS), bottomColor: r(CLOTH_COLORS.length), bottomPattern: maybe(PATTERNS.length, .25),
+    dress: own("dress", DRESSES, .3), dressColor: r(CLOTH_COLORS.length), dressPattern: maybe(PATTERNS.length, .3),
+    shoes: own("shoes", SHOES), shoesColor: r(CLOTH_COLORS.length),
+    head: own("head", HEAD_ACC, .5), headColor: r(CLOTH_COLORS.length),
+    faceAcc: own("faceAcc", FACE_ACC, .3), neck: own("neck", NECK_ACC, .4), ears: own("ears", EAR_ACC, .5),
+    hand: own("hand", HAND_ACC, .4), handColor: r(CLOTH_COLORS.length),
+  };
+  save(); drawDolls(true); renderPanel();
+}
+function openDress() {
+  renderTabs(); renderPanel(); drawDolls(false);
+  document.getElementById("dressScreen").classList.add("open");
+}
+document.getElementById("dressBtn").onclick = openDress;
+document.getElementById("dollCard").onclick = openDress;
+document.getElementById("dressBack").onclick = () => document.getElementById("dressScreen").classList.remove("open");
+document.getElementById("randomBtn").onclick = (e) => { sparkle(e.clientX, e.clientY); randomize(); };
+
+// =========================================================
+// Decorate: room items (svg drawn in their own viewBox; w = % of room width)
+// kind: wall (hangs on wall), flat (lies on floor), floor (stands)
+// =========================================================
+const C = (i) => CLOTH_COLORS[i];
+const ITEMS = {
+  bed: { name: "Bed", tab: 0, kind: "floor", vb: [120, 80], w: 40, c: 0, svg: (c) => `
+    <rect x="4" y="4" width="16" height="70" rx="7" fill="${shade(c, -.15)}"/>
+    <rect x="8" y="40" width="108" height="24" rx="7" fill="#fff"/>
+    <rect x="38" y="34" width="80" height="30" rx="8" fill="${c}"/>
+    <path d="M40 50 L116 50" stroke="${shade(c, .15)}" stroke-width="3"/>
+    <ellipse cx="28" cy="40" rx="14" ry="8" fill="#fff" stroke="#f0e0ea"/>
+    <rect x="10" y="62" width="6" height="16" rx="2" fill="${shade(c, -.3)}"/><rect x="106" y="62" width="6" height="16" rx="2" fill="${shade(c, -.3)}"/>` },
+  nightstand: { name: "Nightstand", tab: 0, kind: "floor", vb: [40, 44], w: 12, c: 19, svg: (c) => `
+    <rect x="2" y="2" width="36" height="34" rx="4" fill="${c}" stroke="${shade(c, -.15)}" stroke-width="1.5"/>
+    <rect x="6" y="8" width="28" height="10" rx="2" fill="${shade(c, -.06)}"/><rect x="6" y="21" width="28" height="10" rx="2" fill="${shade(c, -.06)}"/>
+    <circle cx="20" cy="13" r="1.8" fill="#e6b422"/><circle cx="20" cy="26" r="1.8" fill="#e6b422"/>
+    <rect x="5" y="36" width="4" height="7" fill="${shade(c, -.25)}"/><rect x="31" y="36" width="4" height="7" fill="${shade(c, -.25)}"/>` },
+  dresser: { name: "Dresser", tab: 0, kind: "floor", vb: [70, 64], w: 22, c: 6, svg: (c) => `
+    <rect x="2" y="2" width="66" height="54" rx="5" fill="${c}" stroke="${shade(c, -.15)}" stroke-width="1.5"/>
+    ${[8, 24, 40].map(y => `<rect x="7" y="${y}" width="56" height="13" rx="3" fill="${shade(c, -.05)}"/><circle cx="25" cy="${y + 6.5}" r="2" fill="#e6b422"/><circle cx="45" cy="${y + 6.5}" r="2" fill="#e6b422"/>`).join("")}
+    <rect x="6" y="56" width="5" height="7" fill="${shade(c, -.25)}"/><rect x="59" y="56" width="5" height="7" fill="${shade(c, -.25)}"/>` },
+  desk: { name: "Desk", tab: 0, kind: "floor", vb: [80, 56], w: 26, c: 18, svg: (c) => `
+    <rect x="2" y="12" width="76" height="8" rx="3" fill="${c}"/>
+    <rect x="6" y="20" width="5" height="34" fill="${shade(c, -.2)}"/><rect x="50" y="20" width="26" height="34" rx="2" fill="${shade(c, -.08)}"/>
+    <rect x="54" y="26" width="18" height="9" rx="2" fill="${shade(c, .08)}"/><rect x="54" y="39" width="18" height="9" rx="2" fill="${shade(c, .08)}"/>
+    <rect x="16" y="0" width="26" height="12" rx="2" fill="#c9ccd3"/><rect x="18" y="2" width="22" height="8" rx="1" fill="#8fdcff"/>` },
+  chair: { name: "Chair", tab: 0, kind: "floor", vb: [36, 62], w: 10, c: 0, svg: (c) => `
+    <rect x="6" y="2" width="24" height="30" rx="8" fill="${c}"/>
+    <rect x="3" y="30" width="30" height="9" rx="4" fill="${shade(c, -.08)}"/>
+    <rect x="6" y="39" width="4" height="22" fill="${shade(c, -.25)}"/><rect x="26" y="39" width="4" height="22" fill="${shade(c, -.25)}"/>` },
+  bookshelf: { name: "Bookshelf", tab: 0, kind: "floor", vb: [50, 86], w: 16, c: 17, svg: (c) => `
+    <rect x="2" y="2" width="46" height="82" rx="3" fill="${c}"/>
+    <rect x="6" y="6" width="38" height="74" fill="${shade(c, -.12)}"/>
+    <rect x="6" y="30" width="38" height="3" fill="${c}"/><rect x="6" y="56" width="38" height="3" fill="${c}"/>
+    ${[["#ff8fc2", 8, 10], ["#c9a7ff", 13, 12], ["#8fdcff", 18, 9], ["#ffcf5a", 23, 13], ["#9ff0d4", 33, 11],
+       ["#ff9e7a", 8, 36], ["#ffffff", 14, 38], ["#e94f6f", 20, 35], ["#6fa8ff", 30, 37], ["#ff8fc2", 36, 40],
+       ["#ffcf5a", 9, 62], ["#c9a7ff", 15, 64], ["#9ff0d4", 26, 61], ["#8fdcff", 32, 63]]
+      .map(([col, x, y]) => `<rect x="${x}" y="${y}" width="5" height="${(y < 30 ? 30 : y < 56 ? 56 : 80) - y}" rx="1" fill="${col}"/>`).join("")}` },
+  beanbag: { name: "Beanbag", tab: 0, kind: "floor", vb: [56, 42], w: 16, c: 1, svg: (c) => `
+    <path d="M6 38 Q0 20 16 12 Q28 0 42 10 Q56 18 52 36 Q30 44 6 38 Z" fill="${c}"/>
+    <path d="M14 22 Q26 30 42 20" stroke="${shade(c, -.12)}" stroke-width="2.5" fill="none"/>
+    <ellipse cx="22" cy="14" rx="6" ry="3" fill="#fff" opacity=".35"/>` },
+  armchair: { name: "Armchair", tab: 0, kind: "floor", vb: [64, 56], w: 20, c: 12, svg: (c) => `
+    <rect x="8" y="2" width="48" height="32" rx="12" fill="${shade(c, -.06)}"/>
+    <rect x="10" y="28" width="44" height="14" rx="6" fill="${c}"/>
+    <rect x="1" y="18" width="14" height="30" rx="7" fill="${c}"/><rect x="49" y="18" width="14" height="30" rx="7" fill="${c}"/>
+    <rect x="8" y="46" width="4" height="9" fill="#8d6e63"/><rect x="52" y="46" width="4" height="9" fill="#8d6e63"/>` },
+  vanity: { name: "Vanity", tab: 0, kind: "floor", vb: [60, 92], w: 18, c: 6, svg: (c) => `
+    <ellipse cx="30" cy="24" rx="19" ry="22" fill="${shade(c, -.1)}"/><ellipse cx="30" cy="24" rx="15" ry="18" fill="#dff3ff"/>
+    <path d="M22 14 L30 8 M22 22 L36 10" stroke="#fff" stroke-width="2.5" opacity=".8"/>
+    <rect x="2" y="50" width="56" height="10" rx="3" fill="${c}"/>
+    <rect x="6" y="60" width="18" height="14" rx="2" fill="${shade(c, -.06)}"/><circle cx="15" cy="67" r="1.6" fill="#e6b422"/>
+    <rect x="6" y="74" width="4" height="17" fill="${shade(c, -.25)}"/><rect x="50" y="60" width="4" height="31" fill="${shade(c, -.25)}"/>
+    <rect x="34" y="42" width="5" height="8" rx="1" fill="#ff8fc2"/><circle cx="46" cy="46" r="4" fill="#c9a7ff"/>` },
+  rug: { name: "Round Rug", tab: 1, kind: "flat", vb: [100, 30], w: 42, c: 10, svg: (c) => `
+    <ellipse cx="50" cy="15" rx="49" ry="14" fill="${c}"/>
+    <ellipse cx="50" cy="15" rx="38" ry="10" fill="${shade(c, .08)}"/>
+    <ellipse cx="50" cy="15" rx="24" ry="6" fill="${shade(c, -.06)}"/>` },
+  squareRug: { name: "Square Rug", tab: 1, kind: "flat", vb: [100, 30], w: 40, c: 2, svg: (c) => `
+    <path d="M14 2 L86 2 L98 28 L2 28 Z" fill="${c}"/>
+    <path d="M22 7 L78 7 L86 23 L14 23 Z" fill="none" stroke="#fff" stroke-width="2"/>
+    <path d="M30 2 L24 28 M50 2 L50 28 M70 2 L76 28" stroke="${shade(c, -.08)}" stroke-width="2"/>` },
+  lamp: { name: "Table Lamp", tab: 1, kind: "floor", vb: [30, 50], w: 8, c: 4, svg: (c) => `
+    <path d="M6 22 L10 2 L20 2 L24 22 Z" fill="${c}"/><rect x="13" y="22" width="4" height="18" fill="#c9ccd3"/>
+    <ellipse cx="15" cy="44" rx="10" ry="4" fill="${shade(c, -.15)}"/>
+    <ellipse cx="15" cy="12" rx="16" ry="12" fill="#fff59d" opacity=".25"/>` },
+  floorLamp: { name: "Floor Lamp", tab: 1, kind: "floor", vb: [30, 110], w: 9, c: 6, svg: (c) => `
+    <path d="M4 26 L9 2 L21 2 L26 26 Z" fill="${c}"/><rect x="13.5" y="26" width="3" height="76" fill="#9e9e9e"/>
+    <ellipse cx="15" cy="104" rx="11" ry="4" fill="#757575"/>` },
+  plant: { name: "Plant", tab: 1, kind: "floor", vb: [40, 66], w: 11, c: 5, svg: (c) => `
+    <ellipse cx="12" cy="22" rx="7" ry="16" fill="#5caa5c" transform="rotate(-25 12 22)"/>
+    <ellipse cx="28" cy="22" rx="7" ry="16" fill="#4c9a4c" transform="rotate(25 28 22)"/>
+    <ellipse cx="20" cy="18" rx="7" ry="18" fill="#6cbf6c"/>
+    <path d="M8 40 L32 40 L28 64 L12 64 Z" fill="${c}"/><rect x="6" y="38" width="28" height="6" rx="2" fill="${shade(c, -.12)}"/>` },
+  teddy: { name: "Teddy Bear", tab: 1, kind: "floor", vb: [40, 46], w: 10, c: 0, svg: () => `
+    <circle cx="11" cy="8" r="6" fill="#b07850"/><circle cx="29" cy="8" r="6" fill="#b07850"/>
+    <ellipse cx="20" cy="33" rx="14" ry="12" fill="#c98c63"/>
+    <circle cx="20" cy="16" r="12" fill="#c98c63"/><ellipse cx="20" cy="20" rx="5" ry="4" fill="#f2c6a0"/>
+    <circle cx="16" cy="14" r="1.6" fill="#2b2433"/><circle cx="24" cy="14" r="1.6" fill="#2b2433"/><circle cx="20" cy="19" r="1.6" fill="#2b2433"/>
+    <ellipse cx="9" cy="42" rx="6" ry="4" fill="#b07850"/><ellipse cx="31" cy="42" rx="6" ry="4" fill="#b07850"/>`,
+    extra: (c) => `<path d="M20 27 L13 23 L13 31 Z M20 27 L27 23 L27 31 Z" fill="${c}"/><circle cx="20" cy="27" r="2.5" fill="${shade(c, -.15)}"/>` },
+  flowers: { name: "Flowers", tab: 1, kind: "floor", vb: [30, 52], w: 8, c: 2, svg: (c) => `
+    <path d="M15 30 L8 12 M15 30 L15 8 M15 30 L22 12" stroke="#5caa5c" stroke-width="2"/>
+    <circle cx="8" cy="11" r="5" fill="#ff8fc2"/><circle cx="15" cy="7" r="5" fill="#ffcf5a"/><circle cx="22" cy="11" r="5" fill="#c9a7ff"/>
+    <circle cx="15" cy="7" r="1.8" fill="#fff"/>
+    <path d="M7 30 L23 30 L21 50 L9 50 Z" fill="${c}"/><ellipse cx="15" cy="30" rx="8" ry="2.5" fill="${shade(c, -.15)}"/>` },
+  cat: { name: "Kitty", tab: 1, kind: "floor", vb: [46, 40], w: 12, c: 20, svg: (c) => `
+    <path d="M36 32 Q48 24 42 12" stroke="${c}" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="24" cy="30" rx="14" ry="9" fill="${c}"/>
+    <path d="M6 10 L8 0 L15 6 Z M22 10 L20 0 L13 6 Z" fill="${c}"/>
+    <circle cx="14" cy="14" r="9" fill="${c}"/>
+    <circle cx="11" cy="13" r="1.5" fill="#2b2433"/><circle cx="17" cy="13" r="1.5" fill="#2b2433"/>
+    <path d="M13 17 L14 18 L15 17" stroke="#ff8fc2" stroke-width="1.2" fill="none"/>
+    <ellipse cx="16" cy="38" rx="4" ry="2" fill="${shade(c, .1)}"/><ellipse cx="28" cy="38" rx="4" ry="2" fill="${shade(c, .1)}"/>` },
+  doll: { name: "My Doll", tab: 1, kind: "floor", vb: [120, 330], vbX: 40, vbY: 10, w: 15, c: 0, noColor: true, svg: () => renderDoll(state.doll) },
+  window: { name: "Window", tab: 2, kind: "wall", vb: [66, 66], w: 24, c: 0, svg: (c) => `
+    <rect x="8" y="6" width="50" height="54" rx="4" fill="#fff"/>
+    <rect x="12" y="10" width="42" height="46" fill="#bfe8ff"/>
+    <circle cx="44" cy="20" r="5" fill="#fff59d"/><ellipse cx="22" cy="26" rx="8" ry="3" fill="#fff"/>
+    <path d="M33 10 L33 56 M12 33 L54 33" stroke="#fff" stroke-width="3"/>
+    <rect x="2" y="2" width="62" height="4" rx="2" fill="#c8a27a"/>
+    <path d="M4 4 Q12 30 4 64 L16 64 Q10 30 18 4 Z" fill="${c}"/>
+    <path d="M62 4 Q54 30 62 64 L50 64 Q56 30 48 4 Z" fill="${c}"/>` },
+  poster: { name: "Heart Art", tab: 2, kind: "wall", vb: [40, 52], w: 12, c: 1, svg: (c) => `
+    <rect x="2" y="2" width="36" height="48" rx="2" fill="${c}"/><rect x="6" y="6" width="28" height="40" fill="#fff"/>
+    <path d="M20 36 L11 27 A5 5 0 0 1 20 19 A5 5 0 0 1 29 27 Z" fill="#ff5fa2"/>` },
+  photo: { name: "Picture", tab: 2, kind: "wall", vb: [46, 38], w: 14, c: 22, svg: (c) => `
+    <rect x="1" y="1" width="44" height="36" rx="2" fill="${c}"/><rect x="5" y="5" width="36" height="28" fill="#bfe8ff"/>
+    <path d="M5 33 L17 18 L25 26 L31 20 L41 33 Z" fill="#6cbf6c"/><circle cx="33" cy="12" r="3.5" fill="#fff59d"/>` },
+  wallShelf: { name: "Wall Shelf", tab: 2, kind: "wall", vb: [60, 36], w: 20, c: 18, svg: (c) => `
+    <rect x="12" y="10" width="7" height="16" rx="1" fill="#c9a7ff"/><rect x="20" y="13" width="6" height="13" rx="1" fill="#8fdcff"/>
+    <path d="M34 26 L46 26 L44 18 L36 18 Z" fill="#ff9e7a"/><ellipse cx="40" cy="14" rx="5" ry="6" fill="#6cbf6c"/>
+    <rect x="2" y="26" width="56" height="5" rx="2" fill="${c}"/>
+    <path d="M10 31 L10 35 L14 31 M50 31 L50 35 L46 31" fill="${shade(c, -.2)}"/>` },
+  clock: { name: "Clock", tab: 2, kind: "wall", vb: [30, 30], w: 9, c: 0, svg: (c) => `
+    <circle cx="15" cy="15" r="14" fill="${c}"/><circle cx="15" cy="15" r="11" fill="#fff"/>
+    <path d="M15 15 L15 8 M15 15 L20 17" stroke="#5a3a5e" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="15" cy="15" r="1.5" fill="#5a3a5e"/>` },
+  mirror: { name: "Mirror", tab: 2, kind: "wall", vb: [40, 60], w: 12, c: 22, svg: (c) => `
+    <ellipse cx="20" cy="30" rx="18" ry="28" fill="${c}"/><ellipse cx="20" cy="30" rx="14" ry="24" fill="#e6f6ff"/>
+    <path d="M12 20 L22 10 M12 30 L28 14" stroke="#fff" stroke-width="3" opacity=".8"/>` },
+  lights: { name: "Fairy Lights", tab: 2, kind: "wall", vb: [100, 22], w: 56, c: 4, svg: (c) => `
+    <path d="M0 4 Q25 18 50 6 Q75 18 100 4" stroke="#7a7a7a" stroke-width="1" fill="none"/>
+    ${[[8, 8], [18, 12], [30, 14], [42, 10], [58, 10], [70, 14], [82, 12], [92, 8]].map(([x, y], k) =>
+      `<circle cx="${x}" cy="${y + 4}" r="3.2" fill="${k % 2 ? c : "#fff59d"}"/><circle cx="${x}" cy="${y + 4}" r="6" fill="${k % 2 ? c : "#fff59d"}" opacity=".25"/>`).join("")}` },
+};
+const DECO_TABS = ["Furniture", "Decor", "Wall Art", "Wallpaper", "Floor"];
+const WALL_PATTERNS = ["Plain", "Stripes", "Polka Dots", "Hearts", "Stars", "Plaid"];
+const FLOORS = ["Wood", "Carpet", "Tiles", "Checkers", "Fluffy"];
+
+function svgUrl(s) { return `url("data:image/svg+xml,${encodeURIComponent(s)}")`; }
+function wallCss(p, c) {
+  const a = lum(c) > .72 ? shade(c, -.1) : shade(c, .1);
+  switch (p) {
+    case 1: return `repeating-linear-gradient(90deg, ${c} 0 16px, ${a} 16px 32px)`;
+    case 2: return `radial-gradient(${a} 3.5px, transparent 4px) 0 0 / 24px 24px, ${c}`;
+    case 3: return `${svgUrl(`<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34"><path d="M17 24 L11 18 A3.5 3.5 0 0 1 17 12.5 A3.5 3.5 0 0 1 23 18 Z" fill="${a}"/></svg>`)} 0 0 / 34px 34px, ${c}`;
+    case 4: return `${svgUrl(`<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36"><path d="M18 9 L20 15 L26 15.5 L21.5 19.5 L23 25.5 L18 22 L13 25.5 L14.5 19.5 L10 15.5 L16 15 Z" fill="${a}"/></svg>`)} 0 0 / 36px 36px, ${c}`;
+    case 5: return `repeating-linear-gradient(0deg, transparent 0 18px, ${a}88 18px 26px), repeating-linear-gradient(90deg, transparent 0 18px, ${a}88 18px 26px), ${c}`;
+  }
+  return c;
+}
+function floorCss(p, c) {
+  const d = shade(c, -.1), l = shade(c, .08);
+  switch (p) {
+    case 0: return `repeating-linear-gradient(180deg, ${c} 0 16px, ${d} 16px 18px)`;
+    case 1: return `radial-gradient(${l} 1px, transparent 1.5px) 0 0 / 6px 6px, ${c}`;
+    case 2: return `linear-gradient(90deg, rgba(255,255,255,.6) 2px, transparent 2px) 0 0 / 34px 34px, linear-gradient(rgba(255,255,255,.6) 2px, transparent 2px) 0 0 / 34px 34px, ${c}`;
+    case 3: return `conic-gradient(${c} 25%, ${l} 0 50%, ${c} 0 75%, ${l} 0) 0 0 / 40px 40px`;
+    case 4: return `radial-gradient(circle at 30% 30%, ${l} 3px, transparent 4px) 0 0 / 12px 12px, radial-gradient(circle at 70% 70%, ${d} 3px, transparent 4px) 0 0 / 12px 12px, ${c}`;
+  }
+  return c;
+}
+
+// Rooms: one per compact. Positions are % of the room (x = center, y = bottom edge).
+const MAX_ITEMS = 40;
+function defaultRoom(i) {
+  if (typeof THEME_ROOMS !== "undefined" && THEME_ROOMS[i]) {
+    const t = THEME_ROOMS[i];
+    return { wall: { ...t.wall }, floor: { ...t.floor },
+             items: t.items.map(it => ({ s: 1, f: 0, c: ITEMS[it.t].c, ...it })) };
+  }
+  return {
+    wall: { p: 1, c: 10 }, floor: { p: 0, c: 18 },
+    items: [
+      { t: "window", x: 32, y: 40, s: 1, f: 0, c: 6 },
+      { t: "lights", x: 50, y: 14, s: 1, f: 0, c: 0 },
+      { t: "rug", x: 50, y: 90, s: 1, f: 0, c: 10 },
+      { t: "nightstand", x: 13, y: 82, s: 1, f: 0, c: 19 },
+      { t: "lamp", x: 13, y: 69.5, s: 1, f: 0, c: 4 },
+      { t: "bed", x: 55, y: 86, s: 1, f: 1, c: 0 },
+      { t: "doll", x: 84, y: 97, s: 1, f: 0, c: 0 },
+    ],
+  };
+}
+let roomIdx = 0, sel = -1, decoTab = 0, drag = null;
+const room = () => state.rooms[roomIdx];
+
+function itemSvg(it) {
+  const def = ITEMS[it.t];
+  const c = C(it.c ?? def.c);
+  const [w, h] = def.vb;
+  return `<svg viewBox="${def.vbX || 0} ${def.vbY || 0} ${w} ${h}" width="${w}" height="${h}" style="aspect-ratio:${w}/${h}">${def.svg(c)}${def.extra ? def.extra(c) : ""}</svg>`;
+}
+function placeItem(el, it) {
+  const def = ITEMS[it.t];
+  el.style.left = it.x + "%";
+  el.style.top = it.y + "%";
+  el.style.width = def.w + "%";
+  const flip = it.f ? " scaleX(-1)" : "";
+  el.style.transform = def.kind === "flat"
+    ? `translate(-50%,-50%) scale(${it.s})${flip}`
+    : `translate(-50%,-100%) scale(${it.s})${flip}`;
+}
+function renderRoom() {
+  const r = room();
+  document.getElementById("roomWall").style.background = wallCss(r.wall.p, C(r.wall.c));
+  document.getElementById("roomFloor").style.background = floorCss(r.floor.p, C(r.floor.c));
+  const holder = document.getElementById("roomItems");
+  holder.innerHTML = "";
+  r.items.forEach((it, i) => {
+    const def = ITEMS[it.t];
+    if (!def) return;
+    const el = document.createElement("div");
+    el.className = "item k-" + def.kind + (i === sel ? " sel" : "");
+    el.dataset.i = i;
+    el.innerHTML = itemSvg(it);
+    const band = def.kind === "wall" ? 0 : def.kind === "flat" ? 1 : 2;
+    el.style.zIndex = band * 1000 + i + 1;
+    placeItem(el, it);
+    holder.appendChild(el);
+  });
+  renderSelBar();
+}
+function renderSelBar() {
+  const bar = document.getElementById("selBar");
+  const it = room().items[sel];
+  if (!it) { bar.classList.add("hidden"); return; }
+  bar.classList.remove("hidden");
+  const colors = document.getElementById("selColors");
+  colors.innerHTML = "";
+  if (ITEMS[it.t].noColor) return;
+  CLOTH_COLORS.forEach((col, i) => {
+    const b = document.createElement("button");
+    b.className = "sw" + ((it.c ?? ITEMS[it.t].c) === i ? " on" : "");
+    b.style.background = col;
+    b.onclick = () => { it.c = i; save(); renderRoom(); };
+    colors.appendChild(b);
+  });
+}
+function renderDecoTabs() {
+  const tabs = document.getElementById("decoTabs");
+  tabs.innerHTML = "";
+  DECO_TABS.forEach((name, i) => {
+    const b = document.createElement("button");
+    b.className = "tab" + (i === decoTab ? " on" : "");
+    b.textContent = name;
+    b.onclick = () => { decoTab = i; renderDecoTabs(); renderDecoBody(); };
+    tabs.appendChild(b);
+  });
+}
+function renderDecoBody() {
+  const body = document.getElementById("decoBody");
+  body.innerHTML = "";
+  const r = room();
+  if (decoTab <= 2) {
+    const grid = document.createElement("div");
+    grid.className = "item-grid";
+    Object.entries(ITEMS).filter(([, d]) => d.tab === decoTab && (!d.room || compactUnlocked(d.room))).forEach(([key, d]) => {
+      const b = document.createElement("button");
+      const owned = ownsItem(key);
+      b.className = "opt" + (owned ? "" : " locked");
+      b.innerHTML = itemSvg({ t: key, c: d.c }) + d.name + (owned ? "" : lockTag(itemPrice(key)));
+      b.onclick = () => owned ? addItem(key) : buyThing("item:" + key, d.name, itemPrice(key), () => { renderDecoBody(); addItem(key); });
+      grid.appendChild(b);
+    });
+    body.appendChild(grid);
+    return;
+  }
+  const isWall = decoTab === 3;
+  const cfg = isWall ? r.wall : r.floor;
+  const names = isWall ? WALL_PATTERNS : FLOORS;
+  const cssFn = isWall ? wallCss : floorCss;
+  const lab1 = document.createElement("div"); lab1.className = "row-label"; lab1.textContent = isWall ? "Wallpaper" : "Floor";
+  const opts = document.createElement("div"); opts.className = "opts";
+  names.forEach((n, i) => {
+    const b = document.createElement("button");
+    const kind = isWall ? "wall" : "floor";
+    const owned = ownsSurface(kind, i);
+    b.className = "opt" + (cfg.p === i ? " on" : "") + (owned ? "" : " locked");
+    b.innerHTML = `<div class="thumb"></div>${n}` + (owned ? "" : lockTag(surfacePrice(kind, i)));
+    b.firstChild.style.background = cssFn(i, C(cfg.c));
+    const apply = () => { cfg.p = i; save(); renderRoom(); renderDecoBody(); };
+    b.onclick = () => owned ? apply() : buyThing(kind + ":" + i, n + (isWall ? " wallpaper" : " floor"), surfacePrice(kind, i), apply);
+    opts.appendChild(b);
+  });
+  const lab2 = document.createElement("div"); lab2.className = "row-label"; lab2.textContent = "Color";
+  const sw = document.createElement("div"); sw.className = "swatches";
+  CLOTH_COLORS.forEach((col, i) => {
+    const b = document.createElement("button");
+    b.className = "sw" + (cfg.c === i ? " on" : "");
+    b.style.background = col;
+    b.onclick = () => { cfg.c = i; save(); renderRoom(); renderDecoBody(); };
+    sw.appendChild(b);
+  });
+  body.append(lab1, opts, lab2, sw);
+}
+function addItem(key) {
+  const r = room();
+  if (r.items.length >= MAX_ITEMS) { toast("This room is full! Remove something first 💕"); return; }
+  if (key === "doll" && r.items.some(it => it.t === "doll")) { toast("Your doll is already in this room ✨"); return; }
+  const def = ITEMS[key];
+  const y = def.kind === "wall" ? 40 : def.kind === "flat" ? 88 : 92;
+  r.items.push({ t: key, x: 40 + Math.random() * 20, y, s: 1, f: 0, c: def.c });
+  sel = r.items.length - 1;
+  save(); renderRoom();
+}
+function selAction(act) {
+  const r = room(), it = r.items[sel];
+  if (!it) return;
+  switch (act) {
+    case "smaller": it.s = Math.max(0.4, +(it.s - 0.15).toFixed(2)); break;
+    case "bigger": it.s = Math.min(2.5, +(it.s + 0.15).toFixed(2)); break;
+    case "flip": it.f = it.f ? 0 : 1; break;
+    case "front": r.items.push(r.items.splice(sel, 1)[0]); sel = r.items.length - 1; break;
+    case "back": r.items.unshift(r.items.splice(sel, 1)[0]); sel = 0; break;
+    case "del": r.items.splice(sel, 1); sel = -1; break;
+  }
+  save(); renderRoom();
+}
+document.querySelectorAll("#selBar [data-act]").forEach(b => b.onclick = () => selAction(b.dataset.act));
+
+// Dragging items around the room
+const roomEl = document.getElementById("room");
+roomEl.addEventListener("pointerdown", (e) => {
+  const el = e.target.closest(".item");
+  if (!el) { if (sel !== -1) { sel = -1; renderRoom(); } return; }
+  const i = +el.dataset.i;
+  if (sel !== i) { sel = i; renderRoom(); }
+  const it = room().items[i];
+  drag = { i, x0: e.clientX, y0: e.clientY, ix: it.x, iy: it.y, moved: false };
+  roomEl.setPointerCapture(e.pointerId);
+  e.preventDefault();
+});
+roomEl.addEventListener("pointermove", (e) => {
+  if (!drag) return;
+  const rect = roomEl.getBoundingClientRect();
+  const it = room().items[drag.i];
+  const kind = ITEMS[it.t].kind;
+  it.x = clamp(drag.ix + (e.clientX - drag.x0) / rect.width * 100, 0, 100);
+  const [lo, hi] = kind === "wall" ? [6, 62] : kind === "flat" ? [62, 100] : [58, 102];
+  it.y = clamp(drag.iy + (e.clientY - drag.y0) / rect.height * 100, lo, hi);
+  drag.moved = true;
+  const el = document.querySelector(`#roomItems .item[data-i="${drag.i}"]`);
+  if (el) placeItem(el, it);
+});
+const endDrag = () => { if (drag && drag.moved) save(); drag = null; };
+roomEl.addEventListener("pointerup", endDrag);
+roomEl.addEventListener("pointercancel", endDrag);
+
+function openRoom(i) {
+  roomIdx = i; sel = -1;
+  if (!state.rooms[i]) { state.rooms[i] = defaultRoom(i); save(); }
+  const c = COMPACTS[i];
+  document.getElementById("roomTitle").textContent = c.name;
+  const grad = `radial-gradient(circle at 35% 30%, ${c.colors[0]}, ${c.colors[1]})`;
+  document.getElementById("compactFrame").style.background = grad;
+  const lid = document.getElementById("lid");
+  lid.style.background = grad;
+  lid.classList.remove("opening");
+  renderRoom(); renderDecoTabs(); renderDecoBody();
+  document.getElementById("decoScreen").classList.add("open");
+  setTimeout(() => { void lid.offsetWidth; lid.classList.add("opening"); }, 380);
+}
+const closeRoom = () => { sel = -1; document.getElementById("decoScreen").classList.remove("open"); };
+document.getElementById("decoBtn").onclick = () => openRoom(0);
+document.getElementById("decoBack").onclick = closeRoom;
+document.getElementById("decoDone").onclick = (e) => { sparkle(e.clientX, e.clientY); toast("Room saved 💖"); closeRoom(); };
+
+// =========================================================
+// Home: compacts (one unlocks every 100 levels)
+// =========================================================
 const COMPACTS = [
   { name: "Cozy Bedroom",     colors: ["#ffb3d4", "#ff8fc2"] },
   { name: "Beach Cottage",    colors: ["#9fe3ff", "#6cc9f0"] },
@@ -195,22 +1619,21 @@ function renderShelf() {
         ${unlocked ? '<div class="gem"></div>' : '<span class="lock">🔒</span>'}
       </div>
       <div class="name">${c.name}</div>
-      <div class="info">${unlocked ? "Open" : "Unlocks at level " + unlockAt}</div>`;
+      <div class="info">${unlocked ? "Tap to decorate" : "Unlocks at level " + unlockAt}</div>`;
     btn.onclick = (e) => {
       sparkle(e.clientX, e.clientY);
-      toast(unlocked ? c.name + " opens in the next build step ✨" : "Reach level " + unlockAt + " to unlock");
+      if (unlocked) openRoom(i); else toast("Reach level " + unlockAt + " to unlock");
     };
     shelf.appendChild(btn);
   });
 }
-
 function renderHud() {
   document.getElementById("coinCount").textContent = state.coins.toLocaleString();
   document.getElementById("levelNum").textContent = state.level.toLocaleString();
   document.getElementById("playLevel").textContent = state.level.toLocaleString();
+  const sc = document.getElementById("shopCoins");
+  if (sc) sc.textContent = state.coins.toLocaleString();
 }
-
-// ---- Daily gift ----
 document.getElementById("giftBtn").onclick = (e) => {
   const today = new Date().toDateString();
   if (state.lastGift === today) { toast("Come back tomorrow for another gift 💕"); return; }
@@ -219,15 +1642,15 @@ document.getElementById("giftBtn").onclick = (e) => {
   sparkle(e.clientX, e.clientY);
   toast("Daily gift: +" + amount + " coins!");
 };
-
-// ---- Placeholders for later build steps ----
-document.getElementById("playBtn").onclick = (e) => { sparkle(e.clientX, e.clientY); toast("Puzzle levels arrive in build step 5 🧩"); };
-document.querySelectorAll(".mode").forEach(b => b.onclick = (e) => {
+document.getElementById("playBtn").onclick = (e) => { sparkle(e.clientX, e.clientY); toast("Puzzles are coming soon 🧩"); };
+document.querySelectorAll("[data-soon]").forEach(b => b.onclick = (e) => {
   sparkle(e.clientX, e.clientY);
-  toast(b.dataset.mode + " is coming soon ✨");
+  toast(b.dataset.soon + " is coming soon ✨");
 });
 
-// ---- Little effects ----
+// =========================================================
+// Little effects
+// =========================================================
 let toastTimer;
 function toast(msg) {
   const t = document.getElementById("toast");
@@ -243,7 +1666,1636 @@ function sparkle(x, y) {
   });
 }
 
-renderShelf(); renderHud();
+save(); // writes migrated save format
+renderShelf(); renderHud(); drawDolls(false);
+</script>
+<script>
+// =========================================================
+// PUZZLE ENGINE (pure logic, no DOM). Board is N x N, cells indexed r*N+c.
+// Tiles: { id, color, sp }  color 0..5 normal, -1 charm, -2 rainbow
+// sp: 0 none, 1 ribbon (row), 2 ribbon (column), 3 glitter bomb, 4 rainbow
+// =========================================================
+const N = 8;
+const SP_NONE = 0, SP_RH = 1, SP_RV = 2, SP_BOMB = 3, SP_RAIN = 4;
+const CHARM = -1, RAINBOW = -2;
+
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+function hashInt(n) {
+  let h = (2166136261 ^ n) >>> 0;
+  h = Math.imul(h ^ (h >>> 16), 2246822507);
+  h = Math.imul(h ^ (h >>> 13), 3266489909);
+  return (h ^ (h >>> 16)) >>> 0;
+}
+
+class Engine {
+  // cfg: { colors, mask[64], glass[64], crate[64], goals:[{type, color?, amount}], moves, charmStart }
+  constructor(cfg, rng, record) {
+    this.cfg = cfg;
+    this.rng = rng;
+    this.record = !!record;
+    this.events = [];
+    this.nextId = 1;
+    this.mask = cfg.mask.slice();
+    this.glass = cfg.glass.slice();
+    this.crate = cfg.crate.slice();
+    this.tiles = new Array(N * N).fill(null);
+    this.score = 0;
+    this.movesLeft = cfg.moves;
+    this.movesUsed = 0;
+    this.goals = cfg.goals.map(g => ({ ...g, left: g.amount }));
+    this.charmsSpawned = 0;
+    this.initialFill();
+  }
+
+  // ---------- helpers ----------
+  playable(i) { return this.mask[i] && !this.crate[i]; }
+  rc(i) { return [Math.floor(i / N), i % N]; }
+  goal(type) { return this.goals.find(g => g.type === type); }
+  randColor() { return Math.floor(this.rng() * this.cfg.colors); }
+  newTile(color, sp = 0) { return { id: this.nextId++, color, sp }; }
+  isWon() { return this.goals.every(g => g.left <= 0); }
+  charmGoal() { const g = this.goal("charm"); return g && g.left > 0 ? g : null; }
+  charmsOnBoard() { return this.tiles.filter(t => t && t.color === CHARM).length; }
+
+  clone() {
+    const e = Object.create(Engine.prototype);
+    e.cfg = this.cfg; e.rng = this.rng; e.record = false; e.events = [];
+    e.nextId = this.nextId;
+    e.mask = this.mask; // never changes
+    e.glass = this.glass.slice(); e.crate = this.crate.slice();
+    e.tiles = this.tiles.map(t => t && { id: t.id, color: t.color, sp: t.sp });
+    e.score = this.score; e.movesLeft = this.movesLeft; e.movesUsed = this.movesUsed;
+    e.goals = this.goals.map(g => ({ ...g }));
+    e.charmsSpawned = this.charmsSpawned;
+    return e;
+  }
+
+  snapshot() {
+    const tiles = [];
+    this.tiles.forEach((t, i) => { if (t) tiles.push([t.id, i, t.color, t.sp]); });
+    return { tiles, glass: this.glass.slice(), crate: this.crate.slice(), score: this.score,
+             goals: this.goals.map(g => g.left), movesLeft: this.movesLeft };
+  }
+  emit(kind, extra) {
+    if (!this.record) return;
+    this.events.push({ kind, snap: this.snapshot(), ...(extra || {}) });
+  }
+  takeEvents() { const e = this.events; this.events = []; return e; }
+
+  // ---------- initial fill ----------
+  initialFill() {
+    for (let attempt = 0; attempt < 60; attempt++) {
+      for (let i = 0; i < N * N; i++) {
+        this.tiles[i] = null;
+        if (!this.playable(i)) continue;
+        const [r, c] = this.rc(i);
+        let color, tries = 0;
+        do {
+          color = this.randColor(); tries++;
+        } while (tries < 20 && (
+          (c >= 2 && this.colorAt(r, c - 1) === color && this.colorAt(r, c - 2) === color) ||
+          (r >= 2 && this.colorAt(r - 1, c) === color && this.colorAt(r - 2, c) === color)));
+        this.tiles[i] = this.newTile(color);
+      }
+      // starting charms sit in the top playable cell of random columns
+      const cg = this.charmGoal();
+      if (cg) {
+        const want = Math.min(this.cfg.charmStart || 1, cg.amount);
+        const cols = [2, 3, 4, 5].sort(() => this.rng() - 0.5);
+        let placed = 0;
+        for (const c of cols) {
+          if (placed >= want) break;
+          for (let r = 3; r < N; r++) {
+            const i = r * N + c;
+            if (this.playable(i)) {
+              // don't drop a charm right onto the bottom
+              if (this.bottomOf(c) !== i) { this.tiles[i] = this.newTile(CHARM); placed++; this.charmsSpawned++; }
+              break;
+            }
+          }
+        }
+      }
+      if (this.findMatches().length === 0 && this.findMoves(1).length > 0) return;
+      this.charmsSpawned = 0;
+    }
+  }
+  colorAt(r, c) { const t = this.tiles[r * N + c]; return t ? t.color : null; }
+  bottomOf(c) {
+    for (let r = N - 1; r >= 0; r--) { const i = r * N + c; if (this.playable(i)) return i; }
+    return -1;
+  }
+
+  // ---------- matching ----------
+  findMatches() {
+    const runs = [];
+    const scan = (horizontal) => {
+      for (let a = 0; a < N; a++) {
+        let start = 0;
+        for (let b = 1; b <= N; b++) {
+          const i0 = horizontal ? a * N + start : start * N + a;
+          const ib = horizontal ? a * N + b : b * N + a;
+          const t0 = this.tiles[i0], tb = b < N ? this.tiles[ib] : null;
+          const same = tb && t0 && t0.color >= 0 && tb.color === t0.color;
+          if (!same) {
+            const len = b - start;
+            if (t0 && t0.color >= 0 && len >= 3) {
+              const cells = [];
+              for (let k = start; k < b; k++) cells.push(horizontal ? a * N + k : k * N + a);
+              runs.push({ cells, horizontal, color: t0.color });
+            }
+            start = b;
+          }
+        }
+      }
+    };
+    scan(true); scan(false);
+    if (!runs.length) return [];
+    // merge runs that share cells into groups
+    const groups = [];
+    const cellGroup = new Map();
+    for (const run of runs) {
+      let g = null;
+      for (const i of run.cells) if (cellGroup.has(i)) { g = cellGroup.get(i); break; }
+      if (!g) { g = { cells: new Set(), runs: [], color: run.color }; groups.push(g); }
+      g.runs.push(run);
+      run.cells.forEach(i => { g.cells.add(i); cellGroup.set(i, g); });
+    }
+    return groups;
+  }
+  // special created by a match group, and where
+  specialFor(g, prefer) {
+    const maxLen = Math.max(...g.runs.map(r => r.cells.length));
+    const hasH = g.runs.some(r => r.horizontal), hasV = g.runs.some(r => !r.horizontal);
+    let sp = 0;
+    if (maxLen >= 5) sp = SP_RAIN;
+    else if (hasH && hasV) sp = SP_BOMB;
+    else if (maxLen === 4) sp = g.runs[0].horizontal ? SP_RH : SP_RV;
+    if (!sp) return null;
+    let pos = null;
+    if (prefer) for (const p of prefer) if (g.cells.has(p)) { pos = p; break; }
+    if (pos === null) {
+      if (sp === SP_BOMB) {
+        // the crossing cell
+        const counts = new Map();
+        g.runs.forEach(r => r.cells.forEach(i => counts.set(i, (counts.get(i) || 0) + 1)));
+        for (const [i, n] of counts) if (n > 1) { pos = i; break; }
+      }
+      if (pos === null) {
+        const longest = g.runs.reduce((a, b) => (b.cells.length > a.cells.length ? b : a));
+        pos = longest.cells[Math.floor(longest.cells.length / 2)];
+      }
+    }
+    return { pos, sp, color: sp === SP_RAIN ? RAINBOW : g.color };
+  }
+  matchAt(i) {
+    const t = this.tiles[i];
+    if (!t || t.color < 0) return false;
+    const [r, c] = this.rc(i);
+    let h = 1, v = 1;
+    for (let k = c - 1; k >= 0 && this.colorAt(r, k) === t.color; k--) h++;
+    for (let k = c + 1; k < N && this.colorAt(r, k) === t.color; k++) h++;
+    for (let k = r - 1; k >= 0 && this.colorAt(k, c) === t.color; k--) v++;
+    for (let k = r + 1; k < N && this.colorAt(k, c) === t.color; k++) v++;
+    return h >= 3 || v >= 3;
+  }
+  // list of valid swaps [a, b]; stop after `limit`
+  findMoves(limit = 999) {
+    const out = [];
+    for (let i = 0; i < N * N && out.length < limit; i++) {
+      const ti = this.tiles[i];
+      if (!ti) continue;
+      const [r, c] = this.rc(i);
+      for (const j of [c < N - 1 ? i + 1 : -1, r < N - 1 ? i + N : -1]) {
+        if (j < 0) continue;
+        const tj = this.tiles[j];
+        if (!tj) continue;
+        if (ti.sp === SP_RAIN || tj.sp === SP_RAIN || (ti.sp && tj.sp)) { out.push([i, j]); continue; }
+        this.tiles[i] = tj; this.tiles[j] = ti;
+        const ok = this.matchAt(i) || this.matchAt(j);
+        this.tiles[i] = ti; this.tiles[j] = tj;
+        if (ok) out.push([i, j]);
+      }
+    }
+    return out;
+  }
+
+  // ---------- areas ----------
+  rowCells(r) { const a = []; for (let c = 0; c < N; c++) if (this.mask[r * N + c]) a.push(r * N + c); return a; }
+  colCells(c) { const a = []; for (let r = 0; r < N; r++) if (this.mask[r * N + c]) a.push(r * N + c); return a; }
+  square(i, rad) {
+    const [r, c] = this.rc(i), a = [];
+    for (let y = r - rad; y <= r + rad; y++) for (let x = c - rad; x <= c + rad; x++)
+      if (y >= 0 && y < N && x >= 0 && x < N && this.mask[y * N + x]) a.push(y * N + x);
+    return a;
+  }
+  mostCommonColor() {
+    const n = new Array(6).fill(0);
+    this.tiles.forEach(t => { if (t && t.color >= 0) n[t.color]++; });
+    let best = 0; n.forEach((v, k) => { if (v > n[best]) best = k; });
+    return best;
+  }
+  cellsOfColor(color) { const a = []; this.tiles.forEach((t, i) => { if (t && t.color === color) a.push(i); }); return a; }
+  specialArea(i, t) {
+    const [r, c] = this.rc(i);
+    switch (t.sp) {
+      case SP_RH: return this.rowCells(r);
+      case SP_RV: return this.colCells(c);
+      case SP_BOMB: return this.square(i, 1);
+      case SP_RAIN: return this.cellsOfColor(this.mostCommonColor());
+    }
+    return [];
+  }
+
+  // ---------- clearing ----------
+  // matchCells: cells cleared by a match (they damage neighbouring gift boxes)
+  // extraCells: cells hit directly (combos, hammer)
+  clearCells(matchCells, extraCells, creates, cascade) {
+    const hit = new Set([...matchCells, ...extraCells]);
+    const queue = [...hit];
+    const fx = [];
+    const fired = new Set();
+    const crateHits = new Set();
+    while (queue.length) {
+      const i = queue.pop();
+      const t = this.tiles[i];
+      if (!t || !t.sp || fired.has(t.id)) continue;
+      fired.add(t.id);
+      fx.push({ sp: t.sp, i });
+      for (const j of this.specialArea(i, t)) {
+        if (this.crate[j]) crateHits.add(j);
+        if (!hit.has(j)) { hit.add(j); queue.push(j); }
+      }
+      if (t.sp === SP_BOMB) this.score += 200;
+      if (t.sp === SP_RH || t.sp === SP_RV) this.score += 120;
+    }
+    // gift boxes next to matched cells
+    for (const i of matchCells) {
+      const [r, c] = this.rc(i);
+      for (const [y, x] of [[r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]]) {
+        if (y >= 0 && y < N && x >= 0 && x < N && this.crate[y * N + x]) crateHits.add(y * N + x);
+      }
+    }
+    for (const i of extraCells) if (this.crate[i]) crateHits.add(i);
+
+    const collect = this.goals.filter(g => g.type === "collect");
+    const glassGoal = this.goal("glass"), crateGoal = this.goal("crate");
+    const cleared = [];
+    for (const i of hit) {
+      const t = this.tiles[i];
+      if (t && t.color !== CHARM) {
+        cleared.push(i);
+        for (const g of collect) if (g.color === t.color && g.left > 0) g.left--;
+        this.tiles[i] = null;
+        this.score += 20 + 40 * cascade;
+        if (this.glass[i] > 0) {
+          this.glass[i]--;
+          if (this.glass[i] === 0 && glassGoal && glassGoal.left > 0) glassGoal.left--;
+        }
+      }
+    }
+    for (const i of crateHits) {
+      if (!this.crate[i]) continue;
+      this.crate[i]--;
+      this.score += 50;
+      if (this.crate[i] === 0 && crateGoal && crateGoal.left > 0) crateGoal.left--;
+    }
+    for (const cr of creates) {
+      if (this.playable(cr.pos)) this.tiles[cr.pos] = this.newTile(cr.color, cr.sp);
+    }
+    this.updateScoreGoal();
+    this.emit("clear", { fx, cleared, cascade });
+    return cleared.length;
+  }
+  updateScoreGoal() {
+    const g = this.goal("score");
+    if (g) g.left = Math.max(0, g.amount - this.score);
+  }
+
+  // ---------- gravity & refill ----------
+  spawnTile(c) {
+    const cg = this.charmGoal();
+    if (cg && c >= 2 && c <= 5 && this.charmsSpawned < cg.amount && this.charmsOnBoard() < 2 && this.rng() < 0.4) {
+      this.charmsSpawned++;
+      return this.newTile(CHARM);
+    }
+    return this.newTile(this.randColor());
+  }
+  gravity() {
+    let any = false;
+    for (let c = 0; c < N; c++) {
+      const cells = [];
+      for (let r = N - 1; r >= 0; r--) { const i = r * N + c; if (this.playable(i)) cells.push(i); }
+      const col = cells.map(i => this.tiles[i]).filter(Boolean);
+      if (col.length === cells.length) continue;
+      any = true;
+      cells.forEach((i, k) => { this.tiles[i] = col[k] || null; });
+      for (let k = col.length; k < cells.length; k++) this.tiles[cells[k]] = this.spawnTile(c);
+    }
+    if (any) this.emit("fall");
+    return any;
+  }
+  // charms that reach the bottom are collected
+  collectCharms() {
+    const g = this.goal("charm");
+    if (!g) return false;
+    const got = [];
+    for (let c = 0; c < N; c++) {
+      const i = this.bottomOf(c);
+      if (i >= 0 && this.tiles[i] && this.tiles[i].color === CHARM) {
+        this.tiles[i] = null; got.push(i);
+        if (g.left > 0) g.left--;
+        this.score += 500;
+      }
+    }
+    if (got.length) { this.updateScoreGoal(); this.emit("charm", { cells: got }); }
+    return got.length > 0;
+  }
+
+  // keep resolving until the board is stable
+  resolve(prefer) {
+    let cascade = 0;
+    for (let guard = 0; guard < 60; guard++) {
+      if (this.collectCharms()) { this.gravity(); continue; }
+      const groups = this.findMatches();
+      if (!groups.length) break;
+      cascade++;
+      const matchCells = new Set();
+      const creates = [];
+      for (const g of groups) {
+        g.cells.forEach(i => matchCells.add(i));
+        const s = this.specialFor(g, prefer);
+        if (s) creates.push(s);
+      }
+      // a special created here must not be destroyed by its own match
+      this.clearCells(matchCells, [], creates, cascade);
+      prefer = null;
+      this.gravity();
+    }
+    return cascade;
+  }
+
+  // after each player action: shuffle if stuck
+  settle() {
+    if (this.findMoves(1).length === 0) this.shuffle();
+  }
+  shuffle() {
+    const cells = [], pool = [];
+    this.tiles.forEach((t, i) => { if (t && t.color >= 0 && !t.sp) { cells.push(i); pool.push(t); } });
+    for (let attempt = 0; attempt < 80; attempt++) {
+      for (let k = pool.length - 1; k > 0; k--) {
+        const j = Math.floor(this.rng() * (k + 1)); [pool[k], pool[j]] = [pool[j], pool[k]];
+      }
+      cells.forEach((i, k) => { this.tiles[i] = pool[k]; });
+      if (this.findMatches().length === 0 && this.findMoves(1).length > 0) break;
+      if (attempt > 40) { // recolor if shuffling alone can't work
+        pool.forEach(t => { t.color = this.randColor(); });
+      }
+    }
+    this.emit("shuffle");
+  }
+
+  // ---------- player actions ----------
+  adjacent(a, b) {
+    const [ra, ca] = this.rc(a), [rb, cb] = this.rc(b);
+    return Math.abs(ra - rb) + Math.abs(ca - cb) === 1;
+  }
+  // returns true if the move was used
+  trySwap(a, b) {
+    if (!this.adjacent(a, b)) return false;
+    const ta = this.tiles[a], tb = this.tiles[b];
+    if (!ta || !tb || this.movesLeft <= 0) return false;
+    this.tiles[a] = tb; this.tiles[b] = ta;
+    this.emit("swap", { a, b });
+    const isCombo = ta.sp === SP_RAIN || tb.sp === SP_RAIN || (ta.sp && tb.sp);
+    if (!isCombo && this.findMatches().length === 0) {
+      this.tiles[a] = ta; this.tiles[b] = tb;
+      this.emit("swapBack", { a, b });
+      return false;
+    }
+    this.movesLeft--; this.movesUsed++;
+    if (isCombo) {
+      this.combo(a, b, tb, ta); // tb now at a, ta now at b
+      this.gravity();
+      this.resolve(null);
+    } else {
+      this.resolve([b, a]);
+    }
+    if (this.sinkCharms()) this.resolve(null);
+    this.settle();
+    return true;
+  }
+  // every move, each charm sinks one row (swapping with the tile below it)
+  sinkCharms() {
+    if (!this.charmGoal() || this.movesUsed % 2) return false;
+    let moved = false;
+    for (let r = N - 2; r >= 0; r--) for (let c = 0; c < N; c++) {
+      const i = r * N + c;
+      const t = this.tiles[i];
+      if (!t || t.color !== CHARM) continue;
+      let j = i + N;
+      while (j < N * N && !this.playable(j)) j += N; // skip holes and gift boxes
+      if (j >= N * N || !this.tiles[j] || this.tiles[j].color === CHARM) continue;
+      this.tiles[i] = this.tiles[j]; this.tiles[j] = t; moved = true;
+    }
+    if (moved) this.emit("fall");
+    return moved;
+  }
+  // x at cell a, y at cell b (y is the tile the player dragged)
+  combo(a, b, x, y) {
+    const R = (t) => t.sp === SP_RAIN, RIB = (t) => t.sp === SP_RH || t.sp === SP_RV, BOMB = (t) => t.sp === SP_BOMB;
+    let extra = [];
+    const fxBig = [];
+    if (R(x) && R(y)) {
+      this.tiles.forEach((t, i) => { if (t) extra.push(i); });
+      x.sp = y.sp = 0; fxBig.push("rainbow2");
+      this.score += 2000;
+    } else if (R(x) || R(y)) {
+      const rain = R(x) ? x : y, other = R(x) ? y : x;
+      const rainCell = R(x) ? a : b;
+      rain.sp = 0;
+      const targets = other.color >= 0 ? this.cellsOfColor(other.color) : [];
+      if (RIB(other) || BOMB(other)) {
+        targets.forEach(i => {
+          const t = this.tiles[i];
+          t.sp = BOMB(other) ? SP_BOMB : (this.rng() < 0.5 ? SP_RH : SP_RV);
+        });
+        this.emit("convert");
+      }
+      extra = [...targets, rainCell];
+      fxBig.push("rainbow");
+      this.score += 500;
+    } else if (RIB(x) && RIB(y)) {
+      x.sp = SP_RH; y.sp = SP_RV;
+      extra = [a, b];
+    } else if ((RIB(x) && BOMB(y)) || (BOMB(x) && RIB(y))) {
+      x.sp = y.sp = 0;
+      const [r, c] = this.rc(b);
+      const set = new Set();
+      for (let k = -1; k <= 1; k++) {
+        if (r + k >= 0 && r + k < N) this.rowCells(r + k).forEach(i => set.add(i));
+        if (c + k >= 0 && c + k < N) this.colCells(c + k).forEach(i => set.add(i));
+      }
+      extra = [...set];
+      fxBig.push("cross3");
+      this.score += 600;
+    } else if (BOMB(x) && BOMB(y)) {
+      x.sp = y.sp = 0;
+      extra = this.square(b, 2);
+      fxBig.push("bomb2");
+      this.score += 600;
+    }
+    if (this.record && fxBig.length) this.events.push({ kind: "bigfx", fx: fxBig, at: b, snap: this.snapshot() });
+    this.clearCells([], extra, [], 1);
+  }
+  // hammer booster: break one cell, no move used
+  hammer(i) {
+    if (!this.mask[i]) return false;
+    if (!this.tiles[i] && !this.crate[i]) return false;
+    if (this.tiles[i] && this.tiles[i].color === CHARM) return false;
+    this.clearCells([], [i], [], 1);
+    this.gravity();
+    this.resolve(null);
+    this.settle();
+    return true;
+  }
+  shuffleBooster() { this.shuffle(); this.settle(); }
+  // give starting specials (booster)
+  addStartSpecial(sp) {
+    const cells = [];
+    this.tiles.forEach((t, i) => { if (t && t.color >= 0 && !t.sp) cells.push(i); });
+    if (!cells.length) return;
+    const i = cells[Math.floor(this.rng() * cells.length)];
+    const t = this.tiles[i];
+    t.sp = sp;
+    if (sp === SP_RAIN) t.color = RAINBOW;
+    this.emit("convert");
+  }
+  // win finale: leftover moves become ribbons that fire
+  finale() {
+    const n = Math.min(this.movesLeft, 15);
+    if (n <= 0) return 0;
+    const cells = [];
+    this.tiles.forEach((t, i) => { if (t && t.color >= 0 && !t.sp) cells.push(i); });
+    const picked = [];
+    for (let k = 0; k < n && cells.length; k++) {
+      const j = Math.floor(this.rng() * cells.length);
+      picked.push(cells.splice(j, 1)[0]);
+    }
+    picked.forEach(i => { this.tiles[i].sp = this.rng() < 0.5 ? SP_RH : SP_RV; });
+    this.emit("convert");
+    this.score += n * 300;
+    this.movesLeft = 0;
+    this.clearCells([], picked, [], 1);
+    this.gravity();
+    this.resolve(null);
+    this.updateScoreGoal();
+    return n;
+  }
+
+  // ---------- progress (for the bot and stars) ----------
+  progress() {
+    let p = 0;
+    for (const g of this.goals) p += (g.amount - Math.max(0, g.left)) / g.amount;
+    return p / this.goals.length;
+  }
+}
+
+// =========================================================
+// BOT (used to test that generated levels are beatable)
+// =========================================================
+function botValue(e) {
+  let specials = 0;
+  e.tiles.forEach(t => { if (t && t.sp) specials += t.sp === SP_RAIN ? 3 : t.sp === SP_BOMB ? 2 : 1; });
+  let charmDepth = 0;
+  if (e.goal("charm")) e.tiles.forEach((t, i) => { if (t && t.color === CHARM) charmDepth += Math.floor(i / N); });
+  return e.progress() * 1000 + specials * 4 + charmDepth * 12 + e.score * 0.002;
+}
+function botPlay(cfg, seed, maxMoves) {
+  const rng = mulberry32(seed);
+  const e = new Engine({ ...cfg, moves: maxMoves }, rng, false);
+  while (!e.isWon() && e.movesLeft > 0) {
+    let moves = e.findMoves();
+    if (!moves.length) { e.shuffle(); continue; }
+    if (moves.length > 14) moves = moves.sort(() => rng() - 0.5).slice(0, 14);
+    let best = null, bestV = -1;
+    for (const [a, b] of moves) {
+      const e2 = e.clone();
+      if (!e2.trySwap(a, b)) continue;
+      const v = botValue(e2) + rng() * 3;
+      if (v > bestV) { bestV = v; best = [a, b]; }
+    }
+    if (!best) best = moves[0];
+    e.trySwap(best[0], best[1]);
+  }
+  return e.isWon() ? e.movesUsed : Infinity;
+}
+
+// =========================================================
+// LEVEL GENERATOR — level number is the seed, so a level is always the same
+// =========================================================
+const GEN_VERSION = 2;
+const SHAPES = [
+  null, // full board
+  "XX....XX/X......X/......../......../......../......../X......X/XX....XX",
+  "XX....XX/XX....XX/......../......../......../......../XX....XX/XX....XX",
+  "......../......../......../...XX.../...XX.../......../......../........",
+  "......../......../X......X/XX....XX/XX....XX/X......X/......../........",
+  "......../.X....X./......../...XX.../...XX.../......../.X....X./........",
+  "XXX..XXX/XX....XX/X......X/......../......../X......X/XX....XX/XXX..XXX",
+  "......../......../XX....XX/......../......../XX....XX/......../........",
+  "X.X..X.X/......../......../......../......../......../......../........",
+  ".X....X./......../......../......../......../......../......../.X....X.",
+  "X..XX..X/......../......../......../X......X/XX....XX/XXX..XXX/XXX..XXX",
+];
+function shapeMask(s) {
+  const m = new Array(N * N).fill(true);
+  if (!s) return m;
+  s.split("/").forEach((row, r) => [...row].forEach((ch, c) => { if (ch === "X") m[r * N + c] = false; }));
+  return m;
+}
+function levelInfo(n) {
+  const k = (n - 1) % 10;
+  const hard = n > 10 && k >= 8;
+  const boss = n > 10 && k === 9;
+  return { hard, boss };
+}
+function genLevel(n, variant = 0) {
+  const rng = mulberry32(hashInt(n * 7919 + variant * 104729 + 17));
+  const pick = (arr) => arr[Math.floor(rng() * arr.length)];
+  const rint = (a, b) => a + Math.floor(rng() * (b - a + 1));
+  const { hard, boss } = levelInfo(n);
+  const tier = n <= 30 ? 0 : n <= 200 ? 1 : n <= 1000 ? 2 : 3;
+  const colors = n <= 15 ? 5 : (hard || n > 120) ? 6 : 5;
+  const mask = shapeMask(tier === 0 || rng() < 0.4 ? null : pick(SHAPES));
+  const glass = new Array(N * N).fill(0);
+  const crate = new Array(N * N).fill(0);
+  const hardMul = boss ? 1.45 : hard ? 1.25 : 1;
+
+  // which goal types are possible at this level
+  let types;
+  if (n <= 2) types = ["score"];
+  else if (n <= 11) types = n % 2 ? ["collect"] : ["score", "collect"];
+  else if (n <= 30) types = ["collect", "glass", "glass", "score"];
+  else if (n < 80) types = ["collect", "glass", "score"];
+  else if (n < 150) types = ["collect", "glass", "crate", "crate"];
+  else types = ["collect", "glass", "crate", "charm", "charm"];
+  const goalTypes = [pick(types)];
+  if (n >= 400 && rng() < 0.55) {
+    const second = pick(types.filter(t => t !== goalTypes[0] && t !== "score"));
+    if (second) goalTypes.push(second);
+  }
+
+  const mirror = (fn) => { // place things symmetrically left/right
+    for (let r = 0; r < N; r++) for (let c = 0; c < N / 2; c++) {
+      if (fn(r, c)) { const a = r * N + c, b = r * N + (N - 1 - c); fn.set(a, b); }
+    }
+  };
+  const goals = [];
+  const dbl = goalTypes.length > 1 ? 0.55 : 1;
+  for (const type of goalTypes) {
+    if (type === "score") {
+      goals.push({ type, amount: Math.round((5000 + Math.min(n, 500) * 40) * hardMul * dbl / 100) * 100 });
+    } else if (type === "collect") {
+      const nColors = n < 20 ? 1 : rng() < 0.5 ? 1 : 2;
+      const cols = [...Array(colors).keys()].sort(() => rng() - 0.5).slice(0, nColors);
+      for (const color of cols) {
+        const base = n < 10 ? 10 + n * 1.5 : 18 + Math.min(n, 600) * 0.03;
+        goals.push({ type, color, amount: Math.round(base * hardMul * dbl / nColors * (nColors === 2 ? 1.4 : 1)) });
+      }
+    } else if (type === "glass") {
+      const density = Math.min(0.45, 0.25 + n * 0.0015 + (hard ? 0.1 : 0)) * (dbl < 1 ? 0.7 : 1);
+      const layers2 = n > 250 && rng() < 0.4;
+      const r0 = rint(1, 3), r1 = rint(5, 7);
+      const fn = (r, c) => r >= r0 && r <= r1 && rng() < density;
+      fn.set = (a, b) => { const L = layers2 && rng() < 0.5 ? 2 : 1; if (mask[a]) glass[a] = L; if (mask[b]) glass[b] = L; };
+      mirror(fn);
+      const count = glass.filter((v, i) => v && mask[i]).length;
+      if (count < 4) { [27, 28, 35, 36].forEach(i => { if (mask[i]) glass[i] = 1; }); }
+      goals.push({ type, amount: glass.filter((v, i) => v && mask[i]).length });
+    } else if (type === "crate") {
+      const want = Math.min(15, 7 + Math.floor(n / 60) + (hard ? 3 : 0));
+      const fn = (r, c) => r >= 2 && r <= 6 && rng() < want * dbl / 40;
+      fn.set = (a, b) => {
+        const hp = n > 300 && rng() < 0.45 ? 2 : 1;
+        if (mask[a] && !glass[a]) crate[a] = hp;
+        if (mask[b] && !glass[b]) crate[b] = hp;
+      };
+      mirror(fn);
+      if (!crate.some(Boolean)) { crate[3 * N + 3] = crate[3 * N + 4] = 1; }
+      goals.push({ type, amount: crate.filter(Boolean).length });
+    } else if (type === "charm") {
+      goals.push({ type, amount: dbl < 1 ? 3 : Math.min(7, 4 + Math.floor(n / 500) + (boss ? 1 : 0)) });
+    }
+  }
+  return { n, variant, colors, mask, glass, crate, goals, charmStart: 2, hard, boss, moves: 99 };
+}
+
+// Run the bot several times; the level's move limit comes from how many moves the bot needed.
+// Relaxing levels: ~90% of bot runs finish in time (+ a little extra). Hard: ~50%. Boss: ~35%.
+function* tuneLevelSteps(n) {
+  for (let variant = 0; variant < 4; variant++) {
+    const cfg = genLevel(n, variant);
+    const runs = n <= 30 ? 6 : 8;
+    const needed = [];
+    for (let k = 0; k < runs; k++) {
+      needed.push(botPlay(cfg, hashInt(n * 31 + variant * 977 + k), 70));
+      yield null; // let the UI breathe between runs
+    }
+    needed.sort((a, b) => a - b);
+    const finished = needed.filter(v => v !== Infinity);
+    if (finished.length < Math.ceil(runs * 0.6)) continue; // too hard, try another layout
+    const q = (p) => needed[Math.min(runs - 1, Math.floor(p * (runs - 1)))];
+    let moves;
+    if (cfg.boss) moves = q(0.35);
+    else if (cfg.hard) moves = q(0.5);
+    else moves = q(0.75) + (n <= 10 ? 7 : n <= 30 ? 4 : 3);
+    if (moves === Infinity) moves = finished[finished.length - 1] + 2;
+    moves = Math.max(10, Math.min(35, Math.ceil(moves)));
+    yield { cfg: { ...cfg, moves }, stats: needed };
+    return;
+  }
+  // fallback: simple score level that is always fine
+  const cfg = genLevel(n, 0);
+  cfg.goals = [{ type: "score", amount: 3000 }];
+  cfg.glass = cfg.glass.map(() => 0); cfg.crate = cfg.crate.map(() => 0);
+  yield { cfg: { ...cfg, moves: 25 }, stats: [] };
+}
+function tuneLevelSync(n) {
+  let out = null;
+  for (const step of tuneLevelSteps(n)) if (step) out = step;
+  return out;
+}
+
+
+</script>
+<script>
+// =========================================================
+// SOUND (tiny synth, no audio files needed)
+// =========================================================
+if (state.sound === undefined) state.sound = true;
+const SFX = (() => {
+  let ctx = null;
+  const ensure = () => {
+    if (!state.sound) return null;
+    try {
+      if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+      if (ctx.state === "suspended") ctx.resume();
+    } catch (e) { return null; }
+    return ctx;
+  };
+  function tone(freq, dur, type = "sine", vol = 0.15, delay = 0, slide = 0) {
+    const c = ensure(); if (!c) return;
+    const t = c.currentTime + delay;
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = type; o.frequency.setValueAtTime(freq, t);
+    if (slide) o.frequency.exponentialRampToValueAtTime(Math.max(40, freq * slide), t + dur);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g).connect(c.destination);
+    o.start(t); o.stop(t + dur + 0.02);
+  }
+  const notes = [523, 587, 659, 784, 880, 988, 1047, 1175, 1319];
+  return {
+    unlock() { ensure(); },
+    play(name, arg) {
+      if (!state.sound) return;
+      switch (name) {
+        case "tap": tone(660, 0.06, "sine", 0.06); break;
+        case "swap": tone(420, 0.09, "triangle", 0.07, 0, 1.4); break;
+        case "nope": tone(220, 0.12, "triangle", 0.08); tone(180, 0.14, "triangle", 0.08, 0.08); break;
+        case "pop": { const k = Math.min(notes.length - 1, (arg || 1) - 1); tone(notes[k], 0.12, "sine", 0.12); tone(notes[k] * 2, 0.08, "sine", 0.04, 0.02); break; }
+        case "blast": tone(300, 0.25, "sawtooth", 0.05, 0, 3); tone(900, 0.2, "sine", 0.06, 0.03); break;
+        case "sparkle": [1319, 1568, 1760, 2093].forEach((f, k) => tone(f, 0.09, "sine", 0.05, k * 0.05)); break;
+        case "combo": [523, 659, 784, 1047, 1319].forEach((f, k) => tone(f, 0.16, "triangle", 0.08, k * 0.06)); break;
+        case "charm": [784, 988, 1175].forEach((f, k) => tone(f, 0.18, "sine", 0.1, k * 0.08)); break;
+        case "hammer": tone(160, 0.2, "square", 0.06, 0, 0.5); break;
+        case "star": tone([784, 988, 1175][arg || 0], 0.25, "triangle", 0.12); break;
+        case "win": [523, 659, 784, 1047, 784, 1047].forEach((f, k) => tone(f, 0.22, "triangle", 0.1, k * 0.11)); break;
+        case "lose": [392, 349, 330, 262].forEach((f, k) => tone(f, 0.25, "triangle", 0.08, k * 0.15)); break;
+        case "buy": [880, 1175, 1568].forEach((f, k) => tone(f, 0.12, "sine", 0.1, k * 0.07)); break;
+      }
+    },
+  };
+})();
+document.addEventListener("pointerdown", () => SFX.unlock(), { once: true });
+
+// =========================================================
+// SETTINGS: sound, backup code, restore
+// =========================================================
+function backupCode() {
+  const copy = { ...state };
+  delete copy.levelCache;
+  return "JPW1." + btoa(unescape(encodeURIComponent(JSON.stringify(copy))));
+}
+function readBackup(code) {
+  code = (code || "").trim();
+  if (!code.startsWith("JPW1.")) return null;
+  try {
+    const s = JSON.parse(decodeURIComponent(escape(atob(code.slice(5)))));
+    return s && typeof s.level === "number" && s.doll ? s : null;
+  } catch (e) { return null; }
+}
+document.getElementById("gearBtn").onclick = async () => {
+  SFX.unlock();
+  const res = await modal(`
+      <h3>Settings</h3>
+      <div class="toggle-row">Sound <button class="switch ${state.sound ? "on" : ""}" id="soundSwitch" aria-label="Sound"></button></div>
+      <p style="text-align:left;margin-bottom:6px">Your backup code. Save it somewhere safe (like Notes) in case you switch phones:</p>
+      <textarea class="code" readonly id="backupBox">${backupCode()}</textarea>
+      <button class="mbtn" id="copyBtn" style="width:100%;margin-top:8px">📋 Copy code</button>
+      <p style="font-size:12px">Level ${state.level.toLocaleString()} · ${state.coins.toLocaleString()} coins</p>`,
+    [{ label: "Done", main: true, value: "done" }, { label: "Restore from a code", value: "restore" }],
+    {
+      onOpen: (root) => {
+        root.querySelector("#soundSwitch").onclick = (e) => {
+          state.sound = !state.sound; save();
+          e.currentTarget.classList.toggle("on", state.sound);
+          if (state.sound) SFX.play("tap");
+        };
+        root.querySelector("#copyBtn").onclick = async () => {
+          const box = root.querySelector("#backupBox");
+          try { await navigator.clipboard.writeText(box.value); toast("Copied! 📋"); }
+          catch (e) { box.select(); toast("Press and hold to copy"); }
+        };
+      },
+    });
+  if (res !== "restore") return;
+  let typed = "";
+  const r2 = await modal(`<h3>Restore</h3><p>Paste a backup code. This replaces the progress on this phone.</p>
+      <textarea class="code" id="restoreBox" placeholder="JPW1...."></textarea>`,
+    [{ label: "Restore", main: true, value: "go" }, { label: "Cancel", value: null }],
+    { onOpen: (root) => root.querySelector("#restoreBox").addEventListener("input", (e) => typed = e.target.value) });
+  if (r2 !== "go") return;
+  const s = readBackup(typed);
+  if (!s) { toast("That code didn't work — check it was copied fully"); return; }
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(s)); } catch (e) {}
+  toast("Restored! Reloading… ✨");
+  setTimeout(() => location.reload(), 900);
+};
+
+// =========================================================
+// OFFLINE: service worker (only works on the real https site)
+// =========================================================
+if ("serviceWorker" in navigator && location.protocol === "https:") {
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+}
+
+</script>
+<script>
+// =========================================================
+// THEMED COMPACTS: items unlock (free) when her level reaches that compact
+// =========================================================
+Object.assign(ITEMS, {
+  palm: { name: "Palm Tree", tab: 1, kind: "floor", room: 1, vb: [70, 110], w: 22, c: 13, svg: (c) => `
+    <path d="M36 108 Q30 70 38 30" stroke="#a0704a" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <path d="M31 90 L41 88 M32 74 L42 72 M34 58 L43 56 M36 43 L44 41" stroke="#7a5233" stroke-width="2"/>
+    <path d="M38 30 Q16 14 2 30 Q20 22 38 32 Z" fill="${c}"/><path d="M38 30 Q60 12 68 32 Q52 22 38 32 Z" fill="${shade(c, -.08)}"/>
+    <path d="M38 30 Q24 30 12 52 Q28 36 39 33 Z" fill="${shade(c, -.12)}"/><path d="M38 30 Q54 34 62 54 Q48 38 38 33 Z" fill="${c}"/>
+    <path d="M38 30 Q36 10 46 2 Q42 18 40 30 Z" fill="${shade(c, .06)}"/>
+    <circle cx="34" cy="36" r="4" fill="#7a5233"/><circle cx="42" cy="37" r="4" fill="#7a5233"/>` },
+  surfboard: { name: "Surfboard", tab: 1, kind: "floor", room: 1, vb: [26, 92], w: 8, c: 4, svg: (c) => `
+    <ellipse cx="13" cy="46" rx="11" ry="44" fill="${c}" stroke="#fff" stroke-width="2"/>
+    <path d="M13 4 L13 88" stroke="#fff" stroke-width="2.5"/>
+    <path d="M3 40 Q13 46 23 40 M3 50 Q13 56 23 50" stroke="${shade(c, -.2)}" stroke-width="2.5" fill="none"/>` },
+  beachChair: { name: "Beach Chair", tab: 0, kind: "floor", room: 1, vb: [64, 56], w: 20, c: 2, svg: (c) => `
+    <path d="M10 6 L22 48 M54 22 L44 54 M16 30 L56 30" stroke="#c8a27a" stroke-width="4" stroke-linecap="round"/>
+    <path d="M10 6 L24 4 L40 30 L22 32 Z" fill="${c}"/><path d="M14 5 L18 4.5 L34 30.5 L29 31 Z" fill="#fff"/>
+    <path d="M22 30 L58 28 L56 36 L24 38 Z" fill="${c}"/><path d="M34 29 L40 29 L39 37 L33 37 Z" fill="#fff"/>` },
+  counter: { name: "Café Counter", tab: 0, kind: "floor", room: 2, vb: [100, 62], w: 34, c: 0, svg: (c) => `
+    <rect x="2" y="26" width="96" height="34" rx="4" fill="${c}"/>
+    <rect x="2" y="22" width="96" height="7" rx="3" fill="#f5ecd7"/>
+    <path d="M8 34 L92 34" stroke="${shade(c, -.12)}" stroke-width="2"/>
+    <rect x="8" y="4" width="40" height="18" rx="3" fill="#dff3ff" fill-opacity=".7" stroke="#fff" stroke-width="2"/>
+    <circle cx="18" cy="16" r="4" fill="#ffcf5a"/><circle cx="29" cy="16" r="4" fill="#ff8fc2"/><circle cx="40" cy="16" r="4" fill="#a1704f"/>
+    <rect x="62" y="12" width="12" height="10" rx="2" fill="#fff"/><rect x="78" y="8" width="12" height="14" rx="2" fill="#c9a7ff"/>` },
+  cakeStand: { name: "Cake", tab: 1, kind: "floor", room: 2, vb: [40, 46], w: 10, c: 0, svg: (c) => `
+    <rect x="17" y="34" width="6" height="8" fill="#c9ccd3"/><ellipse cx="20" cy="44" rx="12" ry="3" fill="#c9ccd3"/>
+    <ellipse cx="20" cy="34" rx="18" ry="4" fill="#e6e9f0"/>
+    <rect x="5" y="18" width="30" height="15" rx="4" fill="${c}"/><rect x="10" y="8" width="20" height="11" rx="3" fill="${shade(c, .1)}"/>
+    <path d="M5 22 Q9 26 13 22 Q17 26 21 22 Q25 26 29 22 Q32 25 35 22" stroke="#fff" stroke-width="2.5" fill="none"/>
+    <circle cx="20" cy="6" r="3.5" fill="#e94f6f"/>` },
+  coffee: { name: "Coffee Machine", tab: 1, kind: "floor", room: 2, vb: [40, 46], w: 11, c: 22, svg: (c) => `
+    <rect x="4" y="2" width="32" height="42" rx="5" fill="${c}"/>
+    <rect x="8" y="6" width="24" height="8" rx="2" fill="#2b2433"/><circle cx="14" cy="10" r="2" fill="#7be08a"/>
+    <rect x="12" y="18" width="16" height="4" fill="#9e9e9e"/>
+    <path d="M13 30 L27 30 L25 40 L15 40 Z" fill="#fff"/><path d="M27 32 Q31 33 27 37" stroke="#fff" stroke-width="2" fill="none"/>` },
+  tree: { name: "Tree", tab: 1, kind: "floor", room: 3, vb: [80, 112], w: 28, c: 13, svg: (c) => `
+    <path d="M34 110 L36 60 L44 60 L46 110 Z" fill="#a0704a"/>
+    <circle cx="40" cy="38" r="28" fill="${c}"/><circle cx="20" cy="50" r="18" fill="${shade(c, -.06)}"/><circle cx="60" cy="50" r="18" fill="${shade(c, -.06)}"/>
+    <circle cx="28" cy="30" r="4" fill="#ff8fc2"/><circle cx="52" cy="40" r="4" fill="#ff8fc2"/><circle cx="36" cy="52" r="4" fill="#ff8fc2"/>` },
+  swing: { name: "Swing", tab: 0, kind: "floor", room: 3, vb: [56, 100], w: 18, c: 0, svg: (c) => `
+    <path d="M4 98 L14 4 L42 4 L52 98" stroke="#a0704a" stroke-width="5" fill="none" stroke-linejoin="round"/>
+    <path d="M18 6 L18 70 M38 6 L38 70" stroke="#c9ccd3" stroke-width="2"/>
+    <rect x="12" y="68" width="32" height="7" rx="3" fill="${c}"/>
+    <path d="M18 20 Q24 26 18 32" stroke="#81c784" stroke-width="3" fill="none"/><circle cx="20" cy="26" r="2.5" fill="#ffcf5a"/>` },
+  birdhouse: { name: "Birdhouse", tab: 2, kind: "wall", room: 3, vb: [40, 52], w: 11, c: 5, svg: (c) => `
+    <path d="M2 20 L20 4 L38 20 Z" fill="${shade(c, -.15)}"/>
+    <rect x="6" y="18" width="28" height="30" rx="2" fill="${c}"/>
+    <circle cx="20" cy="30" r="5" fill="#5a3a5e"/><rect x="17" y="38" width="6" height="2.5" fill="#a0704a"/>
+    <path d="M30 14 Q34 6 38 12" stroke="#81c784" stroke-width="2" fill="none"/>` },
+  mic: { name: "Microphone", tab: 1, kind: "floor", room: 4, vb: [30, 96], w: 8, c: 23, svg: (c) => `
+    <path d="M15 22 L15 88" stroke="#5a5a6e" stroke-width="3"/><path d="M4 94 L15 86 L26 94" stroke="#5a5a6e" stroke-width="3" fill="none"/>
+    <rect x="9" y="4" width="12" height="20" rx="6" fill="${c}"/><path d="M10 10 L20 10 M10 15 L20 15" stroke="${shade(c, -.2)}" stroke-width="1.5"/>` },
+  speaker: { name: "Speaker", tab: 0, kind: "floor", room: 4, vb: [40, 62], w: 12, c: 7, svg: (c) => `
+    <rect x="2" y="2" width="36" height="58" rx="5" fill="${c}"/>
+    <circle cx="20" cy="18" r="8" fill="#2b2433" stroke="#9e9e9e" stroke-width="2"/>
+    <circle cx="20" cy="42" r="12" fill="#2b2433" stroke="#9e9e9e" stroke-width="2"/><circle cx="20" cy="42" r="4" fill="#5a5a6e"/>` },
+  spotlight: { name: "Spotlight", tab: 2, kind: "wall", room: 4, vb: [50, 60], w: 14, c: 21, svg: (c) => `
+    <path d="M14 26 L36 26 L50 60 L0 60 Z" fill="#fff59d" opacity=".35"/>
+    <rect x="22" y="0" width="6" height="8" fill="#5a5a6e"/>
+    <path d="M12 8 L38 8 L36 28 L14 28 Z" fill="${c}"/><ellipse cx="25" cy="28" rx="11" ry="3" fill="#fff59d"/>` },
+});
+const compactUnlocked = (room) => state.level >= room * LEVELS_PER_COMPACT + 1;
+const THEME_ROOMS = {
+  1: { wall: { p: 0, c: 2 }, floor: { p: 1, c: 27 }, items: [
+    { t: "window", x: 30, y: 40, c: 6 }, { t: "palm", x: 82, y: 92 }, { t: "squareRug", x: 46, y: 90, c: 4 },
+    { t: "beachChair", x: 46, y: 88 }, { t: "surfboard", x: 12, y: 86 }, { t: "doll", x: 66, y: 98 }] },
+  2: { wall: { p: 1, c: 19 }, floor: { p: 3, c: 10 }, items: [
+    { t: "clock", x: 50, y: 22 }, { t: "counter", x: 34, y: 80 }, { t: "coffee", x: 22, y: 63 },
+    { t: "cakeStand", x: 46, y: 63 }, { t: "chair", x: 78, y: 90 }, { t: "doll", x: 62, y: 98 }] },
+  3: { wall: { p: 2, c: 3 }, floor: { p: 4, c: 13 }, items: [
+    { t: "birdhouse", x: 80, y: 32 }, { t: "tree", x: 22, y: 92 }, { t: "swing", x: 60, y: 90 },
+    { t: "flowers", x: 86, y: 94 }, { t: "plant", x: 42, y: 96 }, { t: "doll", x: 74, y: 99 }] },
+  4: { wall: { p: 4, c: 7 }, floor: { p: 0, c: 17 }, items: [
+    { t: "lights", x: 50, y: 14, c: 0 }, { t: "spotlight", x: 24, y: 30 }, { t: "spotlight", x: 76, y: 30, f: 1 },
+    { t: "speaker", x: 10, y: 88 }, { t: "speaker", x: 90, y: 88 }, { t: "mic", x: 50, y: 92 }, { t: "doll", x: 62, y: 99 }] },
+};
+
+</script>
+<script>
+// =========================================================
+// ECONOMY: coins unlock newer styles & decor; shop sells boosters
+// =========================================================
+if (!state.owned) state.owned = {};
+const FREE_COUNT = { hairStyle: 5, top: 5, bottom: 5, dress: 2, shoes: 4, head: 3, faceAcc: 2, neck: 2, ears: 2, hand: 2, eyeStyle: 2 };
+const BASE_PRICE = { hairStyle: 150, top: 120, bottom: 120, dress: 250, shoes: 100, head: 120, faceAcc: 80, neck: 100, ears: 80, hand: 120, eyeStyle: 100 };
+function stylePrice(key, i) {
+  const f = FREE_COUNT[key];
+  if (f === undefined || i < f) return 0;
+  return BASE_PRICE[key] + (i - f) * 20;
+}
+function ownsStyle(key, i) { return stylePrice(key, i) === 0 || !!state.owned[key + ":" + i]; }
+// anything she's already wearing counts as owned (keeps older saves happy)
+Object.keys(FREE_COUNT).forEach(k => { if (state.doll[k] !== undefined) state.owned[k + ":" + state.doll[k]] = 1; });
+
+const FREE_ITEMS = new Set(["bed", "nightstand", "dresser", "chair", "rug", "lamp", "plant", "teddy", "doll",
+                            "window", "poster", "clock", "lights"]);
+const ITEM_PRICE = { desk: 160, bookshelf: 180, beanbag: 140, armchair: 200, vanity: 240, squareRug: 120,
+                     floorLamp: 140, flowers: 100, cat: 250, photo: 100, wallShelf: 140, mirror: 160 };
+function itemPrice(key) {
+  const d = ITEMS[key];
+  if (FREE_ITEMS.has(key) || d.room) return 0;
+  return ITEM_PRICE[key] || 150;
+}
+function ownsItem(key) { return itemPrice(key) === 0 || !!state.owned["item:" + key]; }
+const surfacePrice = (kind, p) => (kind === "wall" ? p < 3 : p < 2) ? 0 : 100;
+function ownsSurface(kind, p) { return surfacePrice(kind, p) === 0 || !!state.owned[kind + ":" + p]; }
+// rooms that were already decorated keep their things
+Object.values(state.rooms || {}).forEach(r => {
+  r.items.forEach(it => state.owned["item:" + it.t] = 1);
+  state.owned["wall:" + r.wall.p] = 1; state.owned["floor:" + r.floor.p] = 1;
+});
+
+const lockTag = (price) => `<span class="lock-tag"><i></i>${price}</span>`;
+async function buyThing(ownKey, name, price, then) {
+  if (state.coins < price) {
+    SFX.play("nope");
+    toast(`You need ${(price - state.coins).toLocaleString()} more coins — play a level to earn some 💕`);
+    return;
+  }
+  const res = await modal(`<h3>Unlock ${name}?</h3><p>It's yours to use forever.</p>`,
+    [{ label: `Unlock for ${price} coins <small>You have ${state.coins.toLocaleString()}</small>`, main: true, value: "yes" }, { label: "Not now", value: null }]);
+  if (res !== "yes") return;
+  state.coins -= price;
+  state.owned[ownKey] = 1;
+  save(); renderHud();
+  SFX.play("buy");
+  toast(`${name} unlocked! ✨`);
+  then();
+}
+
+// ---------- shop (boosters) ----------
+const SHOP_ITEMS = [
+  { key: "hammer", ico: "🔨", name: "Hammer", desc: "Smash any one tile or gift box. Doesn't use a move.", price: 120 },
+  { key: "shuffle", ico: "🔀", name: "Shuffle", desc: "Mix up the board when you're stuck.", price: 80 },
+  { key: "moves5", ico: "⏱️", name: "+5 Moves", desc: "Keep playing when you run out of moves.", price: 150 },
+  { key: "startMoves", ico: "➕", name: "+3 Moves Start", desc: "Start any level with 3 extra moves.", price: 90 },
+  { key: "startBomb", ico: "✨", name: "Glitter Bomb Start", desc: "Start a level with a Glitter Bomb on the board.", price: 110 },
+  { key: "startRain", ico: "🌈", name: "Rainbow Start", desc: "Start a level with a Rainbow Charm on the board.", price: 200 },
+];
+function buyBooster(item) {
+  if (state.coins < item.price) { SFX.play("nope"); toast(`You need ${(item.price - state.coins).toLocaleString()} more coins 💕`); return false; }
+  state.coins -= item.price;
+  state.boosters[item.key] = (state.boosters[item.key] || 0) + 1;
+  save(); renderHud(); SFX.play("buy");
+  if (typeof updateBoosterBtns === "function") updateBoosterBtns();
+  toast(`${item.name} added! You have ${state.boosters[item.key]}.`);
+  renderShop();
+  return true;
+}
+function renderShop() {
+  document.getElementById("shopCoins").textContent = state.coins.toLocaleString();
+  const list = document.getElementById("shopList");
+  list.innerHTML = "";
+  SHOP_ITEMS.forEach(item => {
+    const row = document.createElement("div");
+    row.className = "shop-item";
+    row.innerHTML = `<div class="ico">${item.ico}</div>
+      <div class="txt"><b>${item.name}</b><span>${item.desc}</span><div class="own">You have ${state.boosters[item.key] || 0}</div></div>
+      <button class="buy"><i></i>${item.price}</button>`;
+    row.querySelector(".buy").onclick = () => buyBooster(item);
+    list.appendChild(row);
+  });
+}
+document.querySelector(".m-play").onclick = (e) => {
+  sparkle(e.clientX, e.clientY);
+  renderShop();
+  document.getElementById("shopScreen").classList.add("open");
+};
+document.getElementById("shopBack").onclick = () => document.getElementById("shopScreen").classList.remove("open");
+
+</script>
+<script>
+// =========================================================
+// PLAY SCREEN (puzzle UI on top of the Engine)
+// =========================================================
+if (!state.boosters) state.boosters = { hammer: 3, shuffle: 3, moves5: 1, startBomb: 2, startRain: 1, startMoves: 2 };
+if (!state.stars) state.stars = {};
+if (!state.tips) state.tips = {};
+if (!state.levelCache) state.levelCache = {};
+
+const TILE_COLORS = [["#ff7ab8", "#e8307f"], ["#d3a3ff", "#9b55e0"], ["#8fd8ff", "#1f9be6"],
+                     ["#ffe27a", "#f5a300"], ["#86ecb8", "#1fae6a"], ["#ffb27a", "#f2661e"]];
+const TILE_NAMES = ["Hearts", "Bows", "Gems", "Flowers", "Drops", "Stars"];
+const SHAPE_PATHS = [
+  "M50 88 L15 52 A19 19 0 0 1 50 21 A19 19 0 0 1 85 52 Z",
+  "M50 50 L12 24 Q4 50 12 76 Z M50 50 L88 24 Q96 50 88 76 Z",
+  "M50 10 L86 40 L50 90 L14 40 Z",
+  "M50 50 m-12 -20 a14 14 0 1 1 24 0 a14 14 0 1 1 8 23 a14 14 0 1 1 -15 19 a14 14 0 1 1 -15 -19 a14 14 0 1 1 8 -23 Z",
+  "M50 8 Q84 48 78 66 A29 29 0 0 1 22 66 Q16 48 50 8 Z",
+  "M50 8 L61 37 L92 38 L68 57 L76 88 L50 70 L24 88 L32 57 L8 38 L39 37 Z",
+];
+(function buildTileDefs() {
+  let d = "";
+  TILE_COLORS.forEach(([a, b], k) => {
+    d += `<linearGradient id="tg${k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient>`;
+    d += k === 3
+      ? `<clipPath id="tc3">${[0, 72, 144, 216, 288].map(g => `<circle cx="${(50 + Math.sin(g * Math.PI / 180) * 24).toFixed(1)}" cy="${(52 - Math.cos(g * Math.PI / 180) * 24).toFixed(1)}" r="19"/>`).join("")}<circle cx="50" cy="52" r="20"/></clipPath>`
+      : `<clipPath id="tc${k}"><path d="${SHAPE_PATHS[k]}"/></clipPath>`;
+  });
+  d += `<linearGradient id="tgRain" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#ff6b6b"/><stop offset=".2" stop-color="#ffb36b"/><stop offset=".4" stop-color="#ffe66b"/>
+    <stop offset=".6" stop-color="#7be08a"/><stop offset=".8" stop-color="#6bb8ff"/><stop offset="1" stop-color="#b58cff"/></linearGradient>`;
+  d += `<radialGradient id="tgGold" cx=".35" cy=".3"><stop offset="0" stop-color="#fff6c4"/><stop offset=".55" stop-color="#ffcf3a"/><stop offset="1" stop-color="#d0901a"/></radialGradient>`;
+  document.getElementById("tileDefs").innerHTML = d;
+})();
+
+function tileInner(color, sp) {
+  if (color === CHARM) {
+    return `<circle cx="50" cy="14" r="8" fill="none" stroke="#d0901a" stroke-width="5"/>
+      <circle cx="50" cy="56" r="36" fill="url(#tgGold)" stroke="#c0841a" stroke-width="3"/>
+      <path d="M50 76 L33 59 A9.5 9.5 0 0 1 50 45 A9.5 9.5 0 0 1 67 59 Z" fill="#ff5fa2"/>
+      <ellipse cx="38" cy="40" rx="9" ry="5" fill="#fff" opacity=".6"/>`;
+  }
+  if (color === RAINBOW || sp === SP_RAIN) {
+    return `<circle cx="50" cy="50" r="40" fill="url(#tgRain)" stroke="#fff" stroke-width="5"/>
+      <circle cx="50" cy="50" r="18" fill="#fff" opacity=".85"/>
+      <path d="M50 38 L53 47 L62 48 L55 54 L57 63 L50 58 L43 63 L45 54 L38 48 L47 47 Z" fill="#ff8fc2"/>
+      <circle cx="30" cy="30" r="5" fill="#fff" opacity=".8"/>`;
+  }
+  const path = SHAPE_PATHS[color];
+  let s = color === 3 ? FLOWER_SVG
+    : `<path d="${path}" fill="url(#tg${color})" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>`;
+  if (color === 1) s += `<circle cx="50" cy="50" r="12" fill="url(#tg1)" stroke="#fff" stroke-width="4"/>`;
+  if (color === 3) s += `<circle cx="50" cy="52" r="13" fill="#fff6c4" stroke="#ffb300" stroke-width="2"/>`;
+  s += `<ellipse cx="36" cy="34" rx="11" ry="6" fill="#fff" opacity=".55" transform="rotate(-25 36 34)"/>`;
+  if (sp === SP_RH || sp === SP_RV) {
+    const bars = [30, 50, 70].map(p => sp === SP_RH
+      ? `<rect x="0" y="${p - 5}" width="100" height="9" fill="#fff" opacity=".85"/>`
+      : `<rect x="${p - 5}" y="0" width="9" height="100" fill="#fff" opacity=".85"/>`).join("");
+    s += `<g clip-path="url(#tc${color})">${bars}</g>`;
+  }
+  if (sp === SP_BOMB) {
+    s = `<circle cx="50" cy="50" r="47" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="7 6"/>` + s +
+      `<path d="M50 34 L54 46 L66 47 L57 55 L60 67 L50 60 L40 67 L43 55 L34 47 L46 46 Z" fill="#fff"/>`;
+  }
+  return s;
+}
+const FLOWER_SVG = [0, 72, 144, 216, 288].map(d => {
+  const x = 50 + Math.sin(d * Math.PI / 180) * 24, y = 52 - Math.cos(d * Math.PI / 180) * 24;
+  return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="19" fill="url(#tg3)" stroke="#fff" stroke-width="4"/>`;
+}).join("");
+const tileSvg = (color, sp) => `<svg viewBox="0 0 100 100">${tileInner(color, sp)}</svg>`;
+const GIFT_SVG = (hp) => `<svg viewBox="0 0 100 100">
+  <rect x="6" y="30" width="88" height="64" rx="10" fill="${hp > 1 ? "#c9a7ff" : "#ff9fcb"}" stroke="#fff" stroke-width="4"/>
+  <rect x="2" y="22" width="96" height="20" rx="8" fill="${hp > 1 ? "#b085f0" : "#ff7ab8"}" stroke="#fff" stroke-width="4"/>
+  <rect x="42" y="22" width="16" height="72" fill="#ffe27a"/>
+  <path d="M50 22 Q30 0 22 14 Q30 24 50 22 Q70 0 78 14 Q70 24 50 22 Z" fill="#ffe27a" stroke="#f5a300" stroke-width="2"/>
+  ${hp > 1 ? `<circle cx="80" cy="64" r="10" fill="#fff"/><text x="80" y="69" font-size="14" text-anchor="middle" font-weight="900" fill="#9b55e0">2</text>` : ""}</svg>`;
+const GLASS_ICON = `<div class="gi" style="border-radius:8px;background:linear-gradient(135deg,rgba(120,200,255,.95),rgba(210,240,255,.8) 50%,rgba(120,200,255,.95));box-shadow:inset 0 0 0 2px #fff"></div>`;
+
+function goalIcon(g) {
+  if (g.type === "collect") return tileSvg(g.color, 0);
+  if (g.type === "glass") return GLASS_ICON;
+  if (g.type === "crate") return GIFT_SVG(1);
+  if (g.type === "charm") return tileSvg(CHARM, 0);
+  return `<div class="gi" style="font-size:24px;line-height:30px;text-align:center">⭐</div>`;
+}
+function goalText(g, left) {
+  if (g.type === "score") return left > 0 ? left.toLocaleString() : "0";
+  return Math.max(0, left);
+}
+function goalsHtml(goals, lefts) {
+  return goals.map((g, k) => {
+    const left = lefts ? lefts[k] : g.amount;
+    return `<div class="goal-chip${left <= 0 ? " done" : ""}">${goalIcon(g)}<b>${goalText(g, left)}</b></div>`;
+  }).join("");
+}
+function goalSentence(goals) {
+  return goals.map(g => {
+    if (g.type === "collect") return `Collect ${g.amount} ${TILE_NAMES[g.color].toLowerCase()}`;
+    if (g.type === "glass") return `Break ${g.amount} glass tile${g.amount > 1 ? "s" : ""}`;
+    if (g.type === "crate") return `Open ${g.amount} gift box${g.amount > 1 ? "es" : ""}`;
+    if (g.type === "charm") return `Drop ${g.amount} gold charm${g.amount > 1 ? "s" : ""} to the bottom`;
+    return `Score ${g.amount.toLocaleString()} points`;
+  }).join(" and ");
+}
+
+// ---------- modal helper ----------
+function modal(html, buttons, opts = {}) {
+  return new Promise((resolve) => {
+    const back = document.createElement("div");
+    back.className = "modal-back";
+    back.innerHTML = `<div class="modal">${html}<div class="btns"></div></div>`;
+    const btns = back.querySelector(".btns");
+    buttons.forEach((b) => {
+      const el = document.createElement("button");
+      el.className = "mbtn" + (b.main ? " main" : "");
+      el.innerHTML = b.label;
+      if (b.disabled) el.disabled = true;
+      if (b.id) el.dataset.id = b.id;
+      el.onclick = () => { SFX.play("tap"); back.remove(); resolve(b.value); };
+      btns.appendChild(el);
+    });
+    document.body.appendChild(back);
+    if (opts.onOpen) opts.onOpen(back);
+  });
+}
+
+// ---------- level preparation (tuning runs the bot; cached) ----------
+const levelReady = {};
+function cfgFromCache(n, entry) {
+  const cfg = genLevel(n, entry.variant);
+  if (entry.fb) {
+    cfg.goals = [{ type: "score", amount: 3000 }];
+    cfg.glass = cfg.glass.map(() => 0); cfg.crate = cfg.crate.map(() => 0);
+  }
+  cfg.moves = entry.moves;
+  return cfg;
+}
+async function prepareLevel(n) {
+  const entry = state.levelCache[n];
+  if (entry && entry.v === GEN_VERSION) return cfgFromCache(n, entry);
+  if (levelReady[n]) return levelReady[n];
+  levelReady[n] = (async () => {
+    let result = null;
+    for (const step of tuneLevelSteps(n)) {
+      if (step) result = step;
+      await new Promise(r => setTimeout(r, 0));
+    }
+    const fb = result.stats.length === 0;
+    state.levelCache[n] = { v: GEN_VERSION, variant: result.cfg.variant, moves: result.cfg.moves, fb };
+    // keep the cache small
+    const keys = Object.keys(state.levelCache).map(Number).sort((a, b) => a - b);
+    while (keys.length > 30) delete state.levelCache[keys.shift()];
+    save();
+    delete levelReady[n];
+    return cfgFromCache(n, state.levelCache[n]);
+  })();
+  return levelReady[n];
+}
+
+// ---------- tips shown the first time ----------
+const TIPS = {
+  1: ["🫧", "Swap two tiles next to each other to line up 3 or more of the same kind!"],
+  3: ["🎀", "Match 4 in a row to make a <b>Ribbon</b>. Use it to clear a whole row or column!"],
+  5: ["✨", "Match in an <b>L</b> or <b>T</b> shape to make a <b>Glitter Bomb</b>. It blasts everything around it!"],
+  7: ["🌈", "Match 5 in a row to make a <b>Rainbow Charm</b>. Swap it with any tile to clear every tile of that kind!"],
+  9: ["💥", "Swap two special tiles together for a huge combo!"],
+  14: ["🧊", "Match tiles sitting on the <b>glass</b> to break it. Break all the glass to win!"],
+  19: ["💪", "Every few levels there's a <b>Challenge</b> level. They're a bit tougher — take your time!"],
+  31: ["🪄", "New board shapes from here on!"],
+  80: ["🎁", "<b>Gift boxes</b> open when you make a match right next to them (or blast them)."],
+  150: ["🏅", "Bring the <b>gold charms</b> down to the bottom row. They sink a little on their own too!"],
+  400: ["🌟", "Some levels now have two goals at once. Finish both to win!"],
+};
+
+// ---------- play state ----------
+let G = null; // current game: { n, cfg, engine, ... }
+const boardEl = document.getElementById("board");
+const tileEls = new Map();
+
+function cellPos(el, i) {
+  const r = Math.floor(i / N), c = i % N;
+  el.style.transform = `translate(${c * 100}%, ${r * 100}%)`;
+}
+function buildCells(e) {
+  const layer = document.getElementById("cellLayer");
+  layer.innerHTML = "";
+  for (let i = 0; i < N * N; i++) {
+    if (!e.mask[i]) continue;
+    const d = document.createElement("div");
+    d.className = "cell";
+    d.dataset.i = i;
+    d.style.left = (i % N) * 12.5 + "%";
+    d.style.top = Math.floor(i / N) * 12.5 + "%";
+    layer.appendChild(d);
+  }
+}
+function updateCells(snap) {
+  document.querySelectorAll("#cellLayer .cell").forEach(d => {
+    const g = snap.glass[+d.dataset.i];
+    d.classList.toggle("glass1", g === 1);
+    d.classList.toggle("glass2", g >= 2);
+  });
+  const layer = document.getElementById("crateLayer");
+  const existing = new Map([...layer.children].map(el => [+el.dataset.i, el]));
+  snap.crate.forEach((hp, i) => {
+    const el = existing.get(i);
+    if (hp > 0) {
+      if (!el) {
+        const d = document.createElement("div");
+        d.className = "crate"; d.dataset.i = i; d.dataset.hp = hp;
+        d.style.left = (i % N) * 12.5 + "%"; d.style.top = Math.floor(i / N) * 12.5 + "%";
+        d.innerHTML = GIFT_SVG(hp);
+        layer.appendChild(d);
+      } else if (+el.dataset.hp !== hp) { el.dataset.hp = hp; el.innerHTML = GIFT_SVG(hp); }
+    } else if (el && !el.classList.contains("gone")) {
+      el.classList.add("gone"); setTimeout(() => el.remove(), 300);
+    }
+  });
+}
+function applySnap(snap, kind) {
+  const layer = document.getElementById("tileLayer");
+  const spawnCount = {};
+  for (const [id, i] of snap.tiles) if (!tileEls.has(id)) { const c = i % N; spawnCount[c] = (spawnCount[c] || 0) + 1; }
+  const seen = new Set();
+  for (const [id, i, color, sp] of snap.tiles) {
+    seen.add(id);
+    let el = tileEls.get(id);
+    if (!el) {
+      el = document.createElement("div");
+      el.className = "tile noanim sp" + sp;
+      el.innerHTML = tileSvg(color, sp);
+      el._c = color; el._sp = sp;
+      const r = Math.floor(i / N), c = i % N;
+      if (kind === "fall" || kind === "init") {
+        const startR = kind === "init" ? r - N : r - spawnCount[c];
+        el.style.transform = `translate(${c * 100}%, ${startR * 100}%)`;
+      } else {
+        cellPos(el, i); el.classList.add("appear");
+      }
+      layer.appendChild(el);
+      tileEls.set(id, el);
+      void el.offsetWidth;
+      el.classList.remove("noanim");
+    } else if (el._c !== color || el._sp !== sp) {
+      el._c = color; el._sp = sp;
+      el.className = "tile sp" + sp;
+      el.innerHTML = tileSvg(color, sp);
+      el.classList.add("appear");
+    }
+    cellPos(el, i);
+  }
+  for (const [id, el] of tileEls) {
+    if (!seen.has(id)) {
+      tileEls.delete(id);
+      el.classList.add("pop");
+      setTimeout(() => el.remove(), 260);
+    }
+  }
+  updateCells(snap);
+  updateHud(snap);
+}
+function updateHud(snap) {
+  if (!G) return;
+  document.getElementById("movesLeft").textContent = snap.movesLeft;
+  document.getElementById("movesBubble").classList.toggle("low", snap.movesLeft <= 3 && snap.movesLeft > 0);
+  document.getElementById("goalBar").innerHTML = goalsHtml(G.cfg.goals, snap.goals);
+  document.getElementById("scoreLine").textContent = "Score " + snap.score.toLocaleString();
+}
+function fxAt(i, cls, sizeCells) {
+  const fx = document.getElementById("fxLayer");
+  const d = document.createElement("div");
+  const r = Math.floor(i / N), c = i % N;
+  d.className = cls;
+  const s = sizeCells * 12.5;
+  d.style.width = s + "%"; d.style.height = s + "%";
+  d.style.left = ((c + 0.5) * 12.5 - s / 2) + "%"; d.style.top = ((r + 0.5) * 12.5 - s / 2) + "%";
+  fx.appendChild(d);
+  setTimeout(() => d.remove(), 800);
+}
+function fxBeam(i, vertical) {
+  const fx = document.getElementById("fxLayer");
+  const d = document.createElement("div");
+  const r = Math.floor(i / N), c = i % N;
+  d.className = "beam" + (vertical ? " v" : "");
+  if (vertical) { d.style.left = (c * 12.5 + 3) + "%"; d.style.width = "6.5%"; d.style.top = "0"; d.style.height = "100%"; }
+  else { d.style.top = (r * 12.5 + 3) + "%"; d.style.height = "6.5%"; d.style.left = "0"; d.style.width = "100%"; }
+  fx.appendChild(d);
+  setTimeout(() => d.remove(), 500);
+}
+function floatText(text, i) {
+  const fx = document.getElementById("fxLayer");
+  const d = document.createElement("div");
+  d.className = "float-text";
+  d.textContent = text;
+  const r = i === undefined ? 3.5 : Math.floor(i / N), c = i === undefined ? 3.5 : i % N;
+  d.style.left = ((c + 0.5) * 12.5) + "%"; d.style.top = ((r + 0.5) * 12.5) + "%";
+  fx.appendChild(d);
+  setTimeout(() => d.remove(), 1000);
+}
+function shake() { boardEl.classList.remove("shake"); void boardEl.offsetWidth; boardEl.classList.add("shake"); }
+const wait = (ms) => new Promise(r => setTimeout(r, ms));
+const CHEERS = ["Sweet!", "Lovely!", "Gorgeous!", "Fabulous!", "Dazzling!"];
+
+async function playEvents(events) {
+  const g = G;
+  for (const ev of events) {
+    if (G !== g || !G) return; // level was closed
+    switch (ev.kind) {
+      case "swap": SFX.play("swap"); applySnap(ev.snap, "swap"); await wait(170); break;
+      case "swapBack": SFX.play("nope"); applySnap(ev.snap, "swap"); await wait(190); break;
+      case "convert": SFX.play("sparkle"); applySnap(ev.snap, "convert"); await wait(320); break;
+      case "bigfx":
+        SFX.play("combo"); shake();
+        ev.fx.forEach(f => {
+          if (f.startsWith("rainbow")) { const d = document.createElement("div"); d.className = "rainfx"; document.getElementById("fxLayer").appendChild(d); setTimeout(() => d.remove(), 800); }
+          if (f === "bomb2") fxAt(ev.at, "burst", 6);
+          if (f === "cross3") { for (let k = -1; k <= 1; k++) { fxBeam(ev.at + k * N, false); fxBeam(ev.at + k, true); } }
+        });
+        await wait(200); break;
+      case "clear": {
+        ev.fx.forEach(f => {
+          if (f.sp === SP_RH) fxBeam(f.i, false);
+          if (f.sp === SP_RV) fxBeam(f.i, true);
+          if (f.sp === SP_BOMB) fxAt(f.i, "burst", 3.4);
+          if (f.sp === SP_RAIN) { const d = document.createElement("div"); d.className = "rainfx"; document.getElementById("fxLayer").appendChild(d); setTimeout(() => d.remove(), 800); }
+        });
+        if (ev.fx.length) { SFX.play("blast"); if (ev.fx.length > 1) shake(); }
+        SFX.play("pop", ev.cascade || 1);
+        if ((ev.cascade || 0) >= 3 && ev.cleared.length) floatText(CHEERS[Math.min(CHEERS.length - 1, ev.cascade - 3)]);
+        applySnap(ev.snap, "clear");
+        await wait(ev.fx.length ? 300 : 230);
+        break;
+      }
+      case "fall": applySnap(ev.snap, "fall"); await wait(230); break;
+      case "charm": SFX.play("charm"); ev.cells.forEach(i => floatText("+1 🏅", i)); applySnap(ev.snap, "clear"); await wait(380); break;
+      case "shuffle": SFX.play("sparkle"); floatText("Shuffle!"); applySnap(ev.snap, "shuffle"); await wait(450); break;
+    }
+  }
+}
+
+// ---------- input ----------
+let selected = -1, dragStart = null, hammerMode = false, hintTimer = null;
+function cellFromPoint(x, y) {
+  const r = boardEl.getBoundingClientRect();
+  const c = Math.floor((x - r.left) / r.width * N), row = Math.floor((y - r.top) / r.height * N);
+  if (c < 0 || c >= N || row < 0 || row >= N) return -1;
+  return row * N + c;
+}
+function tileElAt(i) { const t = G && G.engine.tiles[i]; return t ? tileEls.get(t.id) : null; }
+function setSelected(i) {
+  if (selected >= 0) { const el = tileElAt(selected); if (el) el.classList.remove("sel"); }
+  selected = i;
+  if (i >= 0) { const el = tileElAt(i); if (el) el.classList.add("sel"); }
+}
+function clearHint() {
+  clearTimeout(hintTimer);
+  document.querySelectorAll(".tile.hint").forEach(el => el.classList.remove("hint"));
+}
+function scheduleHint() {
+  clearHint();
+  hintTimer = setTimeout(() => {
+    if (!G || G.busy) return;
+    const moves = G.engine.findMoves(6);
+    if (!moves.length) return;
+    const [a, b] = moves[Math.floor(Math.random() * moves.length)];
+    [a, b].forEach(i => { const el = tileElAt(i); if (el) el.classList.add("hint"); });
+  }, 6000);
+}
+boardEl.addEventListener("pointerdown", (e) => {
+  if (!G || G.busy || G.over) return;
+  const i = cellFromPoint(e.clientX, e.clientY);
+  if (i < 0) return;
+  SFX.unlock();
+  if (hammerMode) { useHammer(i); return; }
+  if (!G.engine.tiles[i]) return;
+  if (selected >= 0 && selected !== i && G.engine.adjacent(selected, i)) {
+    const a = selected; setSelected(-1); doSwap(a, i); return;
+  }
+  setSelected(i);
+  dragStart = { i, x: e.clientX, y: e.clientY };
+  boardEl.setPointerCapture(e.pointerId);
+});
+boardEl.addEventListener("pointermove", (e) => {
+  if (!dragStart || !G || G.busy) return;
+  const dx = e.clientX - dragStart.x, dy = e.clientY - dragStart.y;
+  const cs = boardEl.getBoundingClientRect().width / N;
+  if (Math.max(Math.abs(dx), Math.abs(dy)) < cs * 0.35) return;
+  const i = dragStart.i; dragStart = null;
+  const r = Math.floor(i / N), c = i % N;
+  let j = -1;
+  if (Math.abs(dx) > Math.abs(dy)) j = dx > 0 ? (c < N - 1 ? i + 1 : -1) : (c > 0 ? i - 1 : -1);
+  else j = dy > 0 ? (r < N - 1 ? i + N : -1) : (r > 0 ? i - N : -1);
+  setSelected(-1);
+  if (j >= 0 && G.engine.tiles[j]) doSwap(i, j);
+});
+boardEl.addEventListener("pointerup", () => { dragStart = null; });
+boardEl.addEventListener("pointercancel", () => { dragStart = null; });
+
+async function doSwap(a, b) {
+  const g = G;
+  g.busy = true; clearHint();
+  const used = g.engine.trySwap(a, b);
+  await playEvents(g.engine.takeEvents());
+  if (G !== g) return; // she left the level mid-animation
+  g.busy = false;
+  if (used) afterMove(); else scheduleHint();
+}
+async function useHammer(i) {
+  if (state.boosters.hammer <= 0) return;
+  G.busy = true; clearHint();
+  setHammer(false);
+  const g = G;
+  if (g.engine.hammer(i)) {
+    state.boosters.hammer--; save(); updateBoosterBtns();
+    SFX.play("hammer"); fxAt(i, "burst", 1.6); shake();
+    await playEvents(g.engine.takeEvents());
+  }
+  if (G !== g) return;
+  g.busy = false;
+  afterMove();
+}
+function setHammer(on) {
+  hammerMode = on;
+  document.getElementById("hammerBtn").classList.toggle("on", on);
+}
+function updateBoosterBtns() {
+  document.getElementById("hammerCount").textContent = state.boosters.hammer || "+";
+  document.getElementById("shuffleCount").textContent = state.boosters.shuffle || "+";
+}
+document.getElementById("hammerBtn").onclick = () => {
+  if (!G || G.busy || G.over) return;
+  if (state.boosters.hammer <= 0) { offerBooster("hammer"); return; }
+  setHammer(!hammerMode);
+  if (hammerMode) toast("Tap any tile or gift box to smash it 🔨");
+};
+document.getElementById("shuffleBtn").onclick = async () => {
+  if (!G || G.busy || G.over) return;
+  if (state.boosters.shuffle <= 0) { offerBooster("shuffle"); return; }
+  state.boosters.shuffle--; save(); updateBoosterBtns();
+  const g = G;
+  g.busy = true; clearHint();
+  g.engine.shuffleBooster();
+  await playEvents(g.engine.takeEvents());
+  if (G !== g) return;
+  g.busy = false; scheduleHint();
+};
+
+// ---------- level flow ----------
+function starsFor(e, cfg) {
+  const frac = e.movesLeft / cfg.moves;
+  const [a, b] = cfg.hard ? [0.25, 0.1] : [0.4, 0.2];
+  return frac >= a ? 3 : frac >= b ? 2 : 1;
+}
+async function afterMove() {
+  if (!G) return;
+  const g = G, e = g.engine;
+  if (e.isWon()) {
+    g.over = true;
+    const stars = starsFor(e, g.cfg);
+    await wait(250);
+    if (e.movesLeft > 0) {
+      floatText("Sparkle Finale! ✨");
+      SFX.play("combo");
+      await wait(600);
+      g.finale = e.finale();
+      await playEvents(e.takeEvents());
+    }
+    await wait(300);
+    if (G !== g) return;
+    winLevel(stars);
+    return;
+  }
+  if (e.movesLeft <= 0) { g.over = true; await wait(400); if (G === g) loseLevel(); return; }
+  scheduleHint();
+}
+
+async function startLevel(n, opts = {}) {
+  const pre = opts.retry ? null : await preLevel(n);
+  if (!opts.retry && !pre) return; // closed
+  const cfg = pre ? pre.cfg : G.cfg;
+  const picks = pre ? pre.picks : {};
+  const engine = new Engine(cfg, mulberry32((Date.now() ^ (n * 2654435761)) >>> 0), true);
+  if (picks.startMoves) { engine.movesLeft += 3; }
+  G = { n, cfg, engine, busy: true, over: false, finale: 0, extraMovesBought: 0 };
+  setSelected(-1); setHammer(false); clearHint();
+  // reset board
+  tileEls.forEach(el => el.remove()); tileEls.clear();
+  document.getElementById("crateLayer").innerHTML = "";
+  document.getElementById("fxLayer").innerHTML = "";
+  buildCells(engine);
+  const { hard, boss } = cfg;
+  document.getElementById("playTitle").textContent = "Level " + n.toLocaleString();
+  document.getElementById("playSub").innerHTML = boss ? `<span class="badge-hard">Boss Challenge</span>` : hard ? `<span class="badge-hard">Challenge</span>` : "";
+  updateBoosterBtns();
+  document.getElementById("playScreen").classList.add("open");
+  await wait(360);
+  applySnap(engine.snapshot(), "init");
+  engine.takeEvents();
+  await wait(350);
+  if (picks.startBomb) engine.addStartSpecial(SP_BOMB);
+  if (picks.startRain) engine.addStartSpecial(SP_RAIN);
+  await playEvents(engine.takeEvents());
+  if (TIPS[n] && !state.tips[n]) {
+    state.tips[n] = 1; save();
+    await modal(`<div class="tip-art">${TIPS[n][0]}</div><p style="color:var(--ink);font-size:17px">${TIPS[n][1]}</p>`, [{ label: "Got it!", main: true }]);
+  }
+  G.busy = false;
+  scheduleHint();
+}
+
+// pre-level popup: shows goals, prepares (tunes) the level, lets her pick starting boosters
+async function preLevel(n) {
+  const info = levelInfo(n);
+  const picks = { startMoves: false, startBomb: false, startRain: false };
+  let cfg = null;
+  const p = prepareLevel(n).then(c => { cfg = c; return c; });
+  const boostBtn = (key, ico, label) =>
+    `<button class="boost" data-pick="${key}"><span class="ico">${ico}</span>${label}<span class="count">${state.boosters[key] || "+"}</span></button>`;
+  const result = await modal(`
+      <h3>Level ${n.toLocaleString()}</h3>
+      ${info.boss ? `<span class="badge-hard">Boss Challenge</span>` : info.hard ? `<span class="badge-hard">Challenge</span>` : ""}
+      <div id="preBody"><div class="spinner"></div><p>Getting your level ready ✨</p></div>
+      <p style="margin-bottom:4px">Start with a booster?</p>
+      <div class="pre-boosts">
+        ${boostBtn("startMoves", "➕", "+3 Moves")}${boostBtn("startBomb", "✨", "Bomb")}${boostBtn("startRain", "🌈", "Rainbow")}
+      </div>`,
+    [{ label: "Play!", main: true, value: "play", id: "go" }, { label: "Not now", value: null }],
+    {
+      onOpen: (root) => {
+        const go = root.querySelector('[data-id="go"]');
+        go.disabled = true;
+        p.then((c) => {
+          root.querySelector("#preBody").innerHTML =
+            `<div class="goals">${goalsHtml(c.goals)}</div><p>${goalSentence(c.goals)} in <b>${c.moves}</b> moves</p>`;
+          go.disabled = false;
+        });
+        root.querySelectorAll("[data-pick]").forEach(b => b.onclick = () => {
+          const k = b.dataset.pick;
+          if (!state.boosters[k]) { toast("Get more boosters in the Shop 🛍️"); return; }
+          picks[k] = !picks[k];
+          b.classList.toggle("on", picks[k]);
+        });
+      },
+    });
+  if (result !== "play") return null;
+  await p;
+  for (const k of Object.keys(picks)) if (picks[k]) { state.boosters[k]--; }
+  save();
+  return { cfg, picks };
+}
+
+function coinsFor(stars, cfg, finale) {
+  return 25 + stars * 10 + (cfg.hard ? 20 : 0) + (cfg.boss ? 20 : 0) + finale * 3;
+}
+async function winLevel(stars) {
+  const n = G.n;
+  SFX.play("win");
+  const coins = coinsFor(stars, G.cfg, G.finale);
+  const firstClear = state.level <= n;
+  state.coins += coins;
+  state.stars[n] = Math.max(state.stars[n] || 0, stars);
+  // keep the stars map small: only recent levels
+  const keys = Object.keys(state.stars).map(Number);
+  if (keys.length > 200) keys.sort((a, b) => a - b).slice(0, keys.length - 200).forEach(k => delete state.stars[k]);
+  if (firstClear) state.level = n + 1;
+  save(); renderHud(); renderShelf();
+  prepareLevel(n + 1); // get the next one ready in the background
+  let unlockMsg = "";
+  if (firstClear && n % LEVELS_PER_COMPACT === 0) {
+    const ci = n / LEVELS_PER_COMPACT;
+    if (COMPACTS[ci]) unlockMsg = `<p style="color:var(--ink)">🎉 New compact unlocked: <b>${COMPACTS[ci].name}</b>!</p>`;
+  }
+  const res = await modal(`
+      <h3>Level Complete!</h3>
+      <div class="stars" id="winStars"><span>⭐</span><span>⭐</span><span>⭐</span></div>
+      <div class="coin-reward">+${coins} coins</div>
+      <p>Score ${G.engine.score.toLocaleString()}</p>${unlockMsg}`,
+    [{ label: `Next Level <small>Level ${(n + 1).toLocaleString()}</small>`, main: true, value: "next" }, { label: "Home", value: "home" }],
+    { onOpen: (root) => root.querySelectorAll("#winStars span").forEach((s, k) => setTimeout(() => { if (k < stars) { s.classList.add("on"); SFX.play("star", k); } }, 300 + k * 350)) });
+  if (res === "next") startLevel(n + 1);
+  else closePlay();
+}
+async function loseLevel() {
+  SFX.play("lose");
+  const e = G.engine;
+  const cost = 120 + G.extraMovesBought * 60;
+  const haveBooster = state.boosters.moves5 > 0;
+  const res = await modal(`
+      <h3>Out of moves!</h3>
+      <div class="goals">${goalsHtml(G.cfg.goals, e.goals.map(g => g.left))}</div>
+      <p>So close! Want 5 more moves?</p>`,
+    [{ label: haveBooster ? `+5 Moves <small>use 1 of your ${state.boosters.moves5}</small>` : `+5 Moves <small>${cost} coins</small>`, main: true, value: "more" },
+     { label: "Try Again", value: "retry" }, { label: "Home", value: "home" }]);
+  if (res === "more") {
+    if (haveBooster) state.boosters.moves5--;
+    else if (state.coins >= cost) { state.coins -= cost; G.extraMovesBought++; }
+    else { toast(`You need ${cost - state.coins} more coins 💕`); loseLevel(); return; }
+    save(); renderHud();
+    e.movesLeft += 5; G.over = false;
+    updateHud(e.snapshot());
+    scheduleHint();
+    return;
+  }
+  if (res === "retry") { startLevel(G.n, { retry: true }); return; }
+  closePlay();
+}
+function closePlay() {
+  clearHint(); setHammer(false);
+  G = null;
+  document.getElementById("playScreen").classList.remove("open");
+  renderHud(); renderShelf();
+}
+document.getElementById("playBack").onclick = async () => {
+  if (!G) return;
+  if (G.over) { closePlay(); return; }
+  if (G.busy) return;
+  const res = await modal(`<h3>Leave level?</h3><p>You can come back and play it again anytime.</p>`,
+    [{ label: "Keep Playing", main: true, value: "stay" }, { label: "Leave", value: "leave" }]);
+  if (res === "leave") closePlay();
+};
+async function offerBooster(key) {
+  const item = SHOP_ITEMS.find(s => s.key === key);
+  const res = await modal(`<div class="tip-art">${item.ico}</div><h3>${item.name}</h3><p>${item.desc}</p>`,
+    [{ label: `Buy for ${item.price} coins <small>You have ${state.coins.toLocaleString()}</small>`, main: true, value: "buy" }, { label: "Not now", value: null }]);
+  if (res === "buy") buyBooster(item);
+}
+
+// Home "Play" button
+document.getElementById("playBtn").onclick = (e) => { sparkle(e.clientX, e.clientY); SFX.unlock(); startLevel(state.level); };
+// get the current level ready in the background so the first tap is instant
+setTimeout(() => prepareLevel(state.level), 600);
+
 </script>
 </body>
 </html>
